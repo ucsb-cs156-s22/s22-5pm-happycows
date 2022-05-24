@@ -8,8 +8,8 @@
 * [QA](https://ucsb-cs156-w22.github.io/team04-w22-6pm-HappyCows-docs-qa/)
 
 # Heroku
-6pm-3:
-* [Production](https://team04-w22-6pm-3.herokuapp.com/)
+5pm-3:
+* [Production](https://s22-5pm-happycows.herokuapp.com/)
 * [QA](https://team04-w22-6pm-3-qa.herokuapp.com/)
 
 5pm-4:
