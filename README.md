@@ -4,8 +4,8 @@
 
 # Storybook
 
-* [Production](https://ucsb-cs156-w22.github.io/team04-w22-6pm-HappyCows-docs/)
-* [QA](https://ucsb-cs156-w22.github.io/team04-w22-6pm-HappyCows-docs-qa/)
+* [Production](https://ucsb-cs156-s22.github.io/s22-5pm-happycows-docs/)
+* [QA](https://ucsb-cs156-s22.github.io/s22-5pm-happycows-docs-qa/)
 
 # Heroku
 5pm-3:
