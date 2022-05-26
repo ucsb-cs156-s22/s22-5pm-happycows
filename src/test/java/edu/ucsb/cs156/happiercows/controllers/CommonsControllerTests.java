@@ -230,6 +230,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .commonsId(2L)
         .totalWealth(0)
         .numOfCows(1)
+        .totalCowHealth(100L)
         .build();
 
     UserCommons ucSaved = UserCommons.builder()
@@ -238,6 +239,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .commonsId(2L)
         .totalWealth(0)
         .numOfCows(1)
+        .totalCowHealth(100L)
         .build();
 
     String requestBody = mapper.writeValueAsString(uc);
@@ -274,6 +276,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .commonsId(2L)
         .totalWealth(0)
         .numOfCows(1)
+        .totalCowHealth(100L)
         .build();
 
     String requestBody = mapper.writeValueAsString(uc);
@@ -305,6 +308,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .commonsId(2L)
         .totalWealth(0)
         .numOfCows(1)
+        .totalCowHealth(100L)
         .build();
 
     String requestBody = mapper.writeValueAsString(uc);
@@ -333,6 +337,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .commonsId(2L)
         .totalWealth(0)
         .numOfCows(1)
+        .totalCowHealth(100L)
         .build();
 
     UserCommons ucSaved = UserCommons.builder()
@@ -341,6 +346,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .commonsId(2L)
         .totalWealth(0)
         .numOfCows(1)
+        .totalCowHealth(100L)
         .build();
 
     String requestBody = mapper.writeValueAsString(uc);
@@ -423,6 +429,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .commonsId(2L)
         .totalWealth(0)
         .numOfCows(1)
+        .totalCowHealth(100L)
         .build();
 
     String requestBody = mapper.writeValueAsString(uc);
@@ -451,6 +458,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .commonsId(2L)
         .totalWealth(0)
         .numOfCows(1)
+        .totalCowHealth(100L)
         .build();
 
     String requestBody = mapper.writeValueAsString(uc);
