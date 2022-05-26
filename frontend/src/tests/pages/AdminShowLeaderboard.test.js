@@ -1,12 +1,11 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import mockConsole from "jest-mock-console";
+// import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import {render} from "@testing-library/react";
+// import mockConsole from "jest-mock-console";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 
-import AdminListCommonPage from "main/pages/AdminListCommonPage";
-import commonsFixtures from "fixtures/commonsFixtures";
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 import AdminShowLeaderboardPage from "main/pages/AdminShowLeaderboardPage";
@@ -31,7 +30,7 @@ jest.mock('react-router-dom', () => ({
 describe("AdminListCommonPage tests", () => {
     const axiosMock = new AxiosMockAdapter(axios);
 
-    const testId = "Leaderboard";
+    // const testId = "Leaderboard";
 
     const setupUserOnly = () => {
         axiosMock.reset();
