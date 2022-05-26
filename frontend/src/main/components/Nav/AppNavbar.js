@@ -49,6 +49,7 @@ export default function AppNavbar({ currentUser, systemInfo, doLogout, currentUr
                     <NavDropdown.Item href="/admin/createcommons">Create Commons</NavDropdown.Item>
                     <NavDropdown.Item href="/admin/users">Users</NavDropdown.Item>
                     <NavDropdown.Item href="/admin/listcommons">List Commons</NavDropdown.Item>
+                    <NavDropdown.Item href="/admin/showleaderboard">Show Leaderboard</NavDropdown.Item>
                   </NavDropdown>
                 )
               }
