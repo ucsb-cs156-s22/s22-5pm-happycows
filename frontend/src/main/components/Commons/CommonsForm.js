@@ -119,6 +119,21 @@ function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
           {errors.startingDate?.message}
         </Form.Control.Feedback>
       </Form.Group>
+
+      <Form.Group className="mb-3">
+        <Form.Label htmlFor="showLeaderboard">Show Leaderboard</Form.Label>
+        <Form.Check
+          data-testid={`${testid}-showLeaderboard`}
+          id="showLeaderboard"
+          type="switch"
+          // isInvalid={!!errors.showLeaderboard}
+          {...register("showLeaderboard", { required: "Boolean value is required" })}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errors.showLeaderboard?.message}
+        </Form.Control.Feedback>
+      </Form.Group>
+
       <Button type="submit" data-testid="CommonsForm-Submit-Button">{ buttonLabel }</Button>
     </Form>
   );
