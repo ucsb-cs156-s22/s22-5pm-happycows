@@ -55,7 +55,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
   private ObjectMapper objectMapper;
 
   public static UserCommons dummyUserCommons(long id) {
-    UserCommons userCommons = new UserCommons(id,1,1,1,1);
+    UserCommons userCommons = new UserCommons(id,1,1,1,1,1);
     return userCommons;
   }
   @WithMockUser(roles = { "ADMIN" })
@@ -144,6 +144,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .commonsId(1L)
       .totalWealth(300)
       .numOfCows(1)
+      .totalCowHealth(100L)
       .build();
   
       Commons randomCommons = Commons
@@ -162,6 +163,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .commonsId(1L)
       .totalWealth(300)
       .numOfCows(1)
+      .totalCowHealth(100L)
       .build();
   
       UserCommons correctuserCommons = UserCommons
@@ -171,6 +173,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .commonsId(1L)
       .totalWealth(300-randomCommons.getCowPrice())
       .numOfCows(2)
+      .totalCowHealth(200L)
       .build();
   
       String requestBody = mapper.writeValueAsString(userCommonsToSend);
@@ -207,6 +210,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .commonsId(1L)
       .totalWealth(300)
       .numOfCows(1)
+      .totalCowHealth(100L)
       .build();
   
       Commons randomCommons = Commons
@@ -225,6 +229,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .commonsId(1L)
       .totalWealth(300)
       .numOfCows(1)
+      .totalCowHealth(100L)
       .build();
   
       UserCommons correctuserCommons = UserCommons
@@ -234,6 +239,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .commonsId(1L)
       .totalWealth(300+randomCommons.getCowPrice())
       .numOfCows(0)
+      .totalCowHealth(0L)
       .build();
   
       String requestBody = mapper.writeValueAsString(userCommonsToSend);
@@ -270,6 +276,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .commonsId(1L)
       .totalWealth(300)
       .numOfCows(1)
+      .totalCowHealth(100L)
       .build();
   
       Commons randomCommons = Commons
@@ -288,6 +295,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .commonsId(1L)
       .totalWealth(300)
       .numOfCows(1)
+      .totalCowHealth(100L)
       .build();
   
       UserCommons correctuserCommons = UserCommons
@@ -297,6 +305,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .commonsId(1L)
       .totalWealth(300-randomCommons.getCowPrice())
       .numOfCows(2)
+      .totalCowHealth(200L)
       .build();
   
       String requestBody = mapper.writeValueAsString(userCommonsToSend);
@@ -335,6 +344,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .commonsId(1L)
       .totalWealth(300)
       .numOfCows(1)
+      .totalCowHealth(100L)
       .build();
   
       Commons randomCommons = Commons
@@ -354,6 +364,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .commonsId(1L)
       .totalWealth(300)
       .numOfCows(1)
+      .totalCowHealth(100L)
       .build();
   
       UserCommons correctuserCommons = UserCommons
@@ -363,6 +374,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .commonsId(1L)
       .totalWealth(300+randomCommons.getCowPrice())
       .numOfCows(2)
+      .totalCowHealth(200L)
       .build();
   
       String requestBody = mapper.writeValueAsString(userCommonsToSend);
@@ -402,6 +414,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .commonsId(1L)
       .totalWealth(300)
       .numOfCows(1)
+      .totalCowHealth(100L)
       .build();
   
       Commons randomCommons = Commons
@@ -420,6 +433,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .commonsId(1L)
       .totalWealth(300)
       .numOfCows(1)
+      .totalCowHealth(100L)
       .build();
   
       UserCommons correctuserCommons = UserCommons
@@ -429,6 +443,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .commonsId(1L)
       .totalWealth(300+randomCommons.getCowPrice())
       .numOfCows(2)
+      .totalCowHealth(200L)
       .build();
   
       String requestBody = mapper.writeValueAsString(userCommonsToSend);
@@ -466,6 +481,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .commonsId(1L)
       .totalWealth(300)
       .numOfCows(1)
+      .totalCowHealth(100L)
       .build();
   
       Commons randomCommons = Commons
@@ -484,6 +500,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .commonsId(1L)
       .totalWealth(300)
       .numOfCows(1)
+      .totalCowHealth(100L)
       .build();
   
       UserCommons correctuserCommons = UserCommons
@@ -493,6 +510,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .commonsId(1L)
       .totalWealth(300+randomCommons.getCowPrice())
       .numOfCows(2)
+      .totalCowHealth(200L)
       .build();
   
       String requestBody = mapper.writeValueAsString(userCommonsToSend);
@@ -535,6 +553,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .commonsId(1L)
       .totalWealth(0)
       .numOfCows(1)
+      .totalCowHealth(100L)
       .build();
   
       Commons randomCommons = Commons
@@ -553,6 +572,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .commonsId(1L)
       .totalWealth(0)
       .numOfCows(1)
+      .totalCowHealth(100L)
       .build();
   
       UserCommons correctuserCommons = UserCommons
@@ -562,6 +582,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .commonsId(1L)
       .totalWealth(0)
       .numOfCows(1)
+      .totalCowHealth(100L)
       .build();
   
       String requestBody = mapper.writeValueAsString(userCommonsToSend);
@@ -598,6 +619,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .commonsId(1L)
       .totalWealth(300)
       .numOfCows(0)
+      .totalCowHealth(0L)
       .build();
   
       Commons randomCommons = Commons
@@ -616,6 +638,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .commonsId(1L)
       .totalWealth(300)
       .numOfCows(0)
+      .totalCowHealth(0L)
       .build();
   
       UserCommons correctuserCommons = UserCommons
@@ -625,6 +648,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .commonsId(1L)
       .totalWealth(300)
       .numOfCows(0)
+      .totalCowHealth(0L)
       .build();
   
       String requestBody = mapper.writeValueAsString(userCommonsToSend);
