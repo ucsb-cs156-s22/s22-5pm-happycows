@@ -54,6 +54,11 @@ export default function CommonsTable({ commons, currentUser }) {
             //accessor: row => row.startingDate.toString(),
             accessor: row => String(row.startingDate),
             id: 'startingDate'
+        },
+        {
+            Header: 'Shows Leaderboard?',
+            accessor: row => String(row.leaderboard),
+            id: 'leaderboard'
         }
     ];
 
