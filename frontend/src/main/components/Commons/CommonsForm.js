@@ -121,16 +121,16 @@ function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
       </Form.Group>
 
       <Form.Group className="mb-3">
-        <Form.Label htmlFor="showLeaderboard">Show Leaderboard</Form.Label>
+        <Form.Label htmlFor="leaderboard">Show Leaderboard</Form.Label>
         <Form.Check
-          data-testid={`${testid}-showLeaderboard`}
-          id="showLeaderboard"
+          data-testid={`${testid}-leaderboard`}
+          id="leaderboard"
           type="switch"
           // isInvalid={!!errors.showLeaderboard}
-          {...register("showLeaderboard", { required: "Boolean value is required" })}
+          {...register("leaderboard", { required: "Boolean value is required" })}
         />
         <Form.Control.Feedback type="invalid">
-          {errors.showLeaderboard?.message}
+          {errors.leaderboard?.message}
         </Form.Control.Feedback>
       </Form.Group>
 
