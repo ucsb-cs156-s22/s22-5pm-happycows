@@ -29,7 +29,7 @@ public class Commons
   private double milkPrice;
   private double startingBalance;
   private LocalDateTime startingDate;
-  private Boolean showLeaderboard;
+  private Boolean leaderboard;
 
   @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
   @JoinTable(name = "user_commons",
