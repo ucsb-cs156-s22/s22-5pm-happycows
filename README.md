@@ -1,16 +1,17 @@
 # HappyCows/HappierCows
 
-[![codecov](https://codecov.io/gh/ucsb-cs156-w22/team04-w22-6pm-HappyCows/branch/main/graph/badge.svg?token=F9AydNAnCV)](https://codecov.io/gh/ucsb-cs156-w22/team04-w22-6pm-HappyCows)
+[![codecov](https://codecov.io/gh/ucsb-cs156-s22/s22-5pm-happycows/branch/main/graph/badge.svg?token=vq6LqQCzqO)](https://codecov.io/gh/ucsb-cs156-s22/s22-5pm-happycows)
 
 # Storybook
 
-* [Production](https://ucsb-cs156-w22.github.io/team04-w22-6pm-HappyCows-docs/)
-* [QA](https://ucsb-cs156-w22.github.io/team04-w22-6pm-HappyCows-docs-qa/)
+* [Production](https://ucsb-cs156-s22.github.io/s22-5pm-happycows-docs/)
+* [QA](https://ucsb-cs156-s22.github.io/s22-5pm-happycows-docs-qa/)
 
 # Heroku
 5pm-3:
-* [Production](https://s22-5pm-happycows.herokuapp.com/)
-* [QA](https://team04-w22-6pm-3-qa.herokuapp.com/)
+* [Production](https://s22-5pm-happycows.herokuapp.com)
+* [QA](https://s22-5pm-3-happycows-qa.herokuapp.com/)
+* [QA Dashboard](https://dashboard.heroku.com/apps/s22-5pm-3-happycows-qa/)
 
 5pm-4:
 * [Production](https://s22-5pm-happycows.herokuapp.com/)
