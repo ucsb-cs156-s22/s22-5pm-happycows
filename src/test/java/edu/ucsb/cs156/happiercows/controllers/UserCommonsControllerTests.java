@@ -10,6 +10,7 @@ import edu.ucsb.cs156.happiercows.entities.UserCommons;
 import edu.ucsb.cs156.happiercows.errors.EntityNotFoundException;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -40,6 +41,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDateTime;
 
 @WebMvcTest(controllers = UserCommonsController.class)
+@AutoConfigureDataJpa
 public class UserCommonsControllerTests extends ControllerTestCase {
 
   @MockBean
@@ -147,7 +149,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .totalCowHealth(100L)
       .build();
   
-      Commons randomCommons = Commons
+      Commons testCommons = Commons
       .builder()
       .name("test commons")
       .cowPrice(10)
@@ -171,7 +173,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .id(1L)
       .userId(1L)
       .commonsId(1L)
-      .totalWealth(300-randomCommons.getCowPrice())
+      .totalWealth(300-testCommons.getCowPrice())
       .numOfCows(2)
       .totalCowHealth(200L)
       .build();
@@ -180,7 +182,70 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       String expectedReturn = mapper.writeValueAsString(correctuserCommons);
   
       when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L), eq(1L))).thenReturn(Optional.of(origUserCommons));
-      when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(randomCommons));
+      when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(testCommons));
+  
+      // act
+      MvcResult response = mockMvc.perform(put("/api/usercommons/buy?commonsId=1")
+          .contentType(MediaType.APPLICATION_JSON)
+                      .characterEncoding("utf-8")
+                      .content(requestBody)
+                      .with(csrf()))
+              .andExpect(status().isOk()).andReturn();
+  
+      // assert
+      verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(eq(1L), eq(1L));
+      verify(userCommonsRepository, times(1)).save(correctuserCommons);
+      String responseString = response.getResponse().getContentAsString();
+      assertEquals(expectedReturn, responseString);
+  }
+
+  @WithMockUser(roles = { "USER" })
+  @Test
+  public void test_BuyCow_commons_exists_user_has_exact_amount_needed() throws Exception {
+  
+      // arrange
+  
+      UserCommons origUserCommons = UserCommons
+      .builder()
+      .id(1L)
+      .userId(1L)
+      .commonsId(1L)
+      .totalWealth(300)
+      .numOfCows(1)
+      .build();
+  
+      Commons testCommons = Commons
+      .builder()
+      .name("test commons")
+      .cowPrice(300)
+      .milkPrice(2)
+      .startingBalance(300)
+      .startingDate(LocalDateTime.now())
+      .build();
+  
+      UserCommons userCommonsToSend = UserCommons
+      .builder()
+      .id(1L)
+      .userId(1L)
+      .commonsId(1L)
+      .totalWealth(300)
+      .numOfCows(1)
+      .build();
+  
+      UserCommons correctuserCommons = UserCommons
+      .builder()
+      .id(1L)
+      .userId(1L)
+      .commonsId(1L)
+      .totalWealth(0)
+      .numOfCows(2)
+      .build();
+  
+      String requestBody = mapper.writeValueAsString(userCommonsToSend);
+      String expectedReturn = mapper.writeValueAsString(correctuserCommons);
+  
+      when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L), eq(1L))).thenReturn(Optional.of(origUserCommons));
+      when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(testCommons));
   
       // act
       MvcResult response = mockMvc.perform(put("/api/usercommons/buy?commonsId=1")
@@ -213,7 +278,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .totalCowHealth(100L)
       .build();
   
-      Commons randomCommons = Commons
+      Commons testCommons = Commons
       .builder()
       .name("test commons")
       .cowPrice(10)
@@ -237,7 +302,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .id(1L)
       .userId(1L)
       .commonsId(1L)
-      .totalWealth(300+randomCommons.getCowPrice())
+      .totalWealth(300+testCommons.getCowPrice())
       .numOfCows(0)
       .totalCowHealth(0L)
       .build();
@@ -246,7 +311,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       String expectedReturn = mapper.writeValueAsString(correctuserCommons);
   
       when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L), eq(1L))).thenReturn(Optional.of(origUserCommons));
-      when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(randomCommons));
+      when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(testCommons));
   
       // act
       MvcResult response = mockMvc.perform(put("/api/usercommons/sell?commonsId=1")
@@ -279,7 +344,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .totalCowHealth(100L)
       .build();
   
-      Commons randomCommons = Commons
+      Commons testCommons = Commons
       .builder()
       .name("test commons")
       .cowPrice(10)
@@ -303,7 +368,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .id(1L)
       .userId(1L)
       .commonsId(1L)
-      .totalWealth(300-randomCommons.getCowPrice())
+      .totalWealth(300-testCommons.getCowPrice())
       .numOfCows(2)
       .totalCowHealth(200L)
       .build();
@@ -312,7 +377,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       String expectedReturn = mapper.writeValueAsString(correctuserCommons);
   
       when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L), eq(1L))).thenReturn(Optional.of(origUserCommons));
-      when(commonsRepository.findById(eq(234L))).thenReturn(Optional.of(randomCommons));
+      when(commonsRepository.findById(eq(234L))).thenReturn(Optional.of(testCommons));
   
       // act
       MvcResult response = mockMvc.perform(put("/api/usercommons/buy?commonsId=234") 
@@ -347,7 +412,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .totalCowHealth(100L)
       .build();
   
-      Commons randomCommons = Commons
+      Commons testCommons = Commons
       .builder()
       .id(234L)
       .name("test commons")
@@ -372,7 +437,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .id(1L)
       .userId(1L)
       .commonsId(1L)
-      .totalWealth(300+randomCommons.getCowPrice())
+      .totalWealth(300+testCommons.getCowPrice())
       .numOfCows(2)
       .totalCowHealth(200L)
       .build();
@@ -381,7 +446,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       String expectedReturn = mapper.writeValueAsString(correctuserCommons);
   
       when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L), eq(1L))).thenReturn(Optional.of(origUserCommons));
-      when(commonsRepository.findById(eq(234L))).thenReturn(Optional.of(randomCommons));
+      when(commonsRepository.findById(eq(234L))).thenReturn(Optional.of(testCommons));
   
       // act
       MvcResult response = mockMvc.perform(put("/api/usercommons/sell?commonsId=234")
@@ -417,7 +482,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .totalCowHealth(100L)
       .build();
   
-      Commons randomCommons = Commons
+      Commons testCommons = Commons
       .builder()
       .name("test commons")
       .cowPrice(10)
@@ -441,7 +506,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .id(1L)
       .userId(1L)
       .commonsId(1L)
-      .totalWealth(300+randomCommons.getCowPrice())
+      .totalWealth(300+testCommons.getCowPrice())
       .numOfCows(2)
       .totalCowHealth(200L)
       .build();
@@ -450,7 +515,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       String expectedReturn = mapper.writeValueAsString(correctuserCommons);
   
       when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L), eq(1L))).thenReturn(Optional.of(origUserCommons));
-      when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(randomCommons));
+      when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(testCommons));
   
       // act
       MvcResult response = mockMvc.perform(put("/api/usercommons/sell?commonsId=222")
@@ -484,7 +549,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .totalCowHealth(100L)
       .build();
   
-      Commons randomCommons = Commons
+      Commons testCommons = Commons
       .builder()
       .name("test commons")
       .cowPrice(10)
@@ -508,7 +573,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .id(1L)
       .userId(1L)
       .commonsId(1L)
-      .totalWealth(300+randomCommons.getCowPrice())
+      .totalWealth(300+testCommons.getCowPrice())
       .numOfCows(2)
       .totalCowHealth(200L)
       .build();
@@ -517,7 +582,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       String expectedReturn = mapper.writeValueAsString(correctuserCommons);
   
       when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L), eq(1L))).thenReturn(Optional.of(origUserCommons));
-      when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(randomCommons));
+      when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(testCommons));
   
       // act
       MvcResult response = mockMvc.perform(put("/api/usercommons/buy?commonsId=222")
@@ -556,7 +621,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .totalCowHealth(100L)
       .build();
   
-      Commons randomCommons = Commons
+      Commons testCommons = Commons
       .builder()
       .name("test commons")
       .cowPrice(10)
@@ -589,7 +654,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       String expectedReturn = mapper.writeValueAsString(correctuserCommons);
   
       when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L), eq(1L))).thenReturn(Optional.of(origUserCommons));
-      when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(randomCommons));
+      when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(testCommons));
   
       // act
       MvcResult response = mockMvc.perform(put("/api/usercommons/buy?commonsId=1")
@@ -622,7 +687,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .totalCowHealth(0L)
       .build();
   
-      Commons randomCommons = Commons
+      Commons testCommons = Commons
       .builder()
       .name("test commons")
       .cowPrice(10)
@@ -655,7 +720,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       String expectedReturn = mapper.writeValueAsString(correctuserCommons);
   
       when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L), eq(1L))).thenReturn(Optional.of(origUserCommons));
-      when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(randomCommons));
+      when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(testCommons));
   
       // act
       MvcResult response = mockMvc.perform(put("/api/usercommons/sell?commonsId=1")
