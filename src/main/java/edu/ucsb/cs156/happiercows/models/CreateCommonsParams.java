@@ -26,5 +26,6 @@ public class CreateCommonsParams
   @NumberFormat private double cowPrice;
   @NumberFormat private double milkPrice;
   @NumberFormat private double startingBalance;
+  private Boolean leaderboard;
   @DateTimeFormat private LocalDateTime startingDate;
 }
