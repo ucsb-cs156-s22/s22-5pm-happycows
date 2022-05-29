@@ -1,5 +1,5 @@
 import React from "react";
-import { Card } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 
 export default function CommonsOverview({ commons }) {
     return (
@@ -8,6 +8,7 @@ export default function CommonsOverview({ commons }) {
             <Card.Body>
                 <Card.Title>Today is day {commons.day}! This game will end on {commons.endDate}.</Card.Title>
                 <Card.Text>Total Players: {commons.totalPlayers}</Card.Text>
+                <Button href="/leaderboard">Leaderboard</Button>
             </Card.Body>
         </Card>
     );
