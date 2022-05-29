@@ -15,4 +15,5 @@
         "src/main/**/*.{js,jsx,ts,tsx}",
         "!src/main/**/*_NoStryker.{js,jsx,ts,tsx}"
     ],
+    "tempDirName": "strykerTmp"
 }
