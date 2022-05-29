@@ -65,6 +65,7 @@ public class JobsControllerTests extends ControllerTestCase {
     Job job1 = Job.builder().log("this is job 1").build();
     Job job2 = Job.builder().log("this is job 2").build();
 
+
     ArrayList<Job> expectedJobs = new ArrayList<>();
     expectedJobs.addAll(Arrays.asList(job1, job2));
 
