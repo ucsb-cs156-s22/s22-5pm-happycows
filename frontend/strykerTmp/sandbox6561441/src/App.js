@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "main/pages/HomePage";
 import LoginPage from "main/pages/LoginPage";
