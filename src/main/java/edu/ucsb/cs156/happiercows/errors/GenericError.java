@@ -29,15 +29,6 @@ public class GenericError {
         this.reason = reason;
     }
 
-    public Map<String, Object> toAttributeMap() {
-        return Map.of(
-          "status", status,
-          "message", message,
-          "exceptionType", exceptionType,
-          "reason", reason
-        );
-    }
-
     public String getStatus(){
         return this.status;
     }

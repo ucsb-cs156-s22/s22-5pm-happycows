@@ -119,14 +119,14 @@ public class CommonsController extends ApiController {
       throw new IllegalArgumentException("Milk price must be > 0");
     }
 
-    if(params.getCowPrice()<=0){
+    if(params.getStartingBalance()<=0){
       throw new IllegalArgumentException("Starting Balance must be > 0");
     }
 
     if(params.getName().equalsIgnoreCase("coffee")){
       throw new CoffeeException();
     }
-    
+
     Commons commons = Commons.builder()
       .name(params.getName())
       .cowPrice(params.getCowPrice())
