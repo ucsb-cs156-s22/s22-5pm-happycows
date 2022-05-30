@@ -126,8 +126,9 @@ function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
           data-testid={`${testid}-leaderboard`}
           id="leaderboard"
           type="switch"
-          // isInvalid={!!errors.showLeaderboard}
-          {...register("leaderboard", { required: "Boolean value is required" })}
+          isValid={true}
+          isInvalid={!!errors.showLeaderboard}
+          {...register("leaderboard")}
         />
         <Form.Control.Feedback type="invalid">
           {errors.leaderboard?.message}
