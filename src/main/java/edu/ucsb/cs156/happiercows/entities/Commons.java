@@ -30,6 +30,7 @@ public class Commons
   private double startingBalance;
   private LocalDateTime startingDate;
   private Boolean leaderboard;
+  private double degradationRate;
 
   @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
   @JoinTable(name = "user_commons",
