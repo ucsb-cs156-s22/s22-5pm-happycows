@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.ucsb.cs156.happiercows.entities.Commons;
 import edu.ucsb.cs156.happiercows.entities.User;
 import edu.ucsb.cs156.happiercows.entities.UserCommons;
-import edu.ucsb.cs156.happiercows.errors.EntityNotFoundException;
+import edu.ucsb.cs156.happiercows.errors.*;
 import edu.ucsb.cs156.happiercows.models.CreateCommonsParams;
 import edu.ucsb.cs156.happiercows.repositories.CommonsRepository;
 import edu.ucsb.cs156.happiercows.repositories.UserCommonsRepository;
@@ -109,8 +109,24 @@ public class CommonsController extends ApiController {
   @PostMapping(value = "/new", produces = "application/json")
   public ResponseEntity<String> createCommons(
     @ApiParam("request body") @RequestBody CreateCommonsParams params
-    ) throws JsonProcessingException
+    ) throws JsonProcessingException, IllegalArgumentException
   {
+    if(params.getCowPrice()<=0){
+      throw new IllegalArgumentException("Cow price must be > 0");
+    }
+
+    if(params.getMilkPrice()<=0){
+      throw new IllegalArgumentException("Milk price must be > 0");
+    }
+
+    if(params.getCowPrice()<=0){
+      throw new IllegalArgumentException("Starting Balance must be > 0");
+    }
+
+    if(params.getName().equalsIgnoreCase("coffee")){
+      throw new CoffeeException();
+    }
+    
     Commons commons = Commons.builder()
       .name(params.getName())
       .cowPrice(params.getCowPrice())
