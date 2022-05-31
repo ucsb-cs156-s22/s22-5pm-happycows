@@ -55,6 +55,19 @@ public class UserCommonsController extends ApiController {
     return userCommons;
   }
 
+  // Not sure what we should put for PreAuthorize.
+  // We need Admin to be able to call, but also if regular User visits Leaderboard and Admin has showLeaderboard set
+  // to true, then regular User should be able to call as well.
+  @ApiOperation(value = "Get all user commons with a specific commonsId")
+  @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+  @GetMapping("/allWithCommonsId")
+  public Iterable<UserCommons> getUserCommonsByCommonsId(
+    @ApiParam("commonsId") @RequestParam Long commonsId) throws JsonProcessingException {
+      // we purposely don't check for a throw here, similar to UCSBDiningCommonsController
+      Iterable<UserCommons> userCommons = userCommonsRepository.findAllByCommonsId(commonsId);
+      return userCommons;
+  }
+
   @ApiOperation(value = "Get a user commons for current user")
   @PreAuthorize("hasRole('ROLE_USER')")
   @GetMapping("/forcurrentuser")
