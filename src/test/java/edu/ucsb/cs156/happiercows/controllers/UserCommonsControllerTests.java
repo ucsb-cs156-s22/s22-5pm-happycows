@@ -141,7 +141,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
     expectedCommons.addAll(Arrays.asList(dummyUserCommons(1), dummyUserCommons(2), dummyUserCommons(3)));
     when(userCommonsRepository.findAllByCommonsId(eq(1L))).thenReturn(expectedCommons);
 
-    MvcResult response = mockMvc.perform(get("/api/usercommons/allWithCommonsId?commonsId=1"))
+    MvcResult response = mockMvc.perform(get("/api/usercommons/allwithcommonsid?commonsId=1"))
         .andExpect(status().isOk()).andReturn();
 
     verify(userCommonsRepository, times(1)).findAllByCommonsId(eq(1L));
@@ -156,7 +156,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
     ArrayList<UserCommons> expectedCommons = new ArrayList<>();
     when(userCommonsRepository.findAllByCommonsId(eq(1L))).thenReturn(expectedCommons);
 
-    MvcResult response = mockMvc.perform(get("/api/usercommons/allWithCommonsId?commonsId=1"))
+    MvcResult response = mockMvc.perform(get("/api/usercommons/allwithcommonsid?commonsId=1"))
         .andExpect(status().isOk()).andReturn();
 
     verify(userCommonsRepository, times(1)).findAllByCommonsId(eq(1L));
