@@ -21,4 +21,17 @@ describe("FarmStats tests", () => {
         expect(screen.getByText(/Cow Health: 96%/)).toBeInTheDocument();
 
     });
+
+    test("contains correct content 2", async () => {
+        render(
+            <FarmStats userCommons = {userCommonsFixtures.threeUserCommons[0]} />
+        );
+
+        await waitFor (() => {
+            expect(screen.getByText(/Total Wealth: \$1000/)).toBeInTheDocument();
+        }); 
+
+        expect(screen.getByText(/Cow Health: 0%/)).toBeInTheDocument();
+
+    });
 });
