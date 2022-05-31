@@ -85,7 +85,7 @@ describe("AdminCreateCommonsPage tests", () => {
         fireEvent.change(cowPriceField, { target: { value: '10' } })
         fireEvent.change(milkPriceField, { target: { value: '5' } })
         fireEvent.change(startDateField, { target: { value: '2022-03-05' } })
-        fireEvent.change(degradationRate, { target: { value: 0.85 } })
+        fireEvent.change(degradationRateField, { target: { value: 0.85 } })
         fireEvent.click(button);
 
         await waitFor(() => expect(axiosMock.history.post.length).toBe(1));

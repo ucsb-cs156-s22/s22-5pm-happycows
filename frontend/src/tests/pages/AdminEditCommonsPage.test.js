@@ -131,7 +131,7 @@ describe("AdminEditCommonsPage tests", () => {
             fireEvent.change(startingBalanceField, { target: { value: 1400 } })
             fireEvent.change(cowPriceField, { target: { value: 200 } })
             fireEvent.change(milkPriceField, { target: { value: 5 } })
-            fireEvent.change(degradationRate, { target: { value: 0.85 } })
+            fireEvent.change(degradationRateField, { target: { value: 0.85 } })
 
             fireEvent.click(submitButton);
 
