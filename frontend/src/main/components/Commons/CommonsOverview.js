@@ -6,7 +6,7 @@ export default function CommonsOverview({ commons }) {
         <Card data-testid="CommonsOverview">
             <Card.Header as="h5">Announcements</Card.Header>
             <Card.Body>
-                <Card.Title>Today is day {commons.day}! This game will end on {commons.endDate}.</Card.Title>
+                <Card.Title>Today is day {commons.day}! This game will end on {commons.endingDate.split("T")[0]} at {commons.endingDate.split("T")[1]}.</Card.Title>
                 <Card.Text>Total Players: {commons.totalPlayers}</Card.Text>
             </Card.Body>
         </Card>
