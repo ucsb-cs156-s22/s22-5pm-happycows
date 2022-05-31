@@ -131,7 +131,7 @@ describe("AdminEditCommonsPage tests", () => {
             fireEvent.change(startingBalanceField, { target: { value: 1400 } })
             fireEvent.change(cowPriceField, { target: { value: 200 } })
             fireEvent.change(milkPriceField, { target: { value: 5 } })
-            fireEvent.change(leaderboardField, { target: {value : false}})
+            fireEvent.change(leaderboardField, { target: {value : true}})
 
             fireEvent.click(submitButton);
 
@@ -147,7 +147,7 @@ describe("AdminEditCommonsPage tests", () => {
                 "cowPrice": 200,
                 "milkPrice": 5,
                 "startingDate": "2022-03-07T00:00:00.000Z",
-                "leaderboard": false
+                "leaderboard": true
             })); // posted object
         });
     });
