@@ -44,6 +44,7 @@ describe("AdminEditCommonsPage tests", () => {
                 "id": 5,
                 "name": "Seths Common",
                 "startingDate": "2022-03-05",
+                "endingDate": "2022-03-06",
                 "startingBalance": 1200,
                 "cowPrice": 15,
                 "milkPrice": 10
@@ -52,6 +53,7 @@ describe("AdminEditCommonsPage tests", () => {
                 "id": 5,
                 "name": "Phill's Commons",
                 "startingDate": "2022-03-07",
+                "endingDate": "2022-03-08",
                 "startingBalance": 1400,
                 "cowPrice": 200,
                 "milkPrice": 5
@@ -85,9 +87,11 @@ describe("AdminEditCommonsPage tests", () => {
             const cowPriceField = screen.getByLabelText(/Cow Price/);
             const milkPriceField = screen.getByLabelText(/Milk Price/);
             const startingDateField = screen.getByLabelText(/Starting Date/);
+            const endingDateField = screen.getByLabelText(/Ending Date/);
 
             expect(nameField).toHaveValue("Seths Common");
             expect(startingDateField).toHaveValue("2022-03-05");
+            expect(endingDateField).toHaveValue("2022-03-06");
             expect(startingBalanceField).toHaveValue(1200);
             expect(cowPriceField).toHaveValue(15);
             expect(milkPriceField).toHaveValue(10);
@@ -109,9 +113,11 @@ describe("AdminEditCommonsPage tests", () => {
             const cowPriceField = screen.getByLabelText(/Cow Price/);
             const milkPriceField = screen.getByLabelText(/Milk Price/);
             const startingDateField = screen.getByLabelText(/Starting Date/);
+            const endingDateField = screen.getByLabelText(/Ending Date/);
 
             expect(nameField).toHaveValue("Seths Common");
             expect(startingDateField).toHaveValue("2022-03-05");
+            expect(endingDateField).toHaveValue("2022-03-06");
             expect(startingBalanceField).toHaveValue(1200);
             expect(cowPriceField).toHaveValue(15);
             expect(milkPriceField).toHaveValue(10);
@@ -122,6 +128,7 @@ describe("AdminEditCommonsPage tests", () => {
 
             fireEvent.change(nameField, { target: { value: "Phill's Commons" } })
             fireEvent.change(startingDateField, { target: { value: "2022-03-07" } })
+            fireEvent.change(endingDateField, { target: { value: "2022-03-08" } })
             fireEvent.change(startingBalanceField, { target: { value: 1400 } })
             fireEvent.change(cowPriceField, { target: { value: 200 } })
             fireEvent.change(milkPriceField, { target: { value: 5 } })
@@ -139,7 +146,8 @@ describe("AdminEditCommonsPage tests", () => {
                 "startingBalance": 1400,
                 "cowPrice": 200,
                 "milkPrice": 5,
-                "startingDate": "2022-03-07T00:00:00.000Z"
+                "startingDate": "2022-03-07T00:00:00.000Z",
+                "endingDate": "2022-03-08T00:00:00.000Z"
             })); // posted object
         });
     });
