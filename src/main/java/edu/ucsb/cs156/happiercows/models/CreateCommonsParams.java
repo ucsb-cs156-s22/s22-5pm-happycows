@@ -28,4 +28,6 @@ public class CreateCommonsParams
   @NumberFormat private double startingBalance;
   private Boolean leaderboard;
   @DateTimeFormat private LocalDateTime startingDate;
+  @DateTimeFormat private LocalDateTime endingDate;
+  @NumberFormat private int totalPlayers;
 }

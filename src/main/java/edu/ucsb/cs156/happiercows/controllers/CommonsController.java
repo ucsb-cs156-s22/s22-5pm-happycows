@@ -86,6 +86,7 @@ public class CommonsController extends ApiController {
     updated.setMilkPrice(params.getMilkPrice());
     updated.setStartingBalance(params.getStartingBalance());
     updated.setStartingDate(params.getStartingDate());
+    updated.setEndingDate(params.getEndingDate());
     updated.setLeaderboard(params.getLeaderboard());
 
     commonsRepository.save(updated);
@@ -118,6 +119,8 @@ public class CommonsController extends ApiController {
       .milkPrice(params.getMilkPrice())
       .startingBalance(params.getStartingBalance())
       .startingDate(params.getStartingDate())
+      .endingDate(params.getEndingDate())
+      .totalPlayers(0)
       .leaderboard(params.getLeaderboard())
       .build();
 
@@ -144,6 +147,10 @@ public class CommonsController extends ApiController {
       String body = mapper.writeValueAsString(joinedCommons);
       return ResponseEntity.ok().body(body);
     }
+
+    joinedCommons.setTotalPlayers(joinedCommons.getTotalPlayers() + 1);
+
+    commonsRepository.save(joinedCommons);
 
     UserCommons uc = UserCommons.builder()
         .commonsId(commonsId)

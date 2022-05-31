@@ -29,6 +29,8 @@ public class Commons
   private double milkPrice;
   private double startingBalance;
   private LocalDateTime startingDate;
+  private LocalDateTime endingDate;
+  private int totalPlayers;
   private Boolean leaderboard;
 
   @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
