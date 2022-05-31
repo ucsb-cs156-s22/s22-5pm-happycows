@@ -85,7 +85,7 @@ describe("AdminCreateCommonsPage tests", () => {
         fireEvent.change(cowPriceField, { target: { value: '10' } })
         fireEvent.change(milkPriceField, { target: { value: '5' } })
         fireEvent.change(startDateField, { target: { value: '2022-03-05' } })
-        fireEvent.change(leaderboardField, {target: { value: true}})
+        fireEvent.change(leaderboardField, {target: { value: false}})
         fireEvent.click(button);
 
         await waitFor(() => expect(axiosMock.history.post.length).toBe(1));
@@ -100,7 +100,7 @@ describe("AdminCreateCommonsPage tests", () => {
             cowPrice: 10,
             milkPrice: 5,
             startingDate: '2022-03-05T00:00:00.000Z', // [1]
-            leaderboard: true
+            leaderboard: false
         };
 
         expect(axiosMock.history.post[0].data).toEqual( JSON.stringify(expectedCommons) );
