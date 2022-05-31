@@ -58,7 +58,8 @@ describe("AdminCreateCommonsPage tests", () => {
             "cowPrice": 10,
             "milkPrice": 5,
             "startingBalance": 500,
-            "startingDate": "2022-03-05T00:00:00"
+            "startingDate": "2022-03-05T00:00:00",
+            "degradationRate": 0.85
         });
 
         render(
@@ -77,12 +78,14 @@ describe("AdminCreateCommonsPage tests", () => {
         const milkPriceField = screen.getByLabelText("Milk Price");
         const startDateField = screen.getByLabelText("Starting Date");
         const button = screen.getByTestId("CommonsForm-Submit-Button");
+        const degradationRateField = screen.getByLabelText(/Degradation Rate/);
 
         fireEvent.change(commonsNameField, { target: { value: 'My New Commons' } })
         fireEvent.change(startingBalanceField, { target: { value: '500' } })
         fireEvent.change(cowPriceField, { target: { value: '10' } })
         fireEvent.change(milkPriceField, { target: { value: '5' } })
         fireEvent.change(startDateField, { target: { value: '2022-03-05' } })
+        fireEvent.change(degradationRate, { target: { value: 0.85 } })
         fireEvent.click(button);
 
         await waitFor(() => expect(axiosMock.history.post.length).toBe(1));
@@ -96,7 +99,8 @@ describe("AdminCreateCommonsPage tests", () => {
             startingBalance: 500,
             cowPrice: 10,
             milkPrice: 5,
-            startingDate: '2022-03-05T00:00:00.000Z' // [1]
+            startingDate: '2022-03-05T00:00:00.000Z',
+            degradationRate: 0.85 // [1]
         };
 
         expect(axiosMock.history.post[0].data).toEqual( JSON.stringify(expectedCommons) );
