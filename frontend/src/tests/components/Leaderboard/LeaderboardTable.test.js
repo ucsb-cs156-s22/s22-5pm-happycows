@@ -2,7 +2,6 @@ import { render, screen } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
 import LeaderboardTable from "main/components/Leaderboard/LeaderboardTable"
-import { currentUserFixtures } from "fixtures/currentUserFixtures";
 import { leaderboardFixtures } from "fixtures/LeaderboardFixtures";
 
 const mockedNavigate = jest.fn();
@@ -15,20 +14,7 @@ jest.mock('react-router-dom', () => ({
 describe("LeaderboardTable tests", () => {
   const queryClient = new QueryClient();
 
-  test("renders without crashing for empty table with user not logged in", () => {
-    const currentUser = null;
-
-    render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-          <LeaderboardTable userCommonsWithId={[]}/>
-        </MemoryRouter>
-      </QueryClientProvider>
-    );
-  });
-  test("renders without crashing for empty table for ordinary user", () => {
-    const currentUser = currentUserFixtures.userOnly;
-
+  test("renders without crashing for empty table for any user", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
@@ -39,21 +25,7 @@ describe("LeaderboardTable tests", () => {
     );
   });
 
-  test("renders without crashing for empty table for admin", () => {
-    const currentUser = currentUserFixtures.adminUser;
-
-    render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-          <LeaderboardTable userCommonsWithId={[]}/>
-        </MemoryRouter>
-      </QueryClientProvider>
-    );
-  });
-
-  test("Has the expected column headers and content for adminUser", () => {
-    const currentUser = currentUserFixtures.adminUser;
-
+  test("Has the expected column headers and content for any user", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
