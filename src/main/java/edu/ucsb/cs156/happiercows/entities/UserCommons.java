@@ -30,5 +30,3 @@ public class UserCommons {
 
   private int numOfCows;
 }
-
-
