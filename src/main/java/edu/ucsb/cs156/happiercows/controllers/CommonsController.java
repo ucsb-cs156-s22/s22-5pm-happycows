@@ -86,7 +86,11 @@ public class CommonsController extends ApiController {
     updated.setMilkPrice(params.getMilkPrice());
     updated.setStartingBalance(params.getStartingBalance());
     updated.setStartingDate(params.getStartingDate());
-    updated.setDegradationRate(params.getDegradationRate());
+    if(params.getDegradationRate() >= 0){
+      updated.setDegradationRate(params.getDegradationRate());
+    } else {
+      updated.setDegradationRate(0);
+    }
 
     commonsRepository.save(updated);
 
@@ -112,14 +116,26 @@ public class CommonsController extends ApiController {
     @ApiParam("request body") @RequestBody CreateCommonsParams params
     ) throws JsonProcessingException
   {
-    Commons commons = Commons.builder()
-      .name(params.getName())
-      .cowPrice(params.getCowPrice())
-      .milkPrice(params.getMilkPrice())
-      .startingBalance(params.getStartingBalance())
-      .startingDate(params.getStartingDate())
-      .degradationRate(params.getDegradationRate())
-      .build();
+    Commons commons;
+    if (params.getDegradationRate() >= 0){
+      commons = Commons.builder()
+        .name(params.getName())
+        .cowPrice(params.getCowPrice())
+        .milkPrice(params.getMilkPrice())
+        .startingBalance(params.getStartingBalance())
+        .startingDate(params.getStartingDate())
+        .degradationRate(params.getDegradationRate())
+        .build();
+    } else {
+      commons = Commons.builder()
+        .name(params.getName())
+        .cowPrice(params.getCowPrice())
+        .milkPrice(params.getMilkPrice())
+        .startingBalance(params.getStartingBalance())
+        .startingDate(params.getStartingDate())
+        .degradationRate(0)
+        .build();
+    }
 
     Commons saved = commonsRepository.save(commons);
     String body = mapper.writeValueAsString(saved);
