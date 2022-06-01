@@ -86,6 +86,7 @@ public class CommonsController extends ApiController {
     updated.setMilkPrice(params.getMilkPrice());
     updated.setStartingBalance(params.getStartingBalance());
     updated.setStartingDate(params.getStartingDate());
+    updated.setLeaderboard(params.getLeaderboard());
     if(params.getDegradationRate() >= 0){
       updated.setDegradationRate(params.getDegradationRate());
     } else {
@@ -124,6 +125,7 @@ public class CommonsController extends ApiController {
         .milkPrice(params.getMilkPrice())
         .startingBalance(params.getStartingBalance())
         .startingDate(params.getStartingDate())
+        .leaderboard(params.getLeaderboard())
         .degradationRate(params.getDegradationRate())
         .build();
     } else {
@@ -133,6 +135,7 @@ public class CommonsController extends ApiController {
         .milkPrice(params.getMilkPrice())
         .startingBalance(params.getStartingBalance())
         .startingDate(params.getStartingDate())
+        .leaderboard(params.getLeaderboard())
         .degradationRate(0)
         .build();
     }

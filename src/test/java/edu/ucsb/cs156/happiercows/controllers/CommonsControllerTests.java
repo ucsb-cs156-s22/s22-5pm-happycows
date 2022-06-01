@@ -26,6 +26,7 @@ import java.util.Optional;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -46,6 +47,7 @@ import edu.ucsb.cs156.happiercows.repositories.UserCommonsRepository;
 import edu.ucsb.cs156.happiercows.repositories.UserRepository;
 
 @WebMvcTest(controllers = CommonsController.class)
+@AutoConfigureDataJpa
 public class CommonsControllerTests extends ControllerTestCase {
 
   @MockBean
@@ -73,6 +75,7 @@ public class CommonsControllerTests extends ControllerTestCase {
       .milkPrice(8.99)
       .startingBalance(1020.10)
       .startingDate(someTime)
+      .leaderboard(true)
       .degradationRate(-3)
       .build();
 
@@ -82,6 +85,7 @@ public class CommonsControllerTests extends ControllerTestCase {
       .milkPrice(8.99)
       .startingBalance(1020.10)
       .startingDate(someTime)
+      .leaderboard(true)
       .degradationRate(0)
       .build();
 
@@ -110,6 +114,7 @@ public class CommonsControllerTests extends ControllerTestCase {
       .milkPrice(8.99)
       .startingBalance(1020.10)
       .startingDate(someTime)
+      .leaderboard(true)
       .degradationRate(25.00)
       .build();
 
@@ -119,6 +124,7 @@ public class CommonsControllerTests extends ControllerTestCase {
       .milkPrice(8.99)
       .startingBalance(1020.10)
       .startingDate(someTime)
+      .leaderboard(true)
       .degradationRate(25.00)
       .build();
 
@@ -174,6 +180,7 @@ public class CommonsControllerTests extends ControllerTestCase {
       .milkPrice(8.99)
       .startingBalance(1020.10)
       .startingDate(someTime)
+      .leaderboard(true)
       .degradationRate(-3)
       .build();
 
@@ -183,6 +190,7 @@ public class CommonsControllerTests extends ControllerTestCase {
       .milkPrice(8.99)
       .startingBalance(1020.10)
       .startingDate(someTime)
+      .leaderboard(true)
       .degradationRate(0)
       .build();
 
@@ -207,6 +215,7 @@ public class CommonsControllerTests extends ControllerTestCase {
       .milkPrice(8.99)
       .startingBalance(1020.10)
       .startingDate(someTime)
+      .leaderboard(true)
       .degradationRate(25.00)
       .build();
 
@@ -216,6 +225,7 @@ public class CommonsControllerTests extends ControllerTestCase {
       .milkPrice(8.99)
       .startingBalance(1020.10)
       .startingDate(someTime)
+      .leaderboard(true)
       .degradationRate(25.00)
       .build();
 
@@ -446,11 +456,14 @@ public class CommonsControllerTests extends ControllerTestCase {
         .milkPrice(8.99)
         .startingBalance(1020.10)
         .startingDate(someTime)
+        .leaderboard(true)
         .degradationRate(25.00)
         .build();
       
       when(commonsRepository.findById(eq(2L))).thenReturn(Optional.of(c));
       doNothing().when(commonsRepository).deleteById(2L);
+      doNothing().when(userCommonsRepository).deleteAllByCommonsId(2L);
+
       
       MvcResult response = mockMvc.perform(
               delete("/api/commons?id=2")
@@ -459,7 +472,8 @@ public class CommonsControllerTests extends ControllerTestCase {
       
       verify(commonsRepository, times(1)).findById(2L);
       verify(commonsRepository, times(1)).deleteById(2L);
-      
+      verify(userCommonsRepository, times(1)).deleteAllByCommonsId(2L);
+
       String responseString = response.getResponse().getContentAsString();
       
       String expectedString = "{\"message\":\"commons with id 2 deleted\"}"; 
