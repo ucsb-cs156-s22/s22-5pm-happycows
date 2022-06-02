@@ -13,10 +13,10 @@ export default function AdminShowLeaderboardPage()
   const { data: commons, _error, _status } =
     useBackend(
       // Stryker disable next-line all : don't test internal caching of React Query
-      [`/api/commons?id=${id}`],
+      [`/api/usercommons/allwithcommonsid?commonsId=${id}`],
       {  // Stryker disable next-line all : GET is the default, so changing this to "" doesn't introduce a bug
         method: "GET",
-        url: `/api/commons`,
+        url: `/api/usercommons/allwithcommonsid`,
         params: {
           id
         }
