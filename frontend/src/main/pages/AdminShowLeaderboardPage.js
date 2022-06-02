@@ -8,17 +8,17 @@ import { useParams } from "react-router-dom";
 export default function AdminShowLeaderboardPage()
 {
   // const { data: currentUser } = useCurrentUser();
-  let { id } = useParams();
+  let { commonsId } = useParams();
 
   const { data: commons, _error, _status } =
     useBackend(
       // Stryker disable next-line all : don't test internal caching of React Query
-      [`/api/usercommons/allwithcommonsid?commonsId=${id}`],
+      [`/api/usercommons/allwithcommonsid?commonsId=${commonsId}`],
       {  // Stryker disable next-line all : GET is the default, so changing this to "" doesn't introduce a bug
         method: "GET",
         url: `/api/usercommons/allwithcommonsid`,
         params: {
-          id
+          commonsId
         }
       }
     );
