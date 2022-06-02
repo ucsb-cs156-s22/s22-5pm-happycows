@@ -1,13 +1,14 @@
 import React from "react";
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
-// import CommonsTable from 'main/components/Commons/CommonsTable';
+import _CommonsTable from 'main/components/Commons/CommonsTable';
 import { useBackend } from 'main/utils/useBackend';
 import { useParams } from "react-router-dom";
-// import { useCurrentUser } from "main/utils/currentUser";
+import { useCurrentUser } from "main/utils/currentUser";
 
 export default function AdminShowLeaderboardPage()
 {
-  // const { data: currentUser } = useCurrentUser();
+  const { _data: _currentUser } = useCurrentUser();
+
   let { id } = useParams();
 
   const { data: commons, _error, _status } =
