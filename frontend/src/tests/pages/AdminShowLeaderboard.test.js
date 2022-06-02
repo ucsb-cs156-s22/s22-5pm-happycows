@@ -37,7 +37,7 @@ jest.mock('react-router-dom', () => {
 describe("AdminShowLeaderboard tests", () => {
     const axiosMock = new AxiosMockAdapter(axios);
 
-    const testId = "Leaderboard";
+    const testId = "LeaderboardTable";
 
     const setupAdminUser = () => {
         axiosMock.reset();
