@@ -712,4 +712,56 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       String responseString = response.getResponse().getContentAsString();
       assertEquals(expectedReturn, responseString);
     }
+
+    // regular users should be able to delete commons as well, but only
+    // those that match their userid
+    @WithMockUser(roles = { "ADMIN" , "USER"})
+    @Test
+    public void test_admin_can_delete_a_userCommons() throws Exception {
+            // arrange
+            // NOTE: once averageCowHealth is added, update this test!!
+            UserCommons testUserCommons = UserCommons
+            .builder()
+            .id(1L)
+            .userId(42L)
+            .commonsId(24L)
+            .totalWealth(300)
+            .numOfCows(0)
+            .build();
+
+            when(userCommonsRepository.findByCommonsIdAndUserId(eq(24L), eq(42L))).thenReturn(Optional.of(testUserCommons));
+
+            // act
+            MvcResult response = mockMvc.perform(
+                            delete("/api/usercommons?userId=42&commonsId=24")
+                                            .with(csrf()))
+                            .andExpect(status().isOk()).andReturn();
+
+            // assert
+            verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(24L, 42L);
+            verify(userCommonsRepository, times(1)).delete(any());
+
+            Map<String, Object> json = responseToJson(response);
+            assertEquals("UserCommons with commonsId 24 and userId 42 deleted", json.get("message"));
+    }
+
+    @WithMockUser(roles = { "ADMIN", "USER"})
+    @Test
+    public void test_admin_deletes_non_existant_userCommons_and_gets_right_error_message() throws Exception {
+        // arrange
+
+        when(userCommonsRepository.findByCommonsIdAndUserId(eq(24L), eq(42L))).thenReturn(Optional.empty());
+
+        //act
+        MvcResult response = mockMvc.perform(
+            delete("/api/usercommons?userId=42&commonsId=24").with(csrf())).andExpect(status().isNotFound()).andReturn();
+
+        // assert
+        verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(24L, 42L);
+        Map<String, Object> json = responseToJson(response);
+        assertEquals("UserCommons with commonsId 24 and userId 42 not found", json.get("message"));
+    }
+
+    // perhaps add a test that makes sure users id and id of comons to delete are the same?
+    // is this necessary? is this possible?
 }
