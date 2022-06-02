@@ -88,7 +88,6 @@ public class UserCommonsController extends ApiController {
           userCommons.setTotalWealth(userCommons.getTotalWealth() - commons.getCowPrice());
           userCommons.setAverageCowHealth((userCommons.getAverageCowHealth() * userCommons.getNumOfCows() + 1)/(userCommons.getNumOfCows() + 1));
           userCommons.setNumOfCows(userCommons.getNumOfCows() + 1);
-          userCommons.setTotalCowHealth(userCommons.getTotalCowHealth() + 100);
         }
         userCommonsRepository.save(userCommons);
 
