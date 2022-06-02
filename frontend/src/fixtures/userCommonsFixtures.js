@@ -15,7 +15,7 @@ const userCommonsFixtures = {
                 "cowPrice": 15,
             },
             "totalWealth" : 1000,
-            "totalCowHealth": 480,
+            "averageCowHealth": .96,
             "numOfCows": 5
         }
     ],
@@ -35,7 +35,7 @@ const userCommonsFixtures = {
                 "cowPrice": 15,
             },
             "totalWealth" : 1000,
-            "totalCowHealth": 0,
+            "averageCowHealth": 0,
             "numOfCows": 0
         },
         {
@@ -52,7 +52,7 @@ const userCommonsFixtures = {
                 "cowPrice": 15,
             },
             "totalWealth" : 1000,
-            "totalCowHealth": 480,
+            "averageCowHealth": .96,
             "numOfCows": 5
         },
         {
@@ -69,7 +69,7 @@ const userCommonsFixtures = {
                 "cowPrice": 15,
             },
             "totalWealth" : 1000,
-            "totalCowHealth": 480,
+            "averageCowHealth": .96,
             "numOfCows": 5
         }
     ]
