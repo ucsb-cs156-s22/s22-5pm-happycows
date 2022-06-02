@@ -6,7 +6,6 @@ import { useParams } from "react-router-dom";
 
 export default function AdminShowLeaderboardPage()
 {
-  // const { data: currentUser } = useCurrentUser();
   let { commonsId } = useParams();
 
   const { data: commons, _error, _status } =
