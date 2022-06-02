@@ -4,13 +4,15 @@ import { useBackend } from 'main/utils/useBackend';
 import { useParams } from "react-router-dom";
 import LeaderboardTable from "main/components/Leaderboard/LeaderboardTable";
 
+
 export default function AdminShowLeaderboardPage()
 {
-  let { id } = useParams();
-  let commonsId = id;
+  let { commonsId } = useParams();
+
+  console.log(commonsId);
 
   // Stryker disable  all 
-  const { data: leaderboardData, _error, _status } =
+  const { data: leaderboard, _error, _status } =
     useBackend(
       [`/api/usercommons/allwithcommonsid?commonsId=${commonsId}`],
       { 
@@ -25,9 +27,9 @@ export default function AdminShowLeaderboardPage()
     
   return (
     <BasicLayout>
-      <div className="pt-2">
-        <h1>Leaderboard</h1>
-        <LeaderboardTable userCommonsWithId={leaderboardData}/>
+      <div className="pt-3">
+        <h1>Leaderboardss</h1>
+        <LeaderboardTable userCommonsWithId={leaderboard}/>
       </div>
     </BasicLayout>
   )

@@ -60,7 +60,7 @@ describe("AdminShowLeaderboard tests", () => {
         );
     });
 
-    test("renders three usercommons without crashing for admin user", async () => {
+    test("renders leaderboard with 3 entries without crashing for admin user", async () => {
         setupAdminUser();
         const queryClient = new QueryClient();
         axiosMock.onGet("/api/commons/all").reply(200, leaderboardFixtures.oneLeaderboardThreeEntries);
