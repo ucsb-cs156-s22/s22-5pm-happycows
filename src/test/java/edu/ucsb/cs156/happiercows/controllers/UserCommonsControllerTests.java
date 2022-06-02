@@ -712,4 +712,51 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       String responseString = response.getResponse().getContentAsString();
       assertEquals(expectedReturn, responseString);
     }
+
+  // regular users should be able to delete commons as well, but only
+  // those that match their userid
+  @WithMockUser(roles = { "USER" })
+  @Test
+  public void test_user_can_delete_a_userCommons() throws Exception {
+
+      UserCommons testUserCommons = UserCommons
+            .builder()
+            .id(1L)
+            .userId(1L)
+            .commonsId(1L)
+            .totalWealth(300)
+            .numOfCows(0)
+            .build();
+
+      when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L),eq(1L))).thenReturn(Optional.of(testUserCommons));
+
+      MvcResult response = mockMvc.perform(delete("/api/usercommons/forcurrentuser?commonsId=1"))
+        .andExpect(status().isOk()).andReturn();
+
+      verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(eq(1L),eq(1L));
+      verify(userCommonsRepository, times(1)).delete(any());
+
+      Map<String, Object> json = responseToJson(response);
+      assertEquals("UserCommons with commonsId 1 and userId 1 deleted", json.get("message"));
+    
+    }
+
+    @WithMockUser(roles = { "USER" })
+    @Test
+    public void test_user_deletes_non_existant_userCommons_and_gets_right_error_message() throws Exception {
+        // arrange
+
+        when(userCommonsRepository.findByCommonsIdAndUserId(eq(15L), eq(1L))).thenReturn(Optional.empty());
+
+        //act
+        MvcResult response = mockMvc.perform(
+            delete("/api/usercommons/forcurrentuser?commonsId=15").with(csrf())).andExpect(status().isNotFound()).andReturn();
+
+        // assert
+        verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(15L, 1L);
+        Map<String, Object> json = responseToJson(response);
+        assertEquals("UserCommons with commonsId 15 and userId 1 not found", json.get("message"));
+    }
+
+
 }

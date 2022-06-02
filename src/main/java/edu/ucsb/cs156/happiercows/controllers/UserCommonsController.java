@@ -26,6 +26,7 @@ import javax.validation.Valid;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Api(description = "User Commons")
@@ -119,6 +120,21 @@ public class UserCommonsController extends ApiController {
         return ResponseEntity.ok().body(body);
     }
 
+  @ApiOperation(value = "Delete a UserCommons as User")
+  @PreAuthorize("hasRole('ROLE_USER')")
+  @DeleteMapping("/forcurrentuser")
+  public Object deleteUserCommons(
+      @ApiParam("commonsId") @RequestParam Long commonsId) throws JsonProcessingException {
+
+    User u = getCurrentUser().getUser();
+    Long userId = u.getId();
+    UserCommons userCommons = userCommonsRepository.findByCommonsIdAndUserId(commonsId, userId)
+        .orElseThrow(
+          () -> new EntityNotFoundException(UserCommons.class, "commonsId", commonsId, "userId", userId));
+
+    userCommonsRepository.delete(userCommons);
+    return genericMessage("UserCommons with commonsId %s and userId %s deleted".formatted(commonsId, userId));
+  }
     
 
 }
