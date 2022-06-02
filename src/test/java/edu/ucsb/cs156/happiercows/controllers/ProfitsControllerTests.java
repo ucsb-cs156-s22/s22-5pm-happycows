@@ -135,8 +135,9 @@ public class ProfitsControllerTests extends ControllerTestCase {
     verify(profitRepository, times(1)).findById(36L);
 
     Map<String, Object> json = responseToJson(response);
-    assertEquals("EntityNotFoundException", json.get("type"));
+    assertEquals("Entity Not Found Exception", json.get("exceptionType"));
     assertEquals("Profit with id 36 not found", json.get("message"));
+    assertEquals("Requested Entity does not exist",json.get("reason"));
   }
 
   @WithMockUser(roles = { "USER" })
@@ -147,8 +148,9 @@ public class ProfitsControllerTests extends ControllerTestCase {
     verify(profitRepository, times(1)).findById(36L);
 
     Map<String, Object> json = responseToJson(response);
-    assertEquals("EntityNotFoundException", json.get("type"));
+    assertEquals("Entity Not Found Exception", json.get("exceptionType"));
     assertEquals("Profit with id 36 not found", json.get("message"));
+    assertEquals("Requested Entity does not exist",json.get("reason"));
   }
 
 
@@ -176,8 +178,9 @@ public class ProfitsControllerTests extends ControllerTestCase {
     verify(profitRepository, times(1)).findById(36L);
 
     Map<String, Object> json = responseToJson(response);
-    assertEquals("EntityNotFoundException", json.get("type"));
+    assertEquals("Entity Not Found Exception", json.get("exceptionType"));
     assertEquals("Profit with id 36 not found", json.get("message"));
+    assertEquals("Requested Entity does not exist",json.get("reason"));
   }
 
   @WithMockUser(roles = { "USER" })
@@ -215,8 +218,9 @@ public class ProfitsControllerTests extends ControllerTestCase {
     verify(userCommonsRepository, times(1)).findById(1L);
 
     Map<String, Object> json = responseToJson(response);
-    assertEquals("EntityNotFoundException", json.get("type"));
+    assertEquals("Entity Not Found Exception", json.get("exceptionType"));
     assertEquals("UserCommons with id 1 not found", json.get("message"));
+    assertEquals("Requested Entity does not exist",json.get("reason"));
   }
 
   @WithMockUser(roles = { "USER" })
@@ -227,8 +231,9 @@ public class ProfitsControllerTests extends ControllerTestCase {
     verify(userCommonsRepository, times(1)).findById(1L);
 
     Map<String, Object> json = responseToJson(response);
-    assertEquals("EntityNotFoundException", json.get("type"));
+    assertEquals("Entity Not Found Exception", json.get("exceptionType"));
     assertEquals("UserCommons with id 1 not found", json.get("message"));
+    assertEquals("Requested Entity does not exist",json.get("reason"));
   }
 
   @WithMockUser(roles = { "ADMIN" })
@@ -378,8 +383,9 @@ public class ProfitsControllerTests extends ControllerTestCase {
     verify(profitRepository, times(0)).save(profit);
 
     Map<String, Object> json = responseToJson(response);
-    assertEquals("EntityNotFoundException", json.get("type"));
+    assertEquals("Entity Not Found Exception", json.get("exceptionType"));
     assertEquals("Profit with id 42 not found", json.get("message"));
+    assertEquals("Requested Entity does not exist",json.get("reason"));
   }
 
   
@@ -393,8 +399,9 @@ public class ProfitsControllerTests extends ControllerTestCase {
     verify(profitRepository, times(1)).findById(42L);
 
     Map<String, Object> json = responseToJson(response);
-    assertEquals("EntityNotFoundException", json.get("type"));
+    assertEquals("Entity Not Found Exception", json.get("exceptionType"));
     assertEquals("Profit with id 42 not found", json.get("message"));
+    assertEquals("Requested Entity does not exist",json.get("reason"));
   }
 
   @WithMockUser(roles = { "ADMIN" })
@@ -405,8 +412,9 @@ public class ProfitsControllerTests extends ControllerTestCase {
     verify(userCommonsRepository, times(1)).findById(1L);
 
     Map<String, Object> json = responseToJson(response);
-    assertEquals("EntityNotFoundException", json.get("type"));
+    assertEquals("Entity Not Found Exception", json.get("exceptionType"));
     assertEquals("UserCommons with id 1 not found", json.get("message"));
+    assertEquals("Requested Entity does not exist",json.get("reason"));
   }
 }
 

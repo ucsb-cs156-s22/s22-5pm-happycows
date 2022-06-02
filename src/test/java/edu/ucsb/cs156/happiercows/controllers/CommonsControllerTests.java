@@ -362,7 +362,8 @@ public class CommonsControllerTests extends ControllerTestCase {
     Map<String, Object> responseMap = responseToJson(response);
 
     assertEquals(responseMap.get("message"), "Commons with id 18 not found");
-    assertEquals(responseMap.get("type"), "EntityNotFoundException");
+    assertEquals(responseMap.get("exceptionType"), "Entity Not Found Exception");
+    assertEquals(responseMap.get("reason"), "Requested Entity does not exist");
   }
 
   @WithMockUser(roles = { "USER"})
@@ -471,7 +472,8 @@ public class CommonsControllerTests extends ControllerTestCase {
     Map<String, Object> responseMap = responseToJson(response);
 
     assertEquals(responseMap.get("message"), "Commons with id 2 not found");
-    assertEquals(responseMap.get("type"), "EntityNotFoundException");
+    assertEquals(responseMap.get("exceptionType"), "Entity Not Found Exception");
+    assertEquals(responseMap.get("reason"), "Requested Entity does not exist");
   }
 
   @WithMockUser(roles = { "USER" })
@@ -506,7 +508,8 @@ public class CommonsControllerTests extends ControllerTestCase {
     Map<String, Object> responseMap = responseToJson(response);
 
     assertEquals(responseMap.get("message"), "Commons with id 2 not found");
-    assertEquals(responseMap.get("type"), "EntityNotFoundException");
+    assertEquals(responseMap.get("exceptionType"), "Entity Not Found Exception");
+    assertEquals(responseMap.get("reason"), "Requested Entity does not exist");
   }
 
   @WithMockUser(roles = { "ADMIN" })
@@ -557,13 +560,11 @@ public class CommonsControllerTests extends ControllerTestCase {
       verify(commonsRepository, times(1)).findById(2L);
       
 
-      String responseString = response.getResponse().getContentAsString();
+      Map<String, Object> responseMap = responseToJson(response);
       
-      String expectedString = "{\"message\":\"Commons with id 2 not found\",\"type\":\"EntityNotFoundException\"}";
-      
-      Map<String, Object> expectedJson = mapper.readValue(expectedString, Map.class);
-      Map<String, Object> jsonResponse = responseToJson(response);
-      assertEquals(expectedJson, jsonResponse);
+      assertEquals(responseMap.get("message"), "Commons with id 2 not found");
+      assertEquals(responseMap.get("exceptionType"), "Entity Not Found Exception");
+      assertEquals(responseMap.get("reason"), "Requested Entity does not exist");
   }
   
   
