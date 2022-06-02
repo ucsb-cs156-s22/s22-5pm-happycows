@@ -762,6 +762,5 @@ public class UserCommonsControllerTests extends ControllerTestCase {
         assertEquals("UserCommons with commonsId 24 and userId 42 not found", json.get("message"));
     }
 
-    // perhaps add a test that makes sure users id and id of comons to delete are the same?
-    // is this necessary? is this possible?
+
 }
