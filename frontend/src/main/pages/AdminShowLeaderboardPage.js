@@ -1,9 +1,8 @@
 import React from "react";
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
-// import CommonsTable from 'main/components/Commons/CommonsTable';
+import LeaderboardTable from "main/components/Leaderboard/LeaderboardTable"
 import { useBackend } from 'main/utils/useBackend';
 import { useParams } from "react-router-dom";
-// import { useCurrentUser } from "main/utils/currentUser";
 
 export default function AdminShowLeaderboardPage()
 {
@@ -27,6 +26,7 @@ export default function AdminShowLeaderboardPage()
     <BasicLayout>
       <div className="pt-2">
         {commons && <h1>{commons.name} Leaderboard</h1>}
+        {commons && <LeaderboardTable userCommonsWithId={commons}/>}
       </div>
     </BasicLayout>
   )
