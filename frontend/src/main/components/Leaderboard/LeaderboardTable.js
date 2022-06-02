@@ -3,9 +3,6 @@ import OurTable from "main/components/OurTable";
 
 export default function LeaderboardTable({ userCommonsWithId }) {
 
-    // filteredCommons contains all UserCommons passed in the input parameter, but removes
-    // several unneeded headers, such as id and commonsId
-
     const columns = [
         {
             Header:'ID',
