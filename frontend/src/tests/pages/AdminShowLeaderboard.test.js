@@ -1,6 +1,5 @@
-// import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import {render} from "@testing-library/react";
-// import mockConsole from "jest-mock-console";
+import { _fireEvent, render, _screen, _waitFor } from "@testing-library/react";
+import _mockConsole from "jest-mock-console";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
 import axios from "axios";
@@ -36,7 +35,7 @@ jest.mock('react-router-dom', () => {
 describe("AdminListCommonPage tests", () => {
     const axiosMock = new AxiosMockAdapter(axios);
 
-    // const testId = "Leaderboard";
+    const _testId = "Leaderboard";
 
     beforeEach(() => {
         axiosMock.reset();
