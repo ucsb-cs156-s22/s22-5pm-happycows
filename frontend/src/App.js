@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "main/pages/HomePage";
 import LoginPage from "main/pages/LoginPage";
 import ProfilePage from "main/pages/ProfilePage";
-import LeaderboardPage from "main/pages/LeaderboardPage";
 import AdminUsersPage from "main/pages/AdminUsersPage";
 import AdminCreateCommonsPage from "main/pages/AdminCreateCommonsPage";
 import AdminEditCommonsPage from "main/pages/AdminEditCommonsPage";
@@ -37,7 +36,6 @@ function App() {
           hasRole(currentUser, "ROLE_ADMIN") && <Route path="/admin/editcommons/:id" element={<AdminEditCommonsPage />} />
         }
         <Route path="/play/:commonsId" element={<PlayPage />} />
-        <Route path="/leaderboard/:commonsId" element={<LeaderboardPage />} />
       </Routes>
     </BrowserRouter>
   );
