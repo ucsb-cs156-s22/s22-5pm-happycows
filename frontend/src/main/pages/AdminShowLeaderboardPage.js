@@ -9,8 +9,6 @@ export default function AdminShowLeaderboardPage()
 {
   let { commonsId } = useParams();
 
-  console.log(commonsId);
-
   // Stryker disable  all 
   const { data: leaderboard, _error, _status } =
     useBackend(
