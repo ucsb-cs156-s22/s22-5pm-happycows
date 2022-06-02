@@ -46,7 +46,6 @@ describe("AdminShowLeaderboard tests", () => {
         axiosMock.onGet("/api/systemInfo").reply(200, systemInfoFixtures.showingNeither);
     };
 
-
     test("renders without crashing for admin user", () => {
         setupAdminUser();
         const queryClient = new QueryClient();
