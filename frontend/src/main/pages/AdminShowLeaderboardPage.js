@@ -21,7 +21,8 @@ export default function AdminShowLeaderboardPage()
         params: {
           commonsId
         }
-      }
+      },
+      []
     );
   // Stryker enable  all 
     
