@@ -31,7 +31,9 @@ public class Commons
   private LocalDateTime startingDate;
   private Boolean leaderboard;
 
-  @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
+  // TODO: Fix the CascadeType.REMOVE bug chain removing multiple commons because a users join/related to another common
+  // https://thorben-janssen.com/avoid-cascadetype-delete-many-assocations/#Remove_More_Than_You_Expected
+  @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.REMOVE}) // <--- BUG!!!
   @JoinTable(name = "user_commons",
     joinColumns = @JoinColumn(name = "commons_id", referencedColumnName = "id"),
     inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
