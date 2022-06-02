@@ -4,7 +4,6 @@ import { useBackend } from 'main/utils/useBackend';
 import { useParams } from "react-router-dom";
 import LeaderboardTable from "main/components/Leaderboard/LeaderboardTable";
 
-
 export default function AdminShowLeaderboardPage()
 {
   let { commonsId } = useParams();
