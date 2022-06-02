@@ -624,4 +624,58 @@ public class CommonsControllerTests extends ControllerTestCase {
       "org.springframework.web.util.NestedServletException: Request processing failed; nested exception is java.lang.Exception: UserCommons with commonsId=2 and userId=1 not found.");
     }
   }
+
+  @WithMockUser(roles = { "ADMIN" })
+  @Test
+  public void sameNameCommonsTest() throws Exception
+  {
+    LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+    LocalDateTime someOtherTime = LocalDateTime.parse("2022-04-05T15:50:10");
+
+    Commons commons1 = Commons.builder()
+      .name("John's Commons")
+      .cowPrice(500.99)
+      .milkPrice(8.99)
+      .startingBalance(1020.10)
+      .startingDate(someTime)
+      .build(); 
+
+    Commons commons2 = Commons.builder()
+      .name("John's Commons")
+      .cowPrice(500.99)
+      .milkPrice(8.99)
+      .startingBalance(1020.10)
+      .startingDate(someOtherTime)
+      .build(); 
+
+    GenericError expectedError = new GenericError(
+      "400", 
+      "Commons with name John's Commons already exists", 
+      "Entity Name Taken Exception", 
+      "Name is already taken by another entity"
+      );
+    String requestBody1 = objectMapper.writeValueAsString(commons1);
+    String requestBody2 = objectMapper.writeValueAsString(commons2);
+    String expectedResponse = objectMapper.writeValueAsString(expectedError);
+
+    when(commonsRepository.save(commons1))
+      .thenReturn(commons1);
+
+    MvcResult response = mockMvc
+      .perform(post("/api/commons/new").with(csrf())
+        .contentType(MediaType.APPLICATION_JSON)
+        .characterEncoding("utf-8")
+        .content(requestBody2))
+      .andExpect(status().isOk())
+      .andReturn();
+
+    verify(commonsRepository, times(1)).save(commons1);
+
+    Map<String, Object> responseMap = responseToJson(response);
+      
+    assertEquals(responseMap.get("message"), "Commons with name John's Commons already exists");
+    assertEquals(responseMap.get("exceptionType"), "Entity Name Taken Exception");
+    assertEquals(responseMap.get("reason"), "Name is already taken by another entity");
+    
+  }
 }
