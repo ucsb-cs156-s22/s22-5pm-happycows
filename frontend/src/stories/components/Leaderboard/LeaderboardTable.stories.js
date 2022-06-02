@@ -1,7 +1,7 @@
 import React from 'react'; 
 
 import LeaderboardTable from "main/components/Leaderboard/LeaderboardTable";
-import leaderboardFixtures from "fixtures/leaderboardFixtures"; 
+import * as leaderboardFixtures from "fixtures/leaderboardFixtures.js"; 
 
 export default {
     title: 'components/Leaderboard/LeaderboardTable',
@@ -17,22 +17,22 @@ const Template = (args) => {
 export const Empty = Template.bind({});
 
 Empty.args = {
-    leaderboard: []
+    userCommonsWithId: []
 };
 
 export const OneEntry = Template.bind({}); 
 
 OneEntry.args = {
-    leaderboard: leaderboardFixtures.oneLeaderboardOneEntry
-}
+    userCommonsWithId: leaderboardFixtures.oneLeaderboardOneEntry
+};
 
 export const ThreeEntries = Template.bind({}); 
 
 ThreeEntries.args = {
-    leaderboard: leaderboardFixtures.oneLeaderboardThreeEntries
-}
+    userCommonsWithId: leaderboardFixtures.oneLeaderboardThreeEntries
+};
 
 export const FiveEntries = Template.bind({});
 FiveEntries.args = {
-    leaderboard: leaderboardFixtures.oneLeaderboardFiveEntries
-}
+    userCommonsWithId: leaderboardFixtures.oneLeaderboardFiveEntries
+};
