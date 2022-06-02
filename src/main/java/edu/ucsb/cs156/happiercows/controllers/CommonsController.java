@@ -128,6 +128,13 @@ public class CommonsController extends ApiController {
       throw new CoffeeException();
     }
 
+    Iterable<Commons> prevCommons = commonsRepository.findAll();
+    for(Commons x: prevCommons){
+      if(x.getName().equalsIgnoreCase(params.getName())){
+        throw new EntityNameTakenException(x.getClass(), params.getName());
+      }
+    }
+
     Commons commons = Commons.builder()
       .name(params.getName())
       .cowPrice(params.getCowPrice())

@@ -26,13 +26,4 @@ public abstract class ApiController {
   protected Object genericMessage(String message) {
     return Map.of("message", message);
   }
-
-  @ExceptionHandler({ EntityNotFoundException.class })
-  @ResponseStatus(HttpStatus.NOT_FOUND)
-  public Object handleGenericException(Throwable e) {
-    return Map.of(
-      "type", e.getClass().getSimpleName(),
-      "message", e.getMessage()
-    );
-  }
 }
