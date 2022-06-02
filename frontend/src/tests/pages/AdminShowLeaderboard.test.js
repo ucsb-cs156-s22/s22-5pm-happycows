@@ -1,6 +1,5 @@
-// import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import {render} from "@testing-library/react";
-// import mockConsole from "jest-mock-console";
+import { _fireEvent, render, screen, waitFor } from "@testing-library/react";
+import mockConsole from "jest-mock-console";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
 import axios from "axios";
@@ -9,6 +8,8 @@ import AxiosMockAdapter from "axios-mock-adapter";
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 import AdminShowLeaderboardPage from "main/pages/AdminShowLeaderboardPage";
+
+import { leaderboardFixtures } from "fixtures/leaderboardFixtures";
 
 const mockToast = jest.fn();
 jest.mock('react-toastify', () => {
@@ -49,7 +50,7 @@ describe("AdminShowLeaderboard tests", () => {
     test("renders without crashing for admin user", () => {
         setupAdminUser();
         const queryClient = new QueryClient();
-        axiosMock.onGet("/api/commons/all").reply(200, []);
+        axiosMock.onGet("/api/usercommons/allwithcommonsid").reply(200, []);
 
         render(
             <QueryClientProvider client={queryClient}>
@@ -63,12 +64,12 @@ describe("AdminShowLeaderboard tests", () => {
     test("renders leaderboard with 3 entries without crashing for admin user", async () => {
         setupAdminUser();
         const queryClient = new QueryClient();
-        axiosMock.onGet("/api/commons/all").reply(200, leaderboardFixtures.oneLeaderboardThreeEntries);
+        axiosMock.onGet("/api/usercommons/allwithcommonsid").reply(200, leaderboardFixtures.oneLeaderboardThreeEntries);
 
         render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
-                    <AdminListCommonPage />
+                    <AdminShowLeaderboardPage />
                 </MemoryRouter>
             </QueryClientProvider>
         );
@@ -89,7 +90,7 @@ describe("AdminShowLeaderboard tests", () => {
         render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
-                    <AdminListCommonPage />
+                    <AdminShowLeaderboardPage />
                 </MemoryRouter>
             </QueryClientProvider>
         );
