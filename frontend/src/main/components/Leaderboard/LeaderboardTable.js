@@ -27,14 +27,7 @@ export default function LeaderboardTable({ userCommonsWithId }) {
         {
             Header:'Number of Cows',
             accessor: 'numOfCows',
-        },
-        /*
-        {
-            Header:'Average Cow Health',
-            accessor: row => String(row.averageCowHealth),
-            id: 'averageCowHealth'
-        },
-        */
+        }
     ];
 
     const testid = "LeaderboardTable";
