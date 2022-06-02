@@ -24,7 +24,7 @@ export default function CommonsTable({ commons, currentUser }) {
     // Stryker disable next-line all : TODO try to make a good test for this
     const deleteCallback = async (cell) => { deleteMutation.mutate(cell); }
 
-    const leaderboardCallback = (cell) => {navigate(`/admin/leaderboard/${cell.row.values.id}`)}
+    const leaderboardCallback = (cell) => {navigate(`/leaderboard/${cell.row.values.id}`)}
 
     const columns = [
         {
