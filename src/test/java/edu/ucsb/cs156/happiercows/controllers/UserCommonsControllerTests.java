@@ -194,7 +194,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
   // the backend shouldn't throw an error, just return empty list
   @WithMockUser(roles = { "ADMIN", "USER"})
   @Test
-  public void test_admin_getAllUserCommonsByCommonsId_none_exists_leaderboard_true() throws Exception {
+  public void test_getAllUserCommonsByCommonsId_none_exists_leaderboard_true() throws Exception {
     Commons testCommons = Commons
     .builder()
     .name("test commons")
