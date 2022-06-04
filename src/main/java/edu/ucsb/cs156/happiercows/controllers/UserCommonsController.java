@@ -49,7 +49,7 @@ public class UserCommonsController extends ApiController {
     
     int numUsers = c.getTotalPlayers();
 
-    int numCows = commonsRepository.sumTotalCows();
+    int numCows = commonsRepository.sumTotalCows(c.getId());
     double ratio = (double) numCows /  (double) (numUsers * MAX_COWS_PER_PERSON);
 
     if (ratio < 1)
