@@ -188,6 +188,9 @@ public class UserCommonsControllerTests extends ControllerTestCase {
 
     verify(userCommonsRepository, times(1)).findAllByCommonsId(eq(1L));
     verify(commonsRepository, times(1)).findById(eq(1L));
+    String expectedJson = mapper.writeValueAsString(expectedCommons);
+    String responseString = response.getResponse().getContentAsString();
+    assertEquals(expectedJson, responseString);
   }
 
   // even if there are no userCommons with a specific commonsId,
