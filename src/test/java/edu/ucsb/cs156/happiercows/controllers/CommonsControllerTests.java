@@ -255,7 +255,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .commonsId(2L)
         .totalWealth(0)
         .numOfCows(0)
-        .cowHealth(0)
+        .cowHealth(100)
         .build();
 
     UserCommons ucSaved = UserCommons.builder()
@@ -264,7 +264,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .commonsId(2L)
         .totalWealth(0)
         .numOfCows(0)
-        .cowHealth(0)
+        .cowHealth(100)
         .build();
 
     String requestBody = mapper.writeValueAsString(uc);
@@ -466,9 +466,24 @@ public class CommonsControllerTests extends ControllerTestCase {
         .cowHealth(100)
         .build();
 
+    LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+    LocalDateTime someTime2 = LocalDateTime.parse("2023-03-05T15:50:10");
+    Commons c = Commons.builder()
+        .name("Jackson's Commons")
+        .cowPrice(500.99)
+        .milkPrice(8.99)
+        .startingBalance(1020.10)
+        .startingDate(someTime)
+        .startingDate(someTime2)
+        .totalPlayers(1)
+        .leaderboard(true)
+        .maxCowsPerPlayer(100)
+        .build();
+
     String requestBody = mapper.writeValueAsString(uc);
 
     when(userCommonsRepository.findByCommonsIdAndUserId(2L,1L)).thenReturn(Optional.of(uc));
+    when(commonsRepository.findById(2L)).thenReturn(Optional.of(c));
 
     MvcResult response = mockMvc
         .perform(delete("/api/commons/2/users/1").with(csrf()).contentType(MediaType.APPLICATION_JSON)
@@ -477,6 +492,7 @@ public class CommonsControllerTests extends ControllerTestCase {
 
     verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(2L, 1L);
     verify(userCommonsRepository, times(1)).deleteById(16L);
+    verify(commonsRepository, times(1)).save(c);
 
     String responseString = response.getResponse().getContentAsString();
 

@@ -156,6 +156,8 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .milkPrice(2)
       .startingBalance(300)
       .startingDate(LocalDateTime.now())
+      .maxCowsPerPlayer(100)
+      .totalPlayers(1)
       .build();
   
       UserCommons userCommonsToSend = UserCommons
@@ -175,7 +177,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .commonsId(1L)
       .totalWealth(300-testCommons.getCowPrice())
       .numOfCows(4)
-      .cowHealth(62.5)
+      .cowHealth(50)
       .build();
   
       String requestBody = mapper.writeValueAsString(userCommonsToSend);
@@ -183,6 +185,77 @@ public class UserCommonsControllerTests extends ControllerTestCase {
   
       when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L), eq(1L))).thenReturn(Optional.of(origUserCommons));
       when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(testCommons));
+  
+      // act
+      MvcResult response = mockMvc.perform(put("/api/usercommons/buy?commonsId=1")
+          .contentType(MediaType.APPLICATION_JSON)
+                      .characterEncoding("utf-8")
+                      .content(requestBody)
+                      .with(csrf()))
+              .andExpect(status().isOk()).andReturn();
+  
+      // assert
+      verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(eq(1L), eq(1L));
+      verify(userCommonsRepository, times(1)).save(correctuserCommons);
+      String responseString = response.getResponse().getContentAsString();
+      assertEquals(expectedReturn, responseString);
+  }
+
+  @WithMockUser(roles = { "USER" })
+  @Test
+  public void test_BuyCow_when_cow_is_about_to_die_from_overcrowding() throws Exception {
+  
+      // arrange
+  
+      UserCommons origUserCommons = UserCommons
+      .builder()
+      .id(1L)
+      .userId(1L)
+      .commonsId(1L)
+      .totalWealth(300)
+      .numOfCows(1000)
+      .cowHealth(1.0)
+      .build();
+  
+      Commons testCommons = Commons
+      .builder()
+      .id(1L)
+      .name("test commons")
+      .cowPrice(10)
+      .milkPrice(2)
+      .startingBalance(300)
+      .startingDate(LocalDateTime.now())
+      .maxCowsPerPlayer(1)
+      .totalPlayers(1)
+      .degradationRate(1000.0)
+      .build();
+  
+      UserCommons userCommonsToSend = UserCommons
+      .builder()
+      .id(1L)
+      .userId(1L)
+      .commonsId(1L)
+      .totalWealth(300)
+      .numOfCows(1000)
+      .cowHealth(1.0)
+      .build();
+  
+      UserCommons correctuserCommons = UserCommons
+      .builder()
+      .id(1L)
+      .userId(1L)
+      .commonsId(1L)
+      .totalWealth(300-testCommons.getCowPrice())
+      .numOfCows(1001)
+      .cowHealth(0.0)
+      .build();
+  
+      String requestBody = mapper.writeValueAsString(userCommonsToSend);
+      String expectedReturn = mapper.writeValueAsString(correctuserCommons);
+  
+      when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L), eq(1L))).thenReturn(Optional.of(origUserCommons));
+      when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(testCommons));
+      when(commonsRepository.sumTotalCows(eq(1L))).thenReturn(1000);
   
       // act
       MvcResult response = mockMvc.perform(put("/api/usercommons/buy?commonsId=1")
@@ -222,6 +295,8 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .milkPrice(2)
       .startingBalance(300)
       .startingDate(LocalDateTime.now())
+      .maxCowsPerPlayer(100)
+      .totalPlayers(1)
       .build();
   
       UserCommons userCommonsToSend = UserCommons
@@ -307,7 +382,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .commonsId(1L)
       .totalWealth(300+testCommons.getCowPrice()*(userCommonsToSend.getCowHealth()/100))
       .numOfCows(0)
-      .cowHealth(0)
+      .cowHealth(100)
       .build();
   
       String requestBody = mapper.writeValueAsString(userCommonsToSend);
@@ -489,6 +564,8 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .milkPrice(2)
       .startingBalance(300)
       .startingDate(LocalDateTime.now())
+      .maxCowsPerPlayer(100)
+      .totalPlayers(1)
       .build();
   
       UserCommons userCommonsToSend = UserCommons
@@ -753,7 +830,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .commonsId(1L)
       .totalWealth(300)
       .numOfCows(0)
-      .cowHealth(0)
+      .cowHealth(100)
       .build();
   
       Commons testCommons = Commons
@@ -772,7 +849,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .commonsId(1L)
       .totalWealth(300)
       .numOfCows(0)
-      .cowHealth(0)
+      .cowHealth(100)
       .build();
   
       UserCommons correctuserCommons = UserCommons
@@ -782,7 +859,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .commonsId(1L)
       .totalWealth(300)
       .numOfCows(0)
-      .cowHealth(0)
+      .cowHealth(100)
       .build();
   
       String requestBody = mapper.writeValueAsString(userCommonsToSend);
