@@ -18,7 +18,10 @@ import edu.ucsb.cs156.happiercows.entities.User;
 import edu.ucsb.cs156.happiercows.entities.UserCommons;
 import edu.ucsb.cs156.happiercows.entities.Commons;
 import edu.ucsb.cs156.happiercows.errors.EntityNotFoundException;
+import edu.ucsb.cs156.happiercows.models.CurrentUser;
 import edu.ucsb.cs156.happiercows.controllers.ApiController;
+import edu.ucsb.cs156.happiercows.services.CurrentUserService;
+import edu.ucsb.cs156.happiercows.services.CurrentUserServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -64,15 +67,8 @@ public class UserCommonsController extends ApiController {
   @GetMapping("/allwithcommonsid")
   public Iterable<UserCommons> getAllUserCommonsByCommonsId(
     @ApiParam("commonsId") @RequestParam Long commonsId) throws JsonProcessingException {
-      boolean isAdmin = false;
-
-      for(GrantedAuthority a : getCurrentUser().getRoles()){
-        // comparing if they are equal does NOT work.
-        // could be padding issues?
-        if(a.getAuthority().contains("ROLE_ADMIN")){
-          isAdmin = true;
-        }
-      }
+      // method inherited from ApiController
+      boolean isAdmin = isAdmin();
 
       Commons commons = commonsRepository.findById(commonsId)
         .orElseThrow(() -> new EntityNotFoundException(Commons.class, commonsId));
