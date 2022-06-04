@@ -121,6 +121,27 @@ function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
       </Form.Group>
 
       <Form.Group className="mb-3">
+        <Form.Label htmlFor="degradationRate">Cow Degradation Rate</Form.Label>
+        <Form.Control
+          data-testid={`${testid}-degradationRate`}
+          id="degradationRate"
+          type="number"
+          step="0.01"
+          isInvalid={!!errors.maxCowsPerPlayer}
+          defaultValue="1.0"
+          placeholder="Default value: 1.0"
+          {...register("degradationRate", {
+            valueAsNumber: true,
+            required: "Degradation Rate is required",
+            min: { value: 0.01, message: "Degradation Rate must be non-negative integer" },
+          })}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errors.degradationRate?.message}
+        </Form.Control.Feedback>
+      </Form.Group>
+
+      <Form.Group className="mb-3">
         <Form.Label htmlFor="startingDate">Starting Date</Form.Label>
         <Form.Control
           data-testid={`${testid}-startingDate`}

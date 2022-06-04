@@ -36,7 +36,8 @@ export default function CommonsEditPage() {
         "startingDate": commons.startingDate,
         "endingDate": commons.endingDate,
         "leaderboard": commons.leaderboard,
-        "maxCowsPerPlayer": commons.maxCowsPerPlayer
+        "maxCowsPerPlayer": commons.maxCowsPerPlayer,
+        "degradationRate": commons.degradationRate
     }
   });
 
