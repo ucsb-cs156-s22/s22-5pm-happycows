@@ -53,13 +53,11 @@ export default function CommonsTable({ commons, currentUser }) {
         },
         {
             Header:'Starting Date',
-            //accessor: row => row.startingDate.toString(),
             accessor: row => String(row.startingDate),
             id: 'startingDate'
         },
         {
             Header:'Ending Date',
-            //accessor: row => row.startingDate.toString(),
             accessor: row => String(row.endingDate),
             id: 'endingDate'
         },
@@ -67,6 +65,11 @@ export default function CommonsTable({ commons, currentUser }) {
             Header:'Total Players',
             accessor: row => String(row.totalPlayers),
             id: 'totalPlayers'
+        },
+        {
+            Header: 'Shows Leaderboard?',
+            accessor: row => String(row.leaderboard),
+            id: 'leaderboard'
         }
     ];
 

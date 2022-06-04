@@ -31,6 +31,7 @@ public class Commons
   private LocalDateTime startingDate;
   private LocalDateTime endingDate;
   private int totalPlayers;
+  private double degradationRate;
   private Boolean leaderboard;
 
   @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
