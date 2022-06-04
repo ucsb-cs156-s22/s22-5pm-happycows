@@ -107,6 +107,7 @@ public class UserCommonsController extends ApiController {
 
         if(userCommons.getTotalWealth() >= commons.getCowPrice()){
           userCommons.setTotalWealth(userCommons.getTotalWealth() - commons.getCowPrice());
+          // NOTE: Uncomment below if newly purchased cows should have full 100 health.
           // userCommons.setCowHealth((userCommons.getCowHealth() * userCommons.getNumOfCows() + 100)/(userCommons.getNumOfCows() + 1));
           userCommons.setCowHealth(calculateNewCowHealth(userCommons, commons));
           userCommons.setNumOfCows(userCommons.getNumOfCows() + 1);
