@@ -33,6 +33,7 @@ public class Commons
   private int totalPlayers;
   private double degradationRate;
   private Boolean leaderboard;
+  private int maxCowsPerPlayer;
 
   @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
   @JoinTable(name = "user_commons",

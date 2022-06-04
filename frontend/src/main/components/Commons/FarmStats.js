@@ -19,7 +19,7 @@ const FarmStats = ({userCommons}) => {
                 <img className="icon" src={Health} alt="Health"></img> 
             </Card.Text>
             <Card.Text>
-                Cow Health: {userCommons.averageCowHealth * 100}%
+                Cow Health: {userCommons.cowHealth}%
             </Card.Text>
         </Card.Body>
         </Card>

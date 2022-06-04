@@ -30,6 +30,6 @@ public class UserCommons {
 
   private int numOfCows;
 
-  private double averageCowHealth;
+  private double cowHealth;
 }
 

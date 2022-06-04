@@ -86,7 +86,7 @@ public class UserCommonsController extends ApiController {
 
         if(userCommons.getTotalWealth() >= commons.getCowPrice() ){
           userCommons.setTotalWealth(userCommons.getTotalWealth() - commons.getCowPrice());
-          userCommons.setAverageCowHealth((userCommons.getAverageCowHealth() * userCommons.getNumOfCows() + 1)/(userCommons.getNumOfCows() + 1));
+          userCommons.setCowHealth(100*((userCommons.getCowHealth()/100) * userCommons.getNumOfCows() + 1)/(userCommons.getNumOfCows() + 1));
           userCommons.setNumOfCows(userCommons.getNumOfCows() + 1);
         }
         userCommonsRepository.save(userCommons);
@@ -112,10 +112,10 @@ public class UserCommonsController extends ApiController {
 
         
         if(userCommons.getNumOfCows() >= 1 ){
-          userCommons.setTotalWealth(userCommons.getTotalWealth() + (commons.getCowPrice() * userCommons.getAverageCowHealth()));
+          userCommons.setTotalWealth(userCommons.getTotalWealth() + (commons.getCowPrice() * (userCommons.getCowHealth()/100)));
           userCommons.setNumOfCows(userCommons.getNumOfCows() - 1);
           if (userCommons.getNumOfCows() == 0) {
-            userCommons.setAverageCowHealth(0);
+            userCommons.setCowHealth(0);
           }
         }
         userCommonsRepository.save(userCommons);

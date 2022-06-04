@@ -253,7 +253,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .commonsId(2L)
         .totalWealth(0)
         .numOfCows(0)
-        .averageCowHealth(0)
+        .cowHealth(0)
         .build();
 
     UserCommons ucSaved = UserCommons.builder()
@@ -262,7 +262,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .commonsId(2L)
         .totalWealth(0)
         .numOfCows(0)
-        .averageCowHealth(0)
+        .cowHealth(0)
         .build();
 
     String requestBody = mapper.writeValueAsString(uc);
@@ -301,7 +301,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .commonsId(2L)
         .totalWealth(0)
         .numOfCows(1)
-        .averageCowHealth(1)
+        .cowHealth(100)
         .build();
 
     String requestBody = mapper.writeValueAsString(uc);
@@ -333,7 +333,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .commonsId(2L)
         .totalWealth(0)
         .numOfCows(1)
-        .averageCowHealth(1)
+        .cowHealth(100)
         .build();
 
     String requestBody = mapper.writeValueAsString(uc);
@@ -362,7 +362,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .commonsId(2L)
         .totalWealth(0)
         .numOfCows(1)
-        .averageCowHealth(1)
+        .cowHealth(100)
         .build();
 
     UserCommons ucSaved = UserCommons.builder()
@@ -371,7 +371,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .commonsId(2L)
         .totalWealth(0)
         .numOfCows(1)
-        .averageCowHealth(1)
+        .cowHealth(100)
         .build();
 
     String requestBody = mapper.writeValueAsString(uc);
@@ -461,7 +461,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .commonsId(2L)
         .totalWealth(0)
         .numOfCows(1)
-        .averageCowHealth(1)
+        .cowHealth(100)
         .build();
 
     String requestBody = mapper.writeValueAsString(uc);
@@ -490,7 +490,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .commonsId(2L)
         .totalWealth(0)
         .numOfCows(1)
-        .averageCowHealth(1)
+        .cowHealth(100)
         .build();
 
     String requestBody = mapper.writeValueAsString(uc);
