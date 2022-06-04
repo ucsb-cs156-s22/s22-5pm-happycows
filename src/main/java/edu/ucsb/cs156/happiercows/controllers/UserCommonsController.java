@@ -53,9 +53,9 @@ public class UserCommonsController extends ApiController {
     double ratio = (double) numCows /  (double) (numUsers * MAX_COWS_PER_PERSON);
 
     if (ratio < 1)
-       return uc.getCowHealth();
+      return uc.getCowHealth();
 
-    double newCowHealth =  uc.getCowHealth()  - (DEGRADATION_RATE/100.0) * ratio;
+    double newCowHealth = uc.getCowHealth() - (DEGRADATION_RATE/100.0) * ratio;
 
     if (newCowHealth < 0) 
        return 0.0;
