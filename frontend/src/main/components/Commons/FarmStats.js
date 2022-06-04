@@ -13,7 +13,7 @@ const FarmStats = ({userCommons}) => {
                 <img className="icon" src={Cash} alt="Cash"></img>
             </Card.Text>
             <Card.Text>
-                Total Wealth: ${userCommons.totalWealth?.toFixed(2)}
+                Total Wealth: ${userCommons.totalWealth.toFixed(2)}
             </Card.Text>
             <Card.Text>
                 <img className="icon" src={Health} alt="Health"></img> 
