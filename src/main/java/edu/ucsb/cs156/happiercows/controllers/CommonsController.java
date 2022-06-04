@@ -188,4 +188,23 @@ public class CommonsController extends ApiController {
     userCommonsRepository.deleteById(userCommons.getId());
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
+
+  // @ApiOperation("Sums the total cows in a commons")
+  // @PreAuthorize("hasRole('ROLE_USER')")
+  // @GetMapping("/{commonsId}")
+  // public ResponseEntity<String> sumCowsFromCommon(@PathVariable("commonsId") Long commonsId) throws Exception {
+
+  //   Commons commons = commonsRepository.findById(commonsId)
+  //       .orElseThrow(() -> new EntityNotFoundException(Commons.class, commonsId));
+
+
+  //   Optional<Integer> numberOfCows = commonsRepository.sumTotalCows(commonsId);
+
+  //   if (numberOfCows.isPresent()) {
+  //     String body = mapper.writeValueAsString(numberOfCows);
+  //     return ResponseEntity.ok().body(body);
+  //   } 
+  //   String body = mapper.writeValueAsString(0);
+  //   return ResponseEntity.ok().body(body);
+  // }
 }

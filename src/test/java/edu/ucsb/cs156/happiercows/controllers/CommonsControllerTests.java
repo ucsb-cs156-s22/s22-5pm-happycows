@@ -480,4 +480,47 @@ public class CommonsControllerTests extends ControllerTestCase {
       "org.springframework.web.util.NestedServletException: Request processing failed; nested exception is java.lang.Exception: UserCommons with commonsId=2 and userId=1 not found.");
     }
   }
+
+  // @WithMockUser(roles = {"USER"})
+  // @Test
+  // public void get_total_cows_from_commons() throws Exception {
+  //   Commons common = Commons.builder()
+  //     .name("TestCommons1")
+  //     .id(1L)
+  //     .build();
+
+  //   // List<UserCommons> expectedUserCommons = new ArrayList<Commons>();
+
+  //   // UserCommons uc1 = UserCommons.builder()
+  //   //     .id(16L)
+  //   //     .userId(1L)
+  //   //     .commonsId(1L)
+  //   //     .totalWealth(10)
+  //   //     .numOfCows(456)
+  //   //     .build();
+    
+  //   // UserCommons uc2 = UserCommons.builder()
+  //   //     .id(1L)
+  //   //     .userId(5L)
+  //   //     .commonsId(1L)
+  //   //     .totalWealth(45)
+  //   //     .numOfCows(91)
+  //   //     .build();
+
+  //   // expectedUserCommons.add(uc1);
+  //   // expectedUserCommons.add(uc2);
+  //   // when(expectedUserCommons.findAll()).thenReturn(expectedUserCommons);
+
+  //   when(commonsRepository.findById(1L)).thenReturn(Optional.of(common));
+  //   when(commonsRepository.sumTotalCows(1L)).thenReturn(547);
+
+  //   MvcResult response = mockMvc.perform(get("/api/commons/1").contentType("application/json"))
+  //       .andExpect(status().isOk()).andReturn();
+
+  //   verify(commonsRepository, times(1)).findById(1L);
+  //   verify(commonsRepository, times(1)).sumTotalCows(1L);
+
+  //   String responseString = response.getResponse().getContentAsString();
+  //   assertEquals(responseString, "547");
+  // }
 }
