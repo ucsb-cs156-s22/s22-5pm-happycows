@@ -33,6 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -131,6 +132,37 @@ public class UserCommonsControllerTests extends ControllerTestCase {
     Map<String, Object> expectedJson = mapper.readValue(expectedString, Map.class);
     Map<String, Object> jsonResponse = responseToJson(response);
     assertEquals(expectedJson, jsonResponse);
+  }
+
+  @WithMockUser(roles = { "ADMIN", "USER" })
+  @Test
+  public void test_getAllUserCommonsByCommonsId_some() throws Exception {
+    ArrayList<UserCommons> expectedCommons = new ArrayList<>();
+    expectedCommons.addAll(Arrays.asList(dummyUserCommons(1), dummyUserCommons(2), dummyUserCommons(3)));
+    when(userCommonsRepository.findAllByCommonsId(eq(1L))).thenReturn(expectedCommons);
+
+    MvcResult response = mockMvc.perform(get("/api/usercommons/allwithcommonsid?commonsId=1"))
+        .andExpect(status().isOk()).andReturn();
+
+    verify(userCommonsRepository, times(1)).findAllByCommonsId(eq(1L));
+    String expectedJson = mapper.writeValueAsString(expectedCommons);
+    String responseString = response.getResponse().getContentAsString();
+    assertEquals(expectedJson, responseString);
+  }
+
+  @WithMockUser(roles = { "ADMIN", "USER" })
+  @Test
+  public void test_getAllUserCommonsByCommonsId_none() throws Exception {
+    ArrayList<UserCommons> expectedCommons = new ArrayList<>();
+    when(userCommonsRepository.findAllByCommonsId(eq(1L))).thenReturn(expectedCommons);
+
+    MvcResult response = mockMvc.perform(get("/api/usercommons/allwithcommonsid?commonsId=1"))
+        .andExpect(status().isOk()).andReturn();
+
+    verify(userCommonsRepository, times(1)).findAllByCommonsId(eq(1L));
+    String expectedJson = mapper.writeValueAsString(expectedCommons);
+    String responseString = response.getResponse().getContentAsString();
+    assertEquals(expectedJson, responseString);
   }
 
   @WithMockUser(roles = { "USER" })
