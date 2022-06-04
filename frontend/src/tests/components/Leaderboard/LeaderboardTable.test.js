@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
 import LeaderboardTable from "main/components/Leaderboard/LeaderboardTable";
-import { leaderboardFixtures } from "fixtures/leaderboardFixtures";
+import * as leaderboardFixtures from "fixtures/leaderboardFixtures.js"; 
 
 const mockedNavigate = jest.fn();
 
