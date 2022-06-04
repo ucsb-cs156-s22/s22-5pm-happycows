@@ -60,7 +60,7 @@ describe("AdminCreateCommonsPage tests", () => {
             "startingBalance": 500,
             "startingDate": "2022-03-05T00:00:00",
             "endingDate": "2023-03-06T00:00:00",
-            "totalPlayers": 50
+            "totalPlayers": 50,
             "leaderboard": true,
         });
 
@@ -104,7 +104,7 @@ describe("AdminCreateCommonsPage tests", () => {
             cowPrice: 10,
             milkPrice: 5,
             startingDate: '2022-03-05T00:00:00.000Z', // [1]
-            endingDate: '2023-03-06T00:00:00.000Z'
+            endingDate: '2023-03-06T00:00:00.000Z',
             leaderboard: false
         };
 
