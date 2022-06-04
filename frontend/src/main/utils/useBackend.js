@@ -54,7 +54,7 @@ const wrappedParams = async (params) => {
 
 export function useBackendMutation(objectToAxiosParams, useMutationParams, queryKey = null) {
     const queryClient = useQueryClient();
-
+    console.log(objectToAxiosParams);
     return useMutation((object) => wrappedParams(objectToAxiosParams(object)), {
         onError: (error) => {
             // Stryker disable next-line OptionalChaining : we want to check if each nested object is there but we dont want to write tests for each specific case

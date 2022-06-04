@@ -63,7 +63,7 @@ public class CommonsController extends ApiController {
   @ApiOperation(value = "Update a commons")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   @PutMapping("/update")
-  public ResponseEntity<String> updateCommons(
+  public Commons updateCommons(
     @ApiParam("commons identifier") @RequestParam long id,
     @ApiParam("request body") @RequestBody CreateCommonsParams params
   )
@@ -89,8 +89,8 @@ public class CommonsController extends ApiController {
     updated.setLeaderboard(params.getLeaderboard());
 
     commonsRepository.save(updated);
-
-    return ResponseEntity.status(status).build();
+    
+    return updated;
   }
 
   @ApiOperation(value = "Get a specific commons")
@@ -108,7 +108,7 @@ public class CommonsController extends ApiController {
   @ApiOperation(value = "Create a new commons")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   @PostMapping(value = "/new", produces = "application/json")
-  public ResponseEntity<String> createCommons(
+   public ResponseEntity<String> createCommons(
     @ApiParam("request body") @RequestBody CreateCommonsParams params
     ) throws JsonProcessingException
   {

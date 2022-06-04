@@ -39,6 +39,8 @@ export default function CommonsEditPage() {
   });
 
   const onSuccess = (commons) => {
+    console.log("ODWAD");
+    console.log(commons);
     toast(`Commons Updated - id: ${commons.id} name: ${commons.name}`);
   }
 
@@ -53,6 +55,7 @@ export default function CommonsEditPage() {
 
   const submitAction = async (data) => {
     mutation.mutate(data);
+    console.log(data);
   }
 
   if (isSuccess) {
