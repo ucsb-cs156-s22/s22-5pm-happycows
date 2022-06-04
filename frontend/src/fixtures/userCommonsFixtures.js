@@ -34,7 +34,7 @@ const userCommonsFixtures = {
                 "cowPrice": 15,
             },
             "totalWealth" : 1000,
-            "cowHealth": 0,
+            "cowHealth": 100,
             "numOfCows": 0
         },
         {

@@ -62,6 +62,8 @@ describe("AdminCreateCommonsPage tests", () => {
             "endingDate": "2023-03-06T00:00:00",
             "totalPlayers": 50,
             "leaderboard": true,
+            "maxCowsPerPlayer": 10,
+            "degradationRate": 1.0,
         });
 
         render(
@@ -81,6 +83,7 @@ describe("AdminCreateCommonsPage tests", () => {
         const startDateField = screen.getByLabelText("Starting Date");
         const endDateField = screen.getByLabelText("Ending Date");
         const leaderboardField = screen.getByLabelText("Show Leaderboard");
+        const maxCowsPerPlayerField = screen.getByLabelText("Max Cows Per Player");
         const button = screen.getByTestId("CommonsForm-Submit-Button");
 
         fireEvent.change(commonsNameField, { target: { value: 'My New Commons' } })
@@ -90,6 +93,7 @@ describe("AdminCreateCommonsPage tests", () => {
         fireEvent.change(startDateField, { target: { value: '2022-03-05' } })
         fireEvent.change(endDateField, { target: { value: '2023-03-06' } })
         fireEvent.change(leaderboardField, {target: { value: false}})
+        fireEvent.change(maxCowsPerPlayerField, {target: { value: "5"}})
         fireEvent.click(button);
 
         await waitFor(() => expect(axiosMock.history.post.length).toBe(1));
@@ -103,9 +107,11 @@ describe("AdminCreateCommonsPage tests", () => {
             startingBalance: 500,
             cowPrice: 10,
             milkPrice: 5,
+            maxCowsPerPlayer: 5,
+            degradationRate: 1,
             startingDate: '2022-03-05T00:00:00.000Z', // [1]
             endingDate: '2023-03-06T00:00:00.000Z',
-            leaderboard: false
+            leaderboard: false,
         };
 
         expect(axiosMock.history.post[0].data).toEqual( JSON.stringify(expectedCommons) );

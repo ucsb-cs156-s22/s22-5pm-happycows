@@ -18,7 +18,7 @@ describe("FarmStats tests", () => {
             expect(screen.getByText(/Total Wealth: \$1000/)).toBeInTheDocument();
         }); 
 
-        expect(screen.getByText(/Cow Health: 96%/)).toBeInTheDocument();
+        expect(screen.getByText(/Cow Health: 96.00%/)).toBeInTheDocument();
 
     });
 
@@ -31,7 +31,7 @@ describe("FarmStats tests", () => {
             expect(screen.getByText(/Total Wealth: \$1000/)).toBeInTheDocument();
         }); 
 
-        expect(screen.getByText(/Cow Health: 0%/)).toBeInTheDocument();
+        expect(screen.getByText(/Cow Health: 100.00%/)).toBeInTheDocument();
 
     });
 });
