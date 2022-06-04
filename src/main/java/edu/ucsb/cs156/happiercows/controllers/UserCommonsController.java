@@ -42,6 +42,29 @@ public class UserCommonsController extends ApiController {
   @Autowired
   ObjectMapper mapper;
 
+  public double calculateNewCowHealth(UserCommons uc, Commons c){
+
+    // TODO: replace MAX_COWS_PER_PERSON with c.getMaxCowsPerPerson()
+    // TODO: replace DEGRADATION_RATE with c.getDegredationRate()
+
+    int MAX_COWS_PER_PERSON = 10;
+    //double DEGRADATION_RATE = 1.0;
+
+    int numUsers = c.getUsers().size();
+    int numCows = 0;
+    double ratio = (double) numCows / (double) (numUsers * MAX_COWS_PER_PERSON);
+
+    if (ratio < 1) 
+      return uc.getCowHealth();
+
+    double newCowHealth = uc.getCowHealth() - (c.getDegradationRate()/100.0) * ratio;
+
+    if (newCowHealth < 0)
+      return 0.0;
+    else
+      return newCowHealth;
+  }
+
   @ApiOperation(value = "Get a specific user commons (admin only)")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   @GetMapping("")
@@ -87,7 +110,7 @@ public class UserCommonsController extends ApiController {
         if(userCommons.getTotalWealth() >= commons.getCowPrice() ){
           userCommons.setTotalWealth(userCommons.getTotalWealth() - commons.getCowPrice());
           userCommons.setNumOfCows(userCommons.getNumOfCows() + 1);
-          userCommons.setTotalCowHealth(userCommons.getTotalCowHealth() + 100);
+          userCommons.setCowHealth(userCommons.getCowHealth() + 100);
         }
         userCommonsRepository.save(userCommons);
 
@@ -112,7 +135,7 @@ public class UserCommonsController extends ApiController {
 
         if(userCommons.getNumOfCows() >= 1 ){
           userCommons.setTotalWealth(userCommons.getTotalWealth() + commons.getCowPrice());
-          userCommons.setTotalCowHealth(userCommons.getTotalCowHealth() - (userCommons.getTotalCowHealth() / userCommons.getNumOfCows()));
+          userCommons.setCowHealth(userCommons.getCowHealth() - (userCommons.getCowHealth() / userCommons.getNumOfCows()));
           userCommons.setNumOfCows(userCommons.getNumOfCows() - 1);
         }
         userCommonsRepository.save(userCommons);
