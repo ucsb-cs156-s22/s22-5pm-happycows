@@ -78,6 +78,7 @@ public class CommonsControllerTests extends ControllerTestCase {
       .endingDate(someTime2)
       .totalPlayers(0)
       .leaderboard(true)
+      .maxCowsPerPlayer(0)
       .build();
 
     CreateCommonsParams parameters = CreateCommonsParams.builder()
@@ -89,6 +90,7 @@ public class CommonsControllerTests extends ControllerTestCase {
       .endingDate(someTime2)
       .totalPlayers(0)
       .leaderboard(true)
+      .maxCowsPerPlayer(0)
       .build();
 
     String requestBody = objectMapper.writeValueAsString(parameters);

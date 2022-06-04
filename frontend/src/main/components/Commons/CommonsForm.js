@@ -102,6 +102,25 @@ function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
       </Form.Group>
 
       <Form.Group className="mb-3">
+        <Form.Label htmlFor="maxCowsPerPlayer">Max Cows Per Player</Form.Label>
+        <Form.Control
+          data-testid={`${testid}-maxCowsPerPlayer`}
+          id="maxCowsPerPlayer"
+          type="number"
+          step="1"
+          isInvalid={!!errors.maxCowsPerPlayer}
+          {...register("maxCowsPerPlayer", {
+            valueAsNumber: true,
+            required: "Max Cows Per Player is required",
+            min: { value: 0, message: "Max Cows Per Player must be non-negative integer" },
+          })}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errors.maxCowsPerPlayer?.message}
+        </Form.Control.Feedback>
+      </Form.Group>
+
+      <Form.Group className="mb-3">
         <Form.Label htmlFor="startingDate">Starting Date</Form.Label>
         <Form.Control
           data-testid={`${testid}-startingDate`}

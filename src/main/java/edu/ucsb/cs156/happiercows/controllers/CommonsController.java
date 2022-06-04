@@ -88,6 +88,7 @@ public class CommonsController extends ApiController {
     updated.setStartingDate(params.getStartingDate());
     updated.setEndingDate(params.getEndingDate());
     updated.setLeaderboard(params.getLeaderboard());
+    updated.setMaxCowsPerPlayer(params.getMaxCowsPerPlayer());
 
     commonsRepository.save(updated);
 
@@ -122,6 +123,7 @@ public class CommonsController extends ApiController {
       .endingDate(params.getEndingDate())
       .totalPlayers(0)
       .leaderboard(params.getLeaderboard())
+      .maxCowsPerPlayer(params.getMaxCowsPerPlayer())
       .build();
 
     Commons saved = commonsRepository.save(commons);
