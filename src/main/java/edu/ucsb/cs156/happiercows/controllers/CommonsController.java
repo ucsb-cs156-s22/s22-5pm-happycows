@@ -88,9 +88,9 @@ public class CommonsController extends ApiController {
     updated.setStartingDate(params.getStartingDate());
     updated.setLeaderboard(params.getLeaderboard());
 
-    commonsRepository.save(updated);
+    Commons saved = commonsRepository.save(updated);
     
-    return updated;
+    return saved;
   }
 
   @ApiOperation(value = "Get a specific commons")
