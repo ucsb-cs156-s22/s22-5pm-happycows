@@ -124,6 +124,7 @@ public class CommonsController extends ApiController {
       .totalPlayers(0)
       .leaderboard(params.getLeaderboard())
       .maxCowsPerPlayer(params.getMaxCowsPerPlayer())
+      .degradationRate(1.0) // NOTE: Hard Coded! Needs to change!
       .build();
 
     Commons saved = commonsRepository.save(commons);

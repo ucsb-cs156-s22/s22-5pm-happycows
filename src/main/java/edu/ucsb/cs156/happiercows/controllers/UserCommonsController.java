@@ -42,6 +42,27 @@ public class UserCommonsController extends ApiController {
   @Autowired
   ObjectMapper mapper;
 
+  public double calculateNewCowHealth(UserCommons uc, Commons c) {
+
+    final int MAX_COWS_PER_PERSON = c.getMaxCowsPerPlayer(); 
+    final double DEGRADATION_RATE = c.getDegradationRate(); 
+    
+    int numUsers = c.getUsers().size();
+    int numCows = 10; // TODO: STUB
+    double ratio = (double) numCows /  (double) (numUsers * MAX_COWS_PER_PERSON);
+
+    if (ratio < 1)
+       return uc.getCowHealth();
+
+    double newCowHealth =  uc.getCowHealth()  - (DEGRADATION_RATE/100.0) * ratio;
+
+    if (newCowHealth < 0) 
+       return 0.0;
+    else
+       return newCowHealth;
+    
+  }
+
   @ApiOperation(value = "Get a specific user commons (admin only)")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   @GetMapping("")
@@ -84,9 +105,10 @@ public class UserCommonsController extends ApiController {
         .orElseThrow(
             () -> new EntityNotFoundException(UserCommons.class, "commonsId", commonsId, "userId", userId));
 
-        if(userCommons.getTotalWealth() >= commons.getCowPrice() && commons.getMaxCowsPerPlayer() > userCommons.getNumOfCows()){
+        if(userCommons.getTotalWealth() >= commons.getCowPrice()){
           userCommons.setTotalWealth(userCommons.getTotalWealth() - commons.getCowPrice());
-          userCommons.setCowHealth(100*((userCommons.getCowHealth()/100) * userCommons.getNumOfCows() + 1)/(userCommons.getNumOfCows() + 1));
+          // userCommons.setCowHealth(100*((userCommons.getCowHealth()/100) * userCommons.getNumOfCows() + 1)/(userCommons.getNumOfCows() + 1));
+          userCommons.setCowHealth(calculateNewCowHealth(userCommons, commons));
           userCommons.setNumOfCows(userCommons.getNumOfCows() + 1);
         }
         userCommonsRepository.save(userCommons);
