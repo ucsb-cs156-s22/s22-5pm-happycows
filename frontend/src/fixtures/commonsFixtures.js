@@ -9,6 +9,8 @@ const commonsFixtures = {
             "totalPlayers": 50,
             "cowPrice": 15,
             "milkPrice": 10,
+            "leaderboard": false,
+            "degradationRate":0.85
         },
         {
             "id": 4,
@@ -19,6 +21,8 @@ const commonsFixtures = {
             "totalPlayers": 50,
             "cowPrice": 15,
             "milkPrice": 10,
+            "leaderboard": true,
+            "degradationRate":0.95
         },
         {
             "id": 1,
@@ -29,6 +33,8 @@ const commonsFixtures = {
             "totalPlayers": 50,
             "cowPrice": 15,
             "milkPrice": 10,
+            "leaderboard": false,
+            "degradationRate":0.42
         }
     ],
     oneCommons:
@@ -42,6 +48,8 @@ const commonsFixtures = {
                 "totalPlayers": 50,
                 "cowPrice": 15,
                 "milkPrice": 10,
+                "leaderboard": false,
+                "degradationRate":0.99
             }
         ],
 
@@ -55,6 +63,8 @@ const commonsFixtures = {
             "totalPlayers": 50,
             "cowPrice": 15,
             "milkPrice": 10,
+            "leaderboard": false,
+            "degradationRate":0.99
         },
         {
             "id": 8,
@@ -65,6 +75,8 @@ const commonsFixtures = {
             "totalPlayers": 50,
             "cowPrice": 15,
             "milkPrice": 10,
+            "leaderboard": false,
+            "degradationRate":0.99
         },
         {
             "id": 6,
@@ -75,6 +87,8 @@ const commonsFixtures = {
             "totalPlayers": 50,
             "cowPrice": 15,
             "milkPrice": 10,
+            "leaderboard": false,
+            "degradationRate":0.99
         },
         {
             "id": 5,
@@ -85,6 +99,8 @@ const commonsFixtures = {
             "totalPlayers": 50,
             "cowPrice": 15,
             "milkPrice": 10,
+            "leaderboard": false,
+            "degradationRate":0.99
         },
         {
             "id": 4,
@@ -95,6 +111,8 @@ const commonsFixtures = {
             "totalPlayers": 50,
             "cowPrice": 15,
             "milkPrice": 10,
+            "leaderboard": false,
+            "degradationRate":0.99
         },
         {
             "id": 3,
@@ -105,6 +123,8 @@ const commonsFixtures = {
             "totalPlayers": 50,
             "cowPrice": 15,
             "milkPrice": 10,
+            "leaderboard": false,
+            "degradationRate":0.99
         },
         {
             "id": 2,
@@ -115,6 +135,8 @@ const commonsFixtures = {
             "totalPlayers": 50,
             "cowPrice": 15,
             "milkPrice": 10,
+            "leaderboard": false,
+            "degradationRate":0.99
         }
     ],
 }
