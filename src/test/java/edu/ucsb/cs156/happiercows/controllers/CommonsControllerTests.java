@@ -528,4 +528,50 @@ public class CommonsControllerTests extends ControllerTestCase {
       "org.springframework.web.util.NestedServletException: Request processing failed; nested exception is java.lang.Exception: UserCommons with commonsId=2 and userId=1 not found.");
     }
   }
+
+  @WithMockUser(roles = {"ADMIN"})
+  @Test
+  public void deleteUserFromCommonsTest_nonexistent_commons() throws Exception {
+    UserCommons uc = UserCommons.builder()
+        .id(16L)
+        .userId(1L)
+        .commonsId(2L)
+        .totalWealth(0)
+        .numOfCows(1)
+        .cowHealth(100)
+        .build();
+
+    LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+    LocalDateTime someTime2 = LocalDateTime.parse("2023-03-05T15:50:10");
+    Commons c = Commons.builder()
+        .name("Jackson's Commons")
+        .id(2L)
+        .cowPrice(500.99)
+        .milkPrice(8.99)
+        .startingBalance(1020.10)
+        .startingDate(someTime)
+        .startingDate(someTime2)
+        .totalPlayers(1)
+        .leaderboard(true)
+        .maxCowsPerPlayer(100)
+        .build();
+
+    String requestBody = mapper.writeValueAsString(uc);
+
+    when(userCommonsRepository.findByCommonsIdAndUserId(2L,1L)).thenReturn(Optional.of(uc));
+    when(commonsRepository.findById(1L)).thenReturn(Optional.empty());
+
+    MvcResult response = mockMvc
+      .perform(delete("/api/commons/2/users/1").with(csrf()).contentType(MediaType.APPLICATION_JSON)
+          .characterEncoding("utf-8").content(requestBody))
+      .andExpect(status().is(404)).andReturn();
+    
+    String responseString = response.getResponse().getContentAsString();
+      
+    String expectedString = "{\"message\":\"Commons with id 2 not found\",\"type\":\"EntityNotFoundException\"}";
+    
+    Map<String, Object> expectedJson = mapper.readValue(expectedString, Map.class);
+    Map<String, Object> jsonResponse = responseToJson(response);
+    assertEquals(expectedJson, jsonResponse);
+  }
 }
