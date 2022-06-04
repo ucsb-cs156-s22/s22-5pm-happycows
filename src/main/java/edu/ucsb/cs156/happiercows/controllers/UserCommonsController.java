@@ -47,8 +47,9 @@ public class UserCommonsController extends ApiController {
     final int MAX_COWS_PER_PERSON = c.getMaxCowsPerPlayer(); 
     final double DEGRADATION_RATE = c.getDegradationRate(); 
     
-    int numUsers = c.getUsers().size();
-    int numCows = 10; // TODO: STUB
+    int numUsers = c.getTotalPlayers();
+
+    int numCows = commonsRepository.sumTotalCows();
     double ratio = (double) numCows /  (double) (numUsers * MAX_COWS_PER_PERSON);
 
     if (ratio < 1)
@@ -60,7 +61,6 @@ public class UserCommonsController extends ApiController {
        return 0.0;
     else
        return newCowHealth;
-    
   }
 
   @ApiOperation(value = "Get a specific user commons (admin only)")
@@ -107,7 +107,7 @@ public class UserCommonsController extends ApiController {
 
         if(userCommons.getTotalWealth() >= commons.getCowPrice()){
           userCommons.setTotalWealth(userCommons.getTotalWealth() - commons.getCowPrice());
-          // userCommons.setCowHealth(100*((userCommons.getCowHealth()/100) * userCommons.getNumOfCows() + 1)/(userCommons.getNumOfCows() + 1));
+          // userCommons.setCowHealth((userCommons.getCowHealth() * userCommons.getNumOfCows() + 100)/(userCommons.getNumOfCows() + 1));
           userCommons.setCowHealth(calculateNewCowHealth(userCommons, commons));
           userCommons.setNumOfCows(userCommons.getNumOfCows() + 1);
         }
@@ -137,7 +137,7 @@ public class UserCommonsController extends ApiController {
           userCommons.setTotalWealth(userCommons.getTotalWealth() + (commons.getCowPrice() * (userCommons.getCowHealth()/100)));
           userCommons.setNumOfCows(userCommons.getNumOfCows() - 1);
           if (userCommons.getNumOfCows() == 0) {
-            userCommons.setCowHealth(0);
+            userCommons.setCowHealth(100);
           }
         }
         userCommonsRepository.save(userCommons);
