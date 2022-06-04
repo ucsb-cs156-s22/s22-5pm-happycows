@@ -68,7 +68,7 @@ public class UserCommonsController extends ApiController {
   public Iterable<UserCommons> getAllUserCommonsByCommonsId(
     @ApiParam("commonsId") @RequestParam Long commonsId) throws JsonProcessingException {
       // method inherited from ApiController
-      boolean isAdmin = isAdmin();
+      boolean isAdmin = hasRole("ROLE_ADMIN");
 
       Commons commons = commonsRepository.findById(commonsId)
         .orElseThrow(() -> new EntityNotFoundException(Commons.class, commonsId));

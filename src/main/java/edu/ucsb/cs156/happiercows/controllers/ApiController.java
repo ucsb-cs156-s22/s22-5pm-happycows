@@ -26,14 +26,6 @@ public abstract class ApiController {
   protected boolean hasRole(String role){
     return currentUserService.hasRole(role);
   }
-
-  protected boolean isAdmin(){
-    return currentUserService.isAdmin();
-  }
-
-  protected boolean isRegularUser(){
-    return currentUserService.isRegularUser();
-  }
   
   protected Object genericMessage(String message) {
     return Map.of("message", message);

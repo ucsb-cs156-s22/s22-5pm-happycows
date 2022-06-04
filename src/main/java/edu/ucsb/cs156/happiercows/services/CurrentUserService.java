@@ -20,12 +20,6 @@ public abstract class CurrentUserService {
 
     return false;
   }
-  public boolean isAdmin(){
-    return hasRole("ROLE_ADMIN");
-  }
-  public boolean isRegularUser(){
-    return hasRole("ROLE_USER");
-  }
 
   public final boolean isLoggedIn() {
     return getUser() != null;
