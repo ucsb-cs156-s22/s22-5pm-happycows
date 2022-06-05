@@ -3,6 +3,8 @@ package edu.ucsb.cs156.happiercows.controllers;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import javax.print.DocFlavor.READER;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -66,19 +68,18 @@ public class CommonsController extends ApiController {
   public ResponseEntity<String> updateCommons(
     @ApiParam("commons identifier") @RequestParam long id,
     @ApiParam("request body") @RequestBody CreateCommonsParams params
-  )
+  ) throws JsonProcessingException
   {
     Optional<Commons> existing = commonsRepository.findById(id);
 
     Commons updated;
-    HttpStatus status;
 
     if (existing.isPresent()) {
       updated = existing.get();
-      status = HttpStatus.NO_CONTENT;
+      // status = HttpStatus.OK;
     } else {
       updated = new Commons();
-      status = HttpStatus.CREATED;
+      // status = HttpStatus.CREATED;
     }
 
     updated.setName(params.getName());
@@ -86,11 +87,14 @@ public class CommonsController extends ApiController {
     updated.setMilkPrice(params.getMilkPrice());
     updated.setStartingBalance(params.getStartingBalance());
     updated.setStartingDate(params.getStartingDate());
-    updated.setLeaderboard(params.getLeaderboard());
+    updated.setLeaderboard(params.getLeaderboard()); 
 
-    commonsRepository.save(updated);
+    commonsRepository.save(updated); 
+    String b = mapper.writeValueAsString(updated);
+    
+    return ResponseEntity.ok().body(b); 
 
-    return ResponseEntity.status(status).build();
+    
   }
 
   @ApiOperation(value = "Get a specific commons")
