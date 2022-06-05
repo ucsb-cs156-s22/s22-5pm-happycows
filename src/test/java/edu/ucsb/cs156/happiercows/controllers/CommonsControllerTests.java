@@ -1,5 +1,6 @@
 package edu.ucsb.cs156.happiercows.controllers;
 
+import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MvcResult;
@@ -41,6 +43,7 @@ import edu.ucsb.cs156.happiercows.ControllerTestCase;
 import edu.ucsb.cs156.happiercows.entities.Commons;
 import edu.ucsb.cs156.happiercows.entities.User;
 import edu.ucsb.cs156.happiercows.entities.UserCommons;
+import edu.ucsb.cs156.happiercows.errors.GenericError;
 import edu.ucsb.cs156.happiercows.models.CreateCommonsParams;
 import edu.ucsb.cs156.happiercows.repositories.CommonsRepository;
 import edu.ucsb.cs156.happiercows.repositories.UserCommonsRepository;
@@ -143,6 +146,146 @@ public class CommonsControllerTests extends ControllerTestCase {
       .andReturn();
 
     verify(commonsRepository, times(1)).save(commons);
+
+    String actualResponse = response.getResponse().getContentAsString();
+    assertEquals(expectedResponse, actualResponse);
+  }
+
+  @WithMockUser(roles = { "ADMIN" })
+  @Test
+  public void coffeeCommonsTest() throws Exception
+  {
+    LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+
+    CreateCommonsParams parameters = CreateCommonsParams.builder()
+      .name("Coffee")
+      .cowPrice(500.99)
+      .milkPrice(8.99)
+      .startingBalance(1020.10)
+      .startingDate(someTime)
+      .build();
+
+    GenericError expectedError = new GenericError(
+      "418", 
+      "Cannot make commons named Coffee", 
+      "Coffee Exception", 
+      "I am a teapot"
+      );
+    String requestBody = objectMapper.writeValueAsString(parameters);
+    String expectedResponse = objectMapper.writeValueAsString(expectedError);
+
+    MvcResult response = mockMvc
+      .perform(post("/api/commons/new").with(csrf())
+        .contentType(MediaType.APPLICATION_JSON)
+        .characterEncoding("utf-8")
+        .content(requestBody))
+      .andExpect(status().is4xxClientError())
+      .andReturn();
+
+    String actualResponse = response.getResponse().getContentAsString();
+    assertEquals(expectedResponse, actualResponse);
+  }
+
+  @WithMockUser(roles = { "ADMIN" })
+  @Test
+  public void cowPriceCommonsTest() throws Exception
+  {
+    LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+
+    CreateCommonsParams parameters = CreateCommonsParams.builder()
+      .name("John's Commons")
+      .cowPrice(0)
+      .milkPrice(8.99)
+      .startingBalance(1020.10)
+      .startingDate(someTime)
+      .build();
+
+    GenericError expectedError = new GenericError(
+      "400", 
+      "Request has an illegal argument", 
+      "Illegal Argument Exception", 
+      "Cow price must be > 0"
+      );
+    String requestBody = objectMapper.writeValueAsString(parameters);
+    String expectedResponse = objectMapper.writeValueAsString(expectedError);
+
+    MvcResult response = mockMvc
+      .perform(post("/api/commons/new").with(csrf())
+        .contentType(MediaType.APPLICATION_JSON)
+        .characterEncoding("utf-8")
+        .content(requestBody))
+      .andExpect(status().is4xxClientError())
+      .andReturn();
+
+    String actualResponse = response.getResponse().getContentAsString();
+    assertEquals(expectedResponse, actualResponse);
+  }
+
+  @WithMockUser(roles = { "ADMIN" })
+  @Test
+  public void milkPriceCommonsTest() throws Exception
+  {
+    LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+
+    CreateCommonsParams parameters = CreateCommonsParams.builder()
+      .name("John's Commons")
+      .cowPrice(149.99)
+      .milkPrice(0)
+      .startingBalance(1020.10)
+      .startingDate(someTime)
+      .build();
+
+    GenericError expectedError = new GenericError(
+      "400", 
+      "Request has an illegal argument", 
+      "Illegal Argument Exception", 
+      "Milk price must be > 0"
+      );
+    String requestBody = objectMapper.writeValueAsString(parameters);
+    String expectedResponse = objectMapper.writeValueAsString(expectedError);
+
+    MvcResult response = mockMvc
+      .perform(post("/api/commons/new").with(csrf())
+        .contentType(MediaType.APPLICATION_JSON)
+        .characterEncoding("utf-8")
+        .content(requestBody))
+      .andExpect(status().is4xxClientError())
+      .andReturn();
+
+    String actualResponse = response.getResponse().getContentAsString();
+    assertEquals(expectedResponse, actualResponse);
+  }
+
+  @WithMockUser(roles = { "ADMIN" })
+  @Test
+  public void startBalanceCommonsTest() throws Exception
+  {
+    LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+
+    CreateCommonsParams parameters = CreateCommonsParams.builder()
+      .name("John's Commons")
+      .cowPrice(149.99)
+      .milkPrice(8.99)
+      .startingBalance(0)
+      .startingDate(someTime)
+      .build();
+
+    GenericError expectedError = new GenericError(
+      "400", 
+      "Request has an illegal argument", 
+      "Illegal Argument Exception", 
+      "Starting Balance must be > 0"
+      );
+    String requestBody = objectMapper.writeValueAsString(parameters);
+    String expectedResponse = objectMapper.writeValueAsString(expectedError);
+
+    MvcResult response = mockMvc
+      .perform(post("/api/commons/new").with(csrf())
+        .contentType(MediaType.APPLICATION_JSON)
+        .characterEncoding("utf-8")
+        .content(requestBody))
+      .andExpect(status().is4xxClientError())
+      .andReturn();
 
     String actualResponse = response.getResponse().getContentAsString();
     assertEquals(expectedResponse, actualResponse);
@@ -446,7 +589,7 @@ public class CommonsControllerTests extends ControllerTestCase {
     assertEquals(responseMap.get("type"), "EntityNotFoundException");
   }
 
-    @WithMockUser(roles = { "ADMIN" })
+  @WithMockUser(roles = { "ADMIN" })
   @Test
   public void deleteCommons_test_admin_exists() throws Exception {
       LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
