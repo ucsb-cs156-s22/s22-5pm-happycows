@@ -124,7 +124,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
 
     MvcResult response = mockMvc.perform(get("/api/usercommons/forcurrentuser?commonsId=1"))
         .andExpect(status().is(404)).andReturn();
-
+    
     verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(eq(1L),eq(1L));
     
     String responseString = response.getResponse().getContentAsString();
@@ -134,35 +134,166 @@ public class UserCommonsControllerTests extends ControllerTestCase {
     assertEquals(expectedJson, jsonResponse);
   }
 
-  @WithMockUser(roles = { "ADMIN", "USER" })
+  @WithMockUser(roles = { "ADMIN" })
   @Test
-  public void test_getAllUserCommonsByCommonsId_some() throws Exception {
+  public void test_admin_getAllUserCommonsByCommonsId_some_exists_leaderboard_true() throws Exception {
+
+    Commons testCommons = Commons
+    .builder()
+    .name("test commons")
+    .cowPrice(10)
+    .milkPrice(2)
+    .startingBalance(300)
+    .startingDate(LocalDateTime.now())
+    .leaderboard(true)
+    .build();
+
     ArrayList<UserCommons> expectedCommons = new ArrayList<>();
     expectedCommons.addAll(Arrays.asList(dummyUserCommons(1), dummyUserCommons(2), dummyUserCommons(3)));
     when(userCommonsRepository.findAllByCommonsId(eq(1L))).thenReturn(expectedCommons);
+    when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(testCommons));
 
     MvcResult response = mockMvc.perform(get("/api/usercommons/allwithcommonsid?commonsId=1"))
         .andExpect(status().isOk()).andReturn();
 
     verify(userCommonsRepository, times(1)).findAllByCommonsId(eq(1L));
+    verify(commonsRepository, times(1)).findById(eq(1L));
     String expectedJson = mapper.writeValueAsString(expectedCommons);
     String responseString = response.getResponse().getContentAsString();
     assertEquals(expectedJson, responseString);
   }
 
-  @WithMockUser(roles = { "ADMIN", "USER" })
+  // This tests to make sure leaderboard boolean won't affect access for 
+  // ADMIN user
+  @WithMockUser(roles = { "ADMIN" })
   @Test
-  public void test_getAllUserCommonsByCommonsId_none() throws Exception {
+  public void test_admin_getAllUserCommonsByCommonsId_some_exists_leaderboard_false() throws Exception {
+    Commons testCommons = Commons
+    .builder()
+    .name("test commons")
+    .cowPrice(10)
+    .milkPrice(2)
+    .startingBalance(300)
+    .startingDate(LocalDateTime.now())
+    .leaderboard(false)
+    .build();
+
     ArrayList<UserCommons> expectedCommons = new ArrayList<>();
+    expectedCommons.addAll(Arrays.asList(dummyUserCommons(1), dummyUserCommons(2), dummyUserCommons(3)));
     when(userCommonsRepository.findAllByCommonsId(eq(1L))).thenReturn(expectedCommons);
+    when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(testCommons));
 
     MvcResult response = mockMvc.perform(get("/api/usercommons/allwithcommonsid?commonsId=1"))
         .andExpect(status().isOk()).andReturn();
 
     verify(userCommonsRepository, times(1)).findAllByCommonsId(eq(1L));
+    verify(commonsRepository, times(1)).findById(eq(1L));
     String expectedJson = mapper.writeValueAsString(expectedCommons);
     String responseString = response.getResponse().getContentAsString();
     assertEquals(expectedJson, responseString);
+  }
+
+  // even if there are no userCommons with a specific commonsId,
+  // the backend shouldn't throw an error, just return empty list
+  @WithMockUser(roles = { "ADMIN", "USER"})
+  @Test
+  public void test_getAllUserCommonsByCommonsId_none_exists_leaderboard_true() throws Exception {
+    Commons testCommons = Commons
+    .builder()
+    .name("test commons")
+    .cowPrice(10)
+    .milkPrice(2)
+    .startingBalance(300)
+    .startingDate(LocalDateTime.now())
+    .leaderboard(true)
+    .build();
+
+    ArrayList<UserCommons> expectedCommons = new ArrayList<>();
+    when(userCommonsRepository.findAllByCommonsId(eq(1L))).thenReturn(expectedCommons);
+    when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(testCommons));
+
+    MvcResult response = mockMvc.perform(get("/api/usercommons/allwithcommonsid?commonsId=1"))
+        .andExpect(status().isOk()).andReturn();
+
+    verify(userCommonsRepository, times(1)).findAllByCommonsId(eq(1L));
+    verify(commonsRepository, times(1)).findById(eq(1L));
+    String expectedJson = mapper.writeValueAsString(expectedCommons);
+    String responseString = response.getResponse().getContentAsString();
+    assertEquals(expectedJson, responseString);
+  }
+
+  @WithMockUser(roles = { "USER" })
+  @Test
+  public void test_user_getAllUserCommonsByCommonsId_some_exists_leaderboard_true() throws Exception {
+    Commons testCommons = Commons
+    .builder()
+    .name("test commons")
+    .cowPrice(10)
+    .milkPrice(2)
+    .startingBalance(300)
+    .startingDate(LocalDateTime.now())
+    .leaderboard(true)
+    .build();
+
+    ArrayList<UserCommons> expectedCommons = new ArrayList<>();
+    expectedCommons.addAll(Arrays.asList(dummyUserCommons(1), dummyUserCommons(2), dummyUserCommons(3)));
+    when(userCommonsRepository.findAllByCommonsId(eq(1L))).thenReturn(expectedCommons);
+    when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(testCommons));
+
+    MvcResult response = mockMvc.perform(get("/api/usercommons/allwithcommonsid?commonsId=1"))
+        .andExpect(status().isOk()).andReturn();
+
+    verify(userCommonsRepository, times(1)).findAllByCommonsId(eq(1L));
+    verify(commonsRepository, times(1)).findById(eq(1L));
+    String expectedJson = mapper.writeValueAsString(expectedCommons);
+    String responseString = response.getResponse().getContentAsString();
+    assertEquals(expectedJson, responseString);
+  }
+
+  @WithMockUser(roles = { "USER" })
+  @Test
+  public void test_user_getAllUserCommonsByCommonsId_some_exists_leaderboard_false() throws Exception {
+    Commons testCommons = Commons
+    .builder()
+    .name("test commons")
+    .cowPrice(10)
+    .milkPrice(2)
+    .startingBalance(300)
+    .startingDate(LocalDateTime.now())
+    .leaderboard(false)
+    .build();
+
+    ArrayList<UserCommons> expectedCommons = new ArrayList<>();
+    expectedCommons.addAll(Arrays.asList(dummyUserCommons(1), dummyUserCommons(2), dummyUserCommons(3)));
+    when(userCommonsRepository.findAllByCommonsId(eq(1L))).thenReturn(expectedCommons);
+    when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(testCommons));
+
+    MvcResult response = mockMvc.perform(get("/api/usercommons/allwithcommonsid?commonsId=1"))
+        .andExpect(status().is(403)).andReturn();
+
+    verify(userCommonsRepository, times(0)).findAllByCommonsId(eq(1L));
+    verify(commonsRepository, times(1)).findById(eq(1L));
+  }
+
+  @WithMockUser(roles = { "USER", "ADMIN" })
+  @Test
+  public void test_getAllUserCommonsByCommonsId_commons_non_exist() throws Exception {
+    ArrayList<UserCommons> expectedCommons = new ArrayList<>();
+    expectedCommons.addAll(Arrays.asList(dummyUserCommons(1), dummyUserCommons(2), dummyUserCommons(3)));
+    when(userCommonsRepository.findAllByCommonsId(eq(1L))).thenReturn(expectedCommons);
+    when(commonsRepository.findById(eq(1L))).thenReturn(Optional.empty());
+
+    MvcResult response = mockMvc.perform(get("/api/usercommons/allwithcommonsid?commonsId=1"))
+        .andExpect(status().is(404)).andReturn();
+
+    verify(userCommonsRepository, times(0)).findAllByCommonsId(eq(1L));
+    verify(commonsRepository, times(1)).findById(eq(1L));
+    
+    String expectedString = "{\"message\":\"Commons with id 1 not found\",\"type\":\"EntityNotFoundException\"}";
+
+    Map<String, Object> expectedJson = mapper.readValue(expectedString, Map.class);
+    Map<String, Object> jsonResponse = responseToJson(response);
+    assertEquals(expectedJson, jsonResponse);
   }
 
   @WithMockUser(roles = { "USER" })
