@@ -73,7 +73,7 @@ public class UserCommonsController extends ApiController {
 
     double newCowHealth = uc.getCowHealth() - (DEGRADATION_RATE/100.0) * ratio;
 
-    if (newCowHealth < 0) 
+    if (newCowHealth <= 0) 
       return 0.0;
     else
       return newCowHealth;
