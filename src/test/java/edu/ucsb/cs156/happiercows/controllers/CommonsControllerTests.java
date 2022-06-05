@@ -492,7 +492,7 @@ public class CommonsControllerTests extends ControllerTestCase {
     when(commonsRepository.findById(1L)).thenReturn(Optional.of(common));
     when(commonsRepository.sumTotalCows(1L)).thenReturn(Optional.of(547));
 
-    MvcResult response = mockMvc.perform(get("/api/commons/1").contentType("application/json"))
+    MvcResult response = mockMvc.perform(get("/api/commons/totalCows/1").contentType("application/json"))
         .andExpect(status().isOk()).andReturn();
 
     verify(commonsRepository, times(1)).findById(1L);
@@ -513,7 +513,7 @@ public class CommonsControllerTests extends ControllerTestCase {
     when(commonsRepository.findById(1L)).thenReturn(Optional.of(common));
     when(commonsRepository.sumTotalCows(1L)).thenReturn(Optional.empty());
 
-    MvcResult response = mockMvc.perform(get("/api/commons/1").contentType("application/json"))
+    MvcResult response = mockMvc.perform(get("/api/commons/totalCows/1").contentType("application/json"))
         .andExpect(status().isOk()).andReturn();
 
     verify(commonsRepository, times(1)).findById(1L);
@@ -532,7 +532,7 @@ public class CommonsControllerTests extends ControllerTestCase {
 
     when(commonsRepository.findById(1L)).thenReturn(Optional.empty());
 
-    MvcResult response = mockMvc.perform(get("/api/commons/1").contentType("application/json"))
+    MvcResult response = mockMvc.perform(get("/api/commons/totalCows/1").contentType("application/json"))
         .andExpect(status().is(404)).andReturn();
 
     verify(commonsRepository, times(1)).findById(1L);

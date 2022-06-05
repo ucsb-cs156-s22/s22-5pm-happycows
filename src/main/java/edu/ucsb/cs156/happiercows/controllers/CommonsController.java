@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -191,8 +192,8 @@ public class CommonsController extends ApiController {
 
   @ApiOperation("Sums the total cows in a commons")
   @PreAuthorize("hasRole('ROLE_USER')")
-  @GetMapping("/{commonsId}")
-  public ResponseEntity<String> sumCowsFromCommon(@PathVariable("commonsId") Long commonsId) throws Exception {
+  @GetMapping("/totalCows/{commonsId}")
+  public Integer sumCowsFromCommon(@PathVariable("commonsId") Long commonsId) throws Exception {
 
     Commons commons = commonsRepository.findById(commonsId)
         .orElseThrow(() -> new EntityNotFoundException(Commons.class, commonsId));
@@ -200,10 +201,10 @@ public class CommonsController extends ApiController {
     Optional<Integer> numberOfCows = commonsRepository.sumTotalCows(commonsId);
 
     if (numberOfCows.isPresent()) {
-      String body = mapper.writeValueAsString(numberOfCows);
-      return ResponseEntity.ok().body(body);
+      return numberOfCows.get();
     } 
-    String body = mapper.writeValueAsString(0);
-    return ResponseEntity.ok().body(body);
+      
+    return new Integer(0);
+
   }
 }
