@@ -60,6 +60,11 @@ export default function CommonsTable({ commons, currentUser }) {
             Header:'Degradation Rate',
             accessor: row => String(row.degradationRate),
             id: 'degradationRate'
+        },
+        {
+            Header: 'Shows Leaderboard?',
+            accessor: row => String(row.leaderboard),
+            id: 'leaderboard'
         }
     ];
 

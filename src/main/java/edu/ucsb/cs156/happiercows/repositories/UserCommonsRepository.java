@@ -1,5 +1,6 @@
 package edu.ucsb.cs156.happiercows.repositories;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.repository.CrudRepository;
@@ -10,6 +11,7 @@ import edu.ucsb.cs156.happiercows.entities.UserCommons;
 @Repository
 public interface UserCommonsRepository extends CrudRepository<UserCommons, Long> {
     Optional<UserCommons> findByCommonsIdAndUserId(Long commonsId, Long userId );
+    Iterable<UserCommons> findAllByCommonsId(Long commonsId);
 
     void deleteAllByCommonsId(Long commonsId);
 }
