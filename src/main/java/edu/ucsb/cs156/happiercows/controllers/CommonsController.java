@@ -203,7 +203,7 @@ public class CommonsController extends ApiController {
       return numberOfCows.get();
     } 
       
-    return new Integer(0);
+    return 0;
 
   }
 }
