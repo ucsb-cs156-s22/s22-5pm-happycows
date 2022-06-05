@@ -22,6 +22,10 @@ public abstract class ApiController {
   protected CurrentUser getCurrentUser() {
     return currentUserService.getCurrentUser();
   }
+
+  protected boolean hasRole(String role){
+    return currentUserService.hasRole(role);
+  }
   
   protected Object genericMessage(String message) {
     return Map.of("message", message);
