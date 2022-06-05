@@ -919,7 +919,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
             .build();
 
         when(userCommonsRepository.findByCommonsIdAndUserId(eq(24L), eq(42L))).thenReturn(Optional.of(testUserCommons));
-        when(commonsRepository.findById(2L)).thenReturn(Optional.of(c));
+        when(commonsRepository.findById(24L)).thenReturn(Optional.of(c));
 
         // act
         MvcResult response = mockMvc.perform(
@@ -951,6 +951,53 @@ public class UserCommonsControllerTests extends ControllerTestCase {
         verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(24L, 42L);
         Map<String, Object> json = responseToJson(response);
         assertEquals("UserCommons with commonsId 24 and userId 42 not found", json.get("message"));
+    }
+
+    @WithMockUser(roles = { "ADMIN" , "USER"})
+    @Test
+    public void test_admin_deletes_a_userCommons_when_commons_does_not_exist() throws Exception {
+        // arrange
+        // NOTE: once averageCowHealth is added, update this test!!
+        UserCommons testUserCommons = UserCommons
+        .builder()
+        .id(1L)
+        .userId(42L)
+        .commonsId(24L)
+        .totalWealth(300)
+        .numOfCows(0)
+        .build();
+
+        LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+        LocalDateTime someTime2 = LocalDateTime.parse("2023-03-05T15:50:10");
+        Commons c = Commons.builder()
+            .name("Jackson's Commons")
+            .id(24L)
+            .cowPrice(500.99)
+            .milkPrice(8.99)
+            .startingBalance(1020.10)
+            .startingDate(someTime)
+            .startingDate(someTime2)
+            .totalPlayers(1)
+            .leaderboard(true)
+            .build();
+
+        when(userCommonsRepository.findByCommonsIdAndUserId(eq(24L), eq(42L))).thenReturn(Optional.of(testUserCommons));
+        when(commonsRepository.findById(24L)).thenReturn(Optional.empty());
+
+        // act
+        MvcResult response = mockMvc.perform(
+                        delete("/api/usercommons?userId=42&commonsId=24")
+                                        .with(csrf()))
+                        .andExpect(status().is(404)).andReturn();
+
+        // assert
+       String responseString = response.getResponse().getContentAsString();
+
+    String expectedString = "{\"message\":\"Commons with id 24 not found\",\"type\":\"EntityNotFoundException\"}";
+
+    Map<String, Object> expectedJson = mapper.readValue(expectedString, Map.class);
+    Map<String, Object> jsonResponse = responseToJson(response);
+    assertEquals(expectedJson, jsonResponse);
     }
 
 
