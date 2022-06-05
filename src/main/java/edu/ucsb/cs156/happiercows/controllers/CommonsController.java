@@ -76,10 +76,8 @@ public class CommonsController extends ApiController {
 
     if (existing.isPresent()) {
       updated = existing.get();
-      // status = HttpStatus.OK;
     } else {
       updated = new Commons();
-      // status = HttpStatus.CREATED;
     }
 
     updated.setName(params.getName());
