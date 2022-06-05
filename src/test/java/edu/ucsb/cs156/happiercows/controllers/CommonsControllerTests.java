@@ -560,5 +560,67 @@ public class CommonsControllerTests extends ControllerTestCase {
     Map<String, Object> expectedJson = mapper.readValue(expectedString, Map.class);
     Map<String, Object> jsonResponse = responseToJson(response);
     assertEquals(expectedJson, jsonResponse);
+
+  @WithMockUser(roles = {"USER"})
+  @Test
+  public void getTotalCowsFromCommonsIfCommonsExistAndPlayerJoined() throws Exception {
+    Commons common = Commons.builder()
+      .name("TestCommons1")
+      .id(1L)
+      .build();
+
+    when(commonsRepository.findById(1L)).thenReturn(Optional.of(common));
+    when(commonsRepository.sumTotalCows(1L)).thenReturn(Optional.of(547));
+
+    MvcResult response = mockMvc.perform(get("/api/commons/totalCows/1").contentType("application/json"))
+        .andExpect(status().isOk()).andReturn();
+
+    verify(commonsRepository, times(1)).findById(1L);
+    verify(commonsRepository, times(1)).sumTotalCows(1L);
+
+    String responseString = response.getResponse().getContentAsString();
+    assertEquals(responseString, "547");
+  }
+
+  @WithMockUser(roles = {"USER"})
+  @Test
+  public void getTotalCowsFromCommonsIfCommonsExistAndPlayerDidNotJoinYet() throws Exception {
+    Commons common = Commons.builder()
+      .name("TestCommons1")
+      .id(1L)
+      .build();
+
+    when(commonsRepository.findById(1L)).thenReturn(Optional.of(common));
+    when(commonsRepository.sumTotalCows(1L)).thenReturn(Optional.empty());
+
+    MvcResult response = mockMvc.perform(get("/api/commons/totalCows/1").contentType("application/json"))
+        .andExpect(status().isOk()).andReturn();
+
+    verify(commonsRepository, times(1)).findById(1L);
+    verify(commonsRepository, times(1)).sumTotalCows(1L);
+
+    String responseString = response.getResponse().getContentAsString();
+    assertEquals(responseString, "0");
+  }
+  @WithMockUser(roles = {"USER"})
+  @Test
+  public void getTotalCowsFromCommonsIfCommonsDoesNotExist() throws Exception {
+    Commons common = Commons.builder()
+      .name("TestCommons1")
+      .id(1L)
+      .build();
+
+    when(commonsRepository.findById(1L)).thenReturn(Optional.empty());
+
+    MvcResult response = mockMvc.perform(get("/api/commons/totalCows/1").contentType("application/json"))
+        .andExpect(status().is(404)).andReturn();
+
+    verify(commonsRepository, times(1)).findById(1L);
+
+    Map<String, Object> responseMap = responseToJson(response);
+
+    assertEquals(responseMap.get("message"), "Commons with id 1 not found");
+    assertEquals(responseMap.get("type"), "EntityNotFoundException");
+
   }
 }
