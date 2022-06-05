@@ -461,12 +461,25 @@ public class CommonsControllerTests extends ControllerTestCase {
     LocalDateTime someTime2 = LocalDateTime.parse("2023-03-05T15:50:10");
     Commons c = Commons.builder()
         .name("Jackson's Commons")
+        .id(2L)
         .cowPrice(500.99)
         .milkPrice(8.99)
         .startingBalance(1020.10)
         .startingDate(someTime)
         .startingDate(someTime2)
         .totalPlayers(1)
+        .leaderboard(true)
+        .build();
+
+    Commons expectedC = Commons.builder()
+        .name("Jackson's Commons")
+        .id(2L)
+        .cowPrice(500.99)
+        .milkPrice(8.99)
+        .startingBalance(1020.10)
+        .startingDate(someTime)
+        .startingDate(someTime2)
+        .totalPlayers(0)
         .leaderboard(true)
         .build();
 
@@ -482,11 +495,12 @@ public class CommonsControllerTests extends ControllerTestCase {
 
     verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(2L, 1L);
     verify(userCommonsRepository, times(1)).deleteById(16L);
-    verify(commonsRepository, times(1)).save(c);
+    verify(commonsRepository, times(1)).save(expectedC);
 
     String responseString = response.getResponse().getContentAsString();
 
     assertEquals(responseString, "");
+
   }
 
   @WithMockUser(roles = {"ADMIN"})
@@ -560,6 +574,8 @@ public class CommonsControllerTests extends ControllerTestCase {
     Map<String, Object> expectedJson = mapper.readValue(expectedString, Map.class);
     Map<String, Object> jsonResponse = responseToJson(response);
     assertEquals(expectedJson, jsonResponse);
+
+  }
 
   @WithMockUser(roles = {"USER"})
   @Test
