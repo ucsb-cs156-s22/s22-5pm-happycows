@@ -320,7 +320,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .milkPrice(2)
       .startingBalance(300)
       .startingDate(LocalDateTime.now())
-      .maxCowsPerPlayer(1)
+      .maxCowsPerPlayer(3)
       .totalPlayers(1)
       .degradationRate(1.0)
       .build();
@@ -342,7 +342,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       .commonsId(1L)
       .totalWealth(300-testCommons.getCowPrice())
       .numOfCows(4)
-      .cowHealth(49.97)
+      .cowHealth(49.99)
       .build();
   
       String requestBody = mapper.writeValueAsString(userCommonsToSend);

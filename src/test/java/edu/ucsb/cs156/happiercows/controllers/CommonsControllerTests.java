@@ -148,6 +148,8 @@ public class CommonsControllerTests extends ControllerTestCase {
       .endingDate(someTime2)
       .totalPlayers(0)
       .leaderboard(true)
+      .maxCowsPerPlayer(10)
+      .degradationRate(1)
       .build();
 
     Commons commons = Commons.builder()
@@ -159,6 +161,8 @@ public class CommonsControllerTests extends ControllerTestCase {
       .endingDate(someTime2)
       .totalPlayers(0)
       .leaderboard(true)
+      .maxCowsPerPlayer(10)
+      .degradationRate(1)
       .build();
 
     String requestBody = objectMapper.writeValueAsString(parameters);
@@ -470,12 +474,26 @@ public class CommonsControllerTests extends ControllerTestCase {
     LocalDateTime someTime2 = LocalDateTime.parse("2023-03-05T15:50:10");
     Commons c = Commons.builder()
         .name("Jackson's Commons")
+        .id(2L)
         .cowPrice(500.99)
         .milkPrice(8.99)
         .startingBalance(1020.10)
         .startingDate(someTime)
         .startingDate(someTime2)
         .totalPlayers(1)
+        .leaderboard(true)
+        .maxCowsPerPlayer(100)
+        .build();
+    
+    Commons expectedC = Commons.builder()
+        .name("Jackson's Commons")
+        .id(2L)
+        .cowPrice(500.99)
+        .milkPrice(8.99)
+        .startingBalance(1020.10)
+        .startingDate(someTime)
+        .startingDate(someTime2)
+        .totalPlayers(0)
         .leaderboard(true)
         .maxCowsPerPlayer(100)
         .build();
@@ -492,7 +510,7 @@ public class CommonsControllerTests extends ControllerTestCase {
 
     verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(2L, 1L);
     verify(userCommonsRepository, times(1)).deleteById(16L);
-    verify(commonsRepository, times(1)).save(c);
+    verify(commonsRepository, times(1)).save(expectedC);
 
     String responseString = response.getResponse().getContentAsString();
 
