@@ -87,11 +87,7 @@ public class CommonsController extends ApiController {
     updated.setStartingBalance(params.getStartingBalance());
     updated.setStartingDate(params.getStartingDate());
     updated.setLeaderboard(params.getLeaderboard());
-    if(params.getDegradationRate() >= 0){
-      updated.setDegradationRate(params.getDegradationRate());
-    } else {
-      updated.setDegradationRate(0);
-    }
+    updated.setDegradationRate(params.getDegradationRate() >= 0 ? params.getDegradationRate() : 0);
 
     commonsRepository.save(updated);
 
