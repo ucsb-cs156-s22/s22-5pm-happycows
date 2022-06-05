@@ -187,7 +187,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
   
       when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L), eq(1L))).thenReturn(Optional.of(origUserCommons));
       when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(testCommons));
-      when(commonsRepository.sumTotalCows(eq(1L))).thenReturn(3);
+      when(commonsRepository.sumTotalCows(eq(1L))).thenReturn(Optional.of(3));
   
       // act
       MvcResult response = mockMvc.perform(put("/api/usercommons/buy?commonsId=1")
@@ -258,7 +258,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
   
       when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L), eq(1L))).thenReturn(Optional.of(origUserCommons));
       when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(testCommons));
-      when(commonsRepository.sumTotalCows(eq(1L))).thenReturn(1000);
+      when(commonsRepository.sumTotalCows(eq(1L))).thenReturn(Optional.of(1000));
   
       // act
       MvcResult response = mockMvc.perform(put("/api/usercommons/buy?commonsId=1")

@@ -23,6 +23,7 @@ import io.swagger.annotations.ApiParam;
 
 import org.springframework.http.ResponseEntity;
 import javax.validation.Valid;
+import java.util.Optional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,7 +50,14 @@ public class UserCommonsController extends ApiController {
     
     int numUsers = c.getTotalPlayers();
 
-    int numCows = commonsRepository.sumTotalCows(c.getId());
+    int numCows = 0;
+
+    Optional<Integer> totalCows = commonsRepository.sumTotalCows(c.getId());
+
+    if (totalCows.isPresent()) {
+      numCows = (int) totalCows.get();
+    }
+
     double ratio = (double) numCows /  (double) (numUsers * MAX_COWS_PER_PERSON);
 
     if (ratio < 1)

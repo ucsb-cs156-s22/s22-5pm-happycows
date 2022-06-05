@@ -12,5 +12,5 @@ import edu.ucsb.cs156.happiercows.entities.Commons;
 @Repository
 public interface CommonsRepository extends CrudRepository<Commons, Long> {
     @Query("SELECT sum(uc.numOfCows) from user_commons uc where uc.commonsId=:commonsId")
-    int sumTotalCows(long commonsId);
+    Optional<Integer> sumTotalCows(Long commonsId);
 }
