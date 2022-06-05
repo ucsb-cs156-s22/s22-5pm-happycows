@@ -881,31 +881,59 @@ public class UserCommonsControllerTests extends ControllerTestCase {
     @WithMockUser(roles = { "ADMIN" , "USER"})
     @Test
     public void test_admin_can_delete_a_userCommons() throws Exception {
-            // arrange
-            // NOTE: once averageCowHealth is added, update this test!!
-            UserCommons testUserCommons = UserCommons
-            .builder()
-            .id(1L)
-            .userId(42L)
-            .commonsId(24L)
-            .totalWealth(300)
-            .numOfCows(0)
+        // arrange
+        // NOTE: once averageCowHealth is added, update this test!!
+        UserCommons testUserCommons = UserCommons
+        .builder()
+        .id(1L)
+        .userId(42L)
+        .commonsId(24L)
+        .totalWealth(300)
+        .numOfCows(0)
+        .build();
+
+        LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+        LocalDateTime someTime2 = LocalDateTime.parse("2023-03-05T15:50:10");
+        Commons c = Commons.builder()
+            .name("Jackson's Commons")
+            .id(24L)
+            .cowPrice(500.99)
+            .milkPrice(8.99)
+            .startingBalance(1020.10)
+            .startingDate(someTime)
+            .startingDate(someTime2)
+            .totalPlayers(1)
+            .leaderboard(true)
             .build();
 
-            when(userCommonsRepository.findByCommonsIdAndUserId(eq(24L), eq(42L))).thenReturn(Optional.of(testUserCommons));
+        Commons expectedC = Commons.builder()
+            .name("Jackson's Commons")
+            .id(24L)
+            .cowPrice(500.99)
+            .milkPrice(8.99)
+            .startingBalance(1020.10)
+            .startingDate(someTime)
+            .startingDate(someTime2)
+            .totalPlayers(0)
+            .leaderboard(true)
+            .build();
 
-            // act
-            MvcResult response = mockMvc.perform(
-                            delete("/api/usercommons?userId=42&commonsId=24")
-                                            .with(csrf()))
-                            .andExpect(status().isOk()).andReturn();
+        when(userCommonsRepository.findByCommonsIdAndUserId(eq(24L), eq(42L))).thenReturn(Optional.of(testUserCommons));
+        when(commonsRepository.findById(2L)).thenReturn(Optional.of(c));
 
-            // assert
-            verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(24L, 42L);
-            verify(userCommonsRepository, times(1)).delete(any());
+        // act
+        MvcResult response = mockMvc.perform(
+                        delete("/api/usercommons?userId=42&commonsId=24")
+                                        .with(csrf()))
+                        .andExpect(status().isOk()).andReturn();
 
-            Map<String, Object> json = responseToJson(response);
-            assertEquals("UserCommons with commonsId 24 and userId 42 deleted", json.get("message"));
+        // assert
+        verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(24L, 42L);
+        verify(userCommonsRepository, times(1)).delete(any());
+        verify(commonsRepository, times(1)).save(expectedC);
+
+        Map<String, Object> json = responseToJson(response);
+        assertEquals("UserCommons with commonsId 24 and userId 42 deleted", json.get("message"));
     }
 
     @WithMockUser(roles = { "ADMIN", "USER"})
