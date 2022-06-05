@@ -118,8 +118,6 @@ public class CommonsController extends ApiController {
     ) throws JsonProcessingException, IllegalArgumentException
   {
 
-    Commons commons;
-
     if(params.getCowPrice()<=0){
       throw new IllegalArgumentException("Cow price must be > 0");
     }
@@ -136,27 +134,16 @@ public class CommonsController extends ApiController {
       throw new CoffeeException();
     }
 
-    if (params.getDegradationRate() >= 0){
-      commons = Commons.builder()
-        .name(params.getName())
-        .cowPrice(params.getCowPrice())
-        .milkPrice(params.getMilkPrice())
-        .startingBalance(params.getStartingBalance())
-        .startingDate(params.getStartingDate())
-        .leaderboard(params.getLeaderboard())
-        .degradationRate(params.getDegradationRate())
-        .build();
-    } else {
-      commons = Commons.builder()
-        .name(params.getName())
-        .cowPrice(params.getCowPrice())
-        .milkPrice(params.getMilkPrice())
-        .startingBalance(params.getStartingBalance())
-        .startingDate(params.getStartingDate())
-        .leaderboard(params.getLeaderboard())
-        .degradationRate(0)
-        .build();
-    }
+    Commons commons = Commons.builder()
+      .name(params.getName())
+      .cowPrice(params.getCowPrice())
+      .milkPrice(params.getMilkPrice())
+      .startingBalance(params.getStartingBalance())
+      .startingDate(params.getStartingDate())
+      .leaderboard(params.getLeaderboard())
+      .degradationRate(params.getDegradationRate() >= 0 ? params.getDegradationRate() : 0)
+      .build();
+
 
     Commons saved = commonsRepository.save(commons);
     String body = mapper.writeValueAsString(saved);
