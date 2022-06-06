@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "main/pages/HomePage";
 import LoginPage from "main/pages/LoginPage";
 import ProfilePage from "main/pages/ProfilePage";
-
 import AdminUsersPage from "main/pages/AdminUsersPage";
 import AdminCreateCommonsPage from "main/pages/AdminCreateCommonsPage";
 import AdminEditCommonsPage from "main/pages/AdminEditCommonsPage";
@@ -38,7 +37,7 @@ function App() {
           hasRole(currentUser, "ROLE_ADMIN") && <Route path="/admin/editcommons/:id" element={<AdminEditCommonsPage />} />
         }
         {
-          hasRole(currentUser, "ROLE_ADMIN") && <Route path="/leaderboard/:id" element={<AdminShowLeaderboardPage />} />
+          (hasRole(currentUser, "ROLE_ADMIN") || hasRole(currentUser, "ROLE_USER")) && <Route path="/leaderboard/:id" element={<AdminShowLeaderboardPage />} />
         }
         <Route path="/play/:commonsId" element={<PlayPage />} />
       </Routes>
