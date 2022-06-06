@@ -1,9 +1,9 @@
 import React from "react";
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
 import _CommonsTable from 'main/components/Commons/CommonsTable';
-import { useBackend } from 'main/utils/useBackend';
-import { useParams } from "react-router-dom";
+import { useParams, Navigate } from "react-router-dom";
 import { useCurrentUser } from "main/utils/currentUser";
+import { useBackend } from "main/utils/useBackend";
 
 export default function AdminShowLeaderboardPage()
 {
@@ -11,8 +11,8 @@ export default function AdminShowLeaderboardPage()
 
   let { id } = useParams();
 
-  const { data: commons, _error, _status } =
-    useBackend(
+  const { data: commons, _error, _status, isError } =
+  useBackend(
       // Stryker disable next-line all : don't test internal caching of React Query
       [`/api/commons?id=${id}`],
       {  // Stryker disable next-line all : GET is the default, so changing this to "" doesn't introduce a bug
@@ -21,9 +21,12 @@ export default function AdminShowLeaderboardPage()
         params: {
           id
         }
-      }
+      },
     );
-    
+
+  if (isError) {
+    return (<Navigate to="/NotFoundPage" />)
+  }
   return (
     <BasicLayout>
       <div className="pt-2">
