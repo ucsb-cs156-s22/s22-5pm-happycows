@@ -59,6 +59,8 @@ describe("AdminCreateCommonsPage tests", () => {
             "milkPrice": 5,
             "startingBalance": 500,
             "startingDate": "2022-03-05T00:00:00",
+            "endingDate": "2023-03-06T00:00:00",
+            "totalPlayers": 50,
             "leaderboard": true,
         });
 
@@ -77,6 +79,7 @@ describe("AdminCreateCommonsPage tests", () => {
         const cowPriceField = screen.getByLabelText("Cow Price");
         const milkPriceField = screen.getByLabelText("Milk Price");
         const startDateField = screen.getByLabelText("Starting Date");
+        const endDateField = screen.getByLabelText("Ending Date");
         const leaderboardField = screen.getByLabelText("Show Leaderboard");
         const button = screen.getByTestId("CommonsForm-Submit-Button");
 
@@ -85,6 +88,7 @@ describe("AdminCreateCommonsPage tests", () => {
         fireEvent.change(cowPriceField, { target: { value: '10' } })
         fireEvent.change(milkPriceField, { target: { value: '5' } })
         fireEvent.change(startDateField, { target: { value: '2022-03-05' } })
+        fireEvent.change(endDateField, { target: { value: '2023-03-06' } })
         fireEvent.change(leaderboardField, {target: { value: false}})
         fireEvent.click(button);
 
@@ -100,6 +104,7 @@ describe("AdminCreateCommonsPage tests", () => {
             cowPrice: 10,
             milkPrice: 5,
             startingDate: '2022-03-05T00:00:00.000Z', // [1]
+            endingDate: '2023-03-06T00:00:00.000Z',
             leaderboard: false
         };
 

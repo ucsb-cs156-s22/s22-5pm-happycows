@@ -34,6 +34,7 @@ import javax.validation.Valid;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Api(description = "User Commons")
@@ -94,6 +95,25 @@ public class UserCommonsController extends ApiController {
         .orElseThrow(
             () -> new EntityNotFoundException(UserCommons.class, "commonsId", commonsId, "userId", userId));
     return userCommons;
+  }
+
+  @ApiOperation(value = "Delete a UserCommons")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  @DeleteMapping("")
+  public Object deleteUserCommons(
+      @ApiParam("userId") @RequestParam Long userId,
+      @ApiParam("commonsId") @RequestParam Long commonsId) throws JsonProcessingException{
+    UserCommons userCommons = userCommonsRepository.findByCommonsIdAndUserId(commonsId, userId)
+        .orElseThrow(
+          () -> new EntityNotFoundException(UserCommons.class, "commonsId", commonsId, "userId", userId));
+
+    Commons c = commonsRepository.findById(commonsId).orElseThrow( ()->new EntityNotFoundException(Commons.class, commonsId));
+
+    c.setTotalPlayers(c.getTotalPlayers() - 1);
+    commonsRepository.save(c);
+    
+    userCommonsRepository.delete(userCommons);
+    return genericMessage("UserCommons with commonsId %s and userId %s deleted".formatted(commonsId, userId));
   }
 
   @ApiOperation(value = "Buy a cow, totalWealth updated")

@@ -29,6 +29,8 @@ public class Commons
   private double milkPrice;
   private double startingBalance;
   private LocalDateTime startingDate;
+  private LocalDateTime endingDate;
+  private int totalPlayers;
   private double degradationRate;
   private Boolean leaderboard;
 
