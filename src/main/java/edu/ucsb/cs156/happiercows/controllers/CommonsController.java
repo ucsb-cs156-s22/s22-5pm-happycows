@@ -86,6 +86,7 @@ public class CommonsController extends ApiController {
     updated.setStartingBalance(params.getStartingBalance());
     updated.setStartingDate(params.getStartingDate());
     updated.setLeaderboard(params.getLeaderboard()); 
+    updated.setEndingDate(params.getEndingDate());
 
 
     commonsRepository.save(updated); 
