@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.ucsb.cs156.happiercows.entities.Commons;
 import edu.ucsb.cs156.happiercows.entities.User;
 import edu.ucsb.cs156.happiercows.entities.UserCommons;
-import edu.ucsb.cs156.happiercows.errors.EntityNotFoundException;
+import edu.ucsb.cs156.happiercows.errors.*;
 import edu.ucsb.cs156.happiercows.models.CreateCommonsParams;
 import edu.ucsb.cs156.happiercows.repositories.CommonsRepository;
 import edu.ucsb.cs156.happiercows.repositories.UserCommonsRepository;
@@ -86,6 +86,7 @@ public class CommonsController extends ApiController {
     updated.setMilkPrice(params.getMilkPrice());
     updated.setStartingBalance(params.getStartingBalance());
     updated.setStartingDate(params.getStartingDate());
+    updated.setEndingDate(params.getEndingDate());
     updated.setLeaderboard(params.getLeaderboard());
 
     commonsRepository.save(updated);
@@ -110,14 +111,32 @@ public class CommonsController extends ApiController {
   @PostMapping(value = "/new", produces = "application/json")
   public ResponseEntity<String> createCommons(
     @ApiParam("request body") @RequestBody CreateCommonsParams params
-    ) throws JsonProcessingException
+    ) throws JsonProcessingException, IllegalArgumentException
   {
+    if(params.getCowPrice()<=0){
+      throw new IllegalArgumentException("Cow price must be > 0");
+    }
+
+    if(params.getMilkPrice()<=0){
+      throw new IllegalArgumentException("Milk price must be > 0");
+    }
+
+    if(params.getStartingBalance()<=0){
+      throw new IllegalArgumentException("Starting Balance must be > 0");
+    }
+
+    if(params.getName().equalsIgnoreCase("coffee")){
+      throw new CoffeeException();
+    }
+
     Commons commons = Commons.builder()
       .name(params.getName())
       .cowPrice(params.getCowPrice())
       .milkPrice(params.getMilkPrice())
       .startingBalance(params.getStartingBalance())
       .startingDate(params.getStartingDate())
+      .endingDate(params.getEndingDate())
+      .totalPlayers(0)
       .leaderboard(params.getLeaderboard())
       .build();
 
@@ -144,6 +163,10 @@ public class CommonsController extends ApiController {
       String body = mapper.writeValueAsString(joinedCommons);
       return ResponseEntity.ok().body(body);
     }
+
+    joinedCommons.setTotalPlayers(joinedCommons.getTotalPlayers() + 1);
+
+    commonsRepository.save(joinedCommons);
 
     UserCommons uc = UserCommons.builder()
         .commonsId(commonsId)
@@ -185,7 +208,30 @@ public class CommonsController extends ApiController {
     UserCommons userCommons = uc.orElseThrow(() -> new Exception(
         String.format("UserCommons with commonsId=%d and userId=%d not found.", commonsId, userId)));
 
+    Commons c = commonsRepository.findById(commonsId).orElseThrow( ()->new EntityNotFoundException(Commons.class, commonsId));
+
+    c.setTotalPlayers(c.getTotalPlayers() - 1);
+    commonsRepository.save(c);
+
     userCommonsRepository.deleteById(userCommons.getId());
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+  }
+
+  @ApiOperation("Sums the total cows in a commons")
+  @PreAuthorize("hasRole('ROLE_USER')")
+  @GetMapping("/totalCows/{commonsId}")
+  public Integer sumCowsFromCommon(@PathVariable("commonsId") Long commonsId) throws Exception {
+
+    Commons commons = commonsRepository.findById(commonsId)
+        .orElseThrow(() -> new EntityNotFoundException(Commons.class, commonsId));
+
+    Optional<Integer> numberOfCows = commonsRepository.sumTotalCows(commonsId);
+
+    if (numberOfCows.isPresent()) {
+      return numberOfCows.get();
+    } 
+      
+    return 0;
+
   }
 }
