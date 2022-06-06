@@ -133,7 +133,7 @@ function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
           {...register("degradationRate", {
             valueAsNumber: true,
             required: "Degradation Rate is required",
-            min: { value: 0.01, message: "Degradation Rate must be non-negative integer" },
+            min: { value: 0, message: "Degradation Rate must be non-negative integer" },
           })}
         />
         <Form.Control.Feedback type="invalid">
@@ -160,25 +160,6 @@ function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
         </Form.Control.Feedback>
       </Form.Group>
       
-      <Form.Group className="mb-3">
-        <Form.Label htmlFor="endingDate">Ending Date</Form.Label>
-        <Form.Control
-          data-testid={`${testid}-endingDate`}
-          id="endingDate"
-          type="date"
-          isInvalid={!!errors.Date}
-          {...register("endingDate", {
-            valueAsDate: true,
-            validate: {
-              isPresent: (v) => !isNaN(v) || "Ending date is required",
-            },
-          })}
-        />
-        <Form.Control.Feedback type="invalid">
-          {errors.endingDate?.message}
-        </Form.Control.Feedback>
-      </Form.Group>
-
       <Form.Group className="mb-3">
         <Form.Label htmlFor="endingDate">Ending Date</Form.Label>
         <Form.Control

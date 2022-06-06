@@ -641,32 +641,6 @@ public class CommonsControllerTests extends ControllerTestCase {
         .maxCowsPerPlayer(100)
         .build();
 
-    LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
-    LocalDateTime someTime2 = LocalDateTime.parse("2023-03-05T15:50:10");
-    Commons c = Commons.builder()
-        .name("Jackson's Commons")
-        .id(2L)
-        .cowPrice(500.99)
-        .milkPrice(8.99)
-        .startingBalance(1020.10)
-        .startingDate(someTime)
-        .startingDate(someTime2)
-        .totalPlayers(1)
-        .leaderboard(true)
-        .build();
-
-    Commons expectedC = Commons.builder()
-        .name("Jackson's Commons")
-        .id(2L)
-        .cowPrice(500.99)
-        .milkPrice(8.99)
-        .startingBalance(1020.10)
-        .startingDate(someTime)
-        .startingDate(someTime2)
-        .totalPlayers(0)
-        .leaderboard(true)
-        .build();
-
     String requestBody = mapper.writeValueAsString(uc);
 
     when(userCommonsRepository.findByCommonsIdAndUserId(2L,1L)).thenReturn(Optional.of(uc));
