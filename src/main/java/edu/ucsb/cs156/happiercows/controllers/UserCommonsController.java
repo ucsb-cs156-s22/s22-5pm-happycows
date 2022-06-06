@@ -106,6 +106,11 @@ public class UserCommonsController extends ApiController {
     UserCommons userCommons = userCommonsRepository.findByCommonsIdAndUserId(commonsId, userId)
         .orElseThrow(
           () -> new EntityNotFoundException(UserCommons.class, "commonsId", commonsId, "userId", userId));
+
+    Commons c = commonsRepository.findById(commonsId).orElseThrow( ()->new EntityNotFoundException(Commons.class, commonsId));
+
+    c.setTotalPlayers(c.getTotalPlayers() - 1);
+    commonsRepository.save(c);
     
     userCommonsRepository.delete(userCommons);
     return genericMessage("UserCommons with commonsId %s and userId %s deleted".formatted(commonsId, userId));

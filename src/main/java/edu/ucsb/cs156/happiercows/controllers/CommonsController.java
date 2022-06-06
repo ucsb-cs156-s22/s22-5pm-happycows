@@ -86,6 +86,7 @@ public class CommonsController extends ApiController {
     updated.setMilkPrice(params.getMilkPrice());
     updated.setStartingBalance(params.getStartingBalance());
     updated.setStartingDate(params.getStartingDate());
+    updated.setEndingDate(params.getEndingDate());
     updated.setLeaderboard(params.getLeaderboard());
 
     commonsRepository.save(updated);
@@ -134,6 +135,8 @@ public class CommonsController extends ApiController {
       .milkPrice(params.getMilkPrice())
       .startingBalance(params.getStartingBalance())
       .startingDate(params.getStartingDate())
+      .endingDate(params.getEndingDate())
+      .totalPlayers(0)
       .leaderboard(params.getLeaderboard())
       .build();
 
@@ -160,6 +163,10 @@ public class CommonsController extends ApiController {
       String body = mapper.writeValueAsString(joinedCommons);
       return ResponseEntity.ok().body(body);
     }
+
+    joinedCommons.setTotalPlayers(joinedCommons.getTotalPlayers() + 1);
+
+    commonsRepository.save(joinedCommons);
 
     UserCommons uc = UserCommons.builder()
         .commonsId(commonsId)
@@ -200,6 +207,11 @@ public class CommonsController extends ApiController {
     Optional<UserCommons> uc = userCommonsRepository.findByCommonsIdAndUserId(commonsId, userId);
     UserCommons userCommons = uc.orElseThrow(() -> new Exception(
         String.format("UserCommons with commonsId=%d and userId=%d not found.", commonsId, userId)));
+
+    Commons c = commonsRepository.findById(commonsId).orElseThrow( ()->new EntityNotFoundException(Commons.class, commonsId));
+
+    c.setTotalPlayers(c.getTotalPlayers() - 1);
+    commonsRepository.save(c);
 
     userCommonsRepository.deleteById(userCommons.getId());
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
