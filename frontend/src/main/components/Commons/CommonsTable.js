@@ -62,6 +62,16 @@ export default function CommonsTable({ commons, currentUser }) {
             id: 'degradationRate'
         },
         {
+            Header:'Ending Date',
+            accessor: row => String(row.endingDate),
+            id: 'endingDate'
+        },
+        {
+            Header:'Total Players',
+            accessor: row => String(row.totalPlayers),
+            id: 'totalPlayers'
+        },
+        {
             Header: 'Shows Leaderboard?',
             accessor: row => String(row.leaderboard),
             id: 'leaderboard'
