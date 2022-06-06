@@ -312,7 +312,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .contentType(MediaType.APPLICATION_JSON)
         .characterEncoding("utf-8")
         .content(requestBody))
-      .andExpect(status().isCreated());
+      .andExpect(status().isOk());
 
     verify(commonsRepository, times(1)).save(commons);
 
@@ -332,11 +332,10 @@ public class CommonsControllerTests extends ControllerTestCase {
         .contentType(MediaType.APPLICATION_JSON)
         .characterEncoding("utf-8")
         .content(requestBody))
-      .andExpect(status().isNoContent());
+      .andExpect(status().isOk());
 
     verify(commonsRepository, times(1)).save(commons);
   }
-
   //This common SHOULD be in the repository
   @WithMockUser(roles = { "USER" })
   @Test
