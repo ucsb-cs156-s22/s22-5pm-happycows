@@ -279,7 +279,7 @@ public class ProfitsControllerTests extends ControllerTestCase {
 
     Map<String, Object> json = responseToJson(response);
     assertEquals("EntityNotFoundException", json.get("type"));
-    assertEquals("UserCommons with id commondId 2 and userId 1 not found", json.get("message"));
+    assertEquals("UserCommons with commondId 2 and userId 1 not found", json.get("message"));
   }
 
   @WithMockUser(roles = { "ADMIN" })
