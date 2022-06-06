@@ -10,7 +10,7 @@ import AdminListCommonsPage from "main/pages/AdminListCommonPage";
 import AdminShowLeaderboardPage from "main/pages/AdminShowLeaderboardPage";
 import { hasRole, useCurrentUser } from "main/utils/currentUser";
 import PlayPage from "main/pages/PlayPage";
-import NotFoundPage from "main/pages/NotFoundPage";
+// import NotFoundPage from "main/pages/NotFoundPage";
 
 function App() {
 
@@ -42,7 +42,7 @@ function App() {
           hasRole(currentUser, "ROLE_ADMIN") && <Route path="/leaderboard/:id" element={<AdminShowLeaderboardPage />} />
         }
         <Route path="/play/:commonsId" element={<PlayPage />} />
-        <Route path="*" element={<NotFoundPage />} />
+        {/* <Route path="*" element={<NotFoundPage />} /> */}
       </Routes>
     </BrowserRouter>
   );
