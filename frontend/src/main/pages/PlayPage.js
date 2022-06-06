@@ -50,12 +50,12 @@ export default function PlayPage() {
   // Stryker disable all 
   const { data: userCommonsProfits } =
     useBackend(
-      [`/api/profits/all/commons?userCommonsId=${commonsId}`],
+      [`/api/profits/all/forcommonsid?commonsId=${commonsId}`],
       {
         method: "GET",
-        url: "/api/profits/all/commons",
+        url: "/api/profits/all/forcommonsid",
         params: {
-          userCommonsId: commonsId
+          commonsId: commonsId
         }
       }
     );
