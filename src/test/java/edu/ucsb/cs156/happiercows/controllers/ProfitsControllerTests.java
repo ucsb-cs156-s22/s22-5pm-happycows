@@ -270,7 +270,7 @@ public class ProfitsControllerTests extends ControllerTestCase {
     assertEquals("UserCommons with id 1 not found", json.get("message"));
   }
 
-   @WithMockUser(roles = { "USER" })
+  @WithMockUser(roles = { "USER" })
   @Test
   public void get_profits_all_commons_nonexistent_with_commons_id() throws Exception {
     MvcResult response = mockMvc.perform(get("/api/profits/all/forcommonsid?commonsId=2").contentType("application/json")).andExpect(status().isNotFound()).andReturn();
@@ -279,7 +279,7 @@ public class ProfitsControllerTests extends ControllerTestCase {
 
     Map<String, Object> json = responseToJson(response);
     assertEquals("EntityNotFoundException", json.get("type"));
-    assertEquals("UserCommons with commondId 2 and userId 1 not found", json.get("message"));
+    assertEquals("UserCommons with commonId 2 and userId 1 not found", json.get("message"));
   }
 
   @WithMockUser(roles = { "ADMIN" })
