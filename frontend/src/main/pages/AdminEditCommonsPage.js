@@ -60,7 +60,7 @@ export default function CommonsEditPage() {
     return <Navigate to="/admin/listcommons" />
   }
   if (isError) {
-    return <Navigate to="/NotFoundPage" />
+    return <Navigate to="/NotFoundPage" /> // Need some way to have code coverage here
   }
 
   return (

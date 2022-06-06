@@ -25,7 +25,7 @@ export default function AdminShowLeaderboardPage()
     );
 
   if (isError) {
-    return (<Navigate to="/NotFoundPage" />)
+    return (<Navigate to="/NotFoundPage" />) // Need some way to have code coverage here 
   }
   return (
     <BasicLayout>
