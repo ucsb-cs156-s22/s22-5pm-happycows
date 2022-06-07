@@ -88,6 +88,7 @@ public class CommonsController extends ApiController {
     updated.setStartingDate(params.getStartingDate());
     updated.setEndingDate(params.getEndingDate());
     updated.setLeaderboard(params.getLeaderboard());
+    updated.setDegradationRate(params.getDegradationRate() >= 0 ? params.getDegradationRate() : 0);
 
     commonsRepository.save(updated);
 
@@ -113,6 +114,7 @@ public class CommonsController extends ApiController {
     @ApiParam("request body") @RequestBody CreateCommonsParams params
     ) throws JsonProcessingException, IllegalArgumentException
   {
+
     if(params.getCowPrice()<=0){
       throw new IllegalArgumentException("Cow price must be > 0");
     }
@@ -138,7 +140,9 @@ public class CommonsController extends ApiController {
       .endingDate(params.getEndingDate())
       .totalPlayers(0)
       .leaderboard(params.getLeaderboard())
+      .degradationRate(params.getDegradationRate() >= 0 ? params.getDegradationRate() : 0)
       .build();
+
 
     Commons saved = commonsRepository.save(commons);
     String body = mapper.writeValueAsString(saved);
