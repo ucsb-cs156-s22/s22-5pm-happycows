@@ -1,5 +1,5 @@
 import React from "react";
-import { Card } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 
 export default function CommonsOverview({ commons }) {
     // Stryker disable all
@@ -12,6 +12,7 @@ export default function CommonsOverview({ commons }) {
             <Card.Body>
                 <Card.Title>Today is day {dayNumber}! This game will end on {endingDate}.</Card.Title>
                 <Card.Text>Total Players: {commons.totalPlayers}</Card.Text>
+                <Button href={`/leaderboard/${commons.id}`}>Leaderboard</Button>
             </Card.Body>
         </Card>
     );
