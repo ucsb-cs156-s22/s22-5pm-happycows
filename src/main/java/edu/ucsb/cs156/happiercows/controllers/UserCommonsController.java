@@ -77,7 +77,7 @@ public class UserCommonsController extends ApiController {
       if(!isAdmin && !commons.getLeaderboard()){
         throw new AccessDeniedException("Non admin users are not authorized to see the leaderboard for this commons");
       }
-
+    
       // we purposely don't check for a throw here, similar to UCSBDiningCommonsController
       Iterable<UserCommons> userCommons = userCommonsRepository.findAllByCommonsId(commonsId);
       return userCommons;
