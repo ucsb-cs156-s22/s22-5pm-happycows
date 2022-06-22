@@ -64,7 +64,6 @@ describe("AdminCreateCommonsPage tests", () => {
             "totalPlayers": 50,
             "leaderboard": true,
             "maxCowsPerPlayer": 10,
-            "degradationRate": 1.0,
         });
 
         render(
@@ -86,7 +85,7 @@ describe("AdminCreateCommonsPage tests", () => {
         const leaderboardField = screen.getByLabelText("Show Leaderboard");
         const maxCowsPerPlayerField = screen.getByLabelText("Max Cows Per Player");
         const button = screen.getByTestId("CommonsForm-Submit-Button");
-        const degradationRateField = screen.getByLabelText(/Degradation Rate/);
+        const degradationRateField = screen.getByLabelText("Degradation Rate");
 
         fireEvent.change(commonsNameField, { target: { value: 'My New Commons' } })
         fireEvent.change(startingBalanceField, { target: { value: '500' } })

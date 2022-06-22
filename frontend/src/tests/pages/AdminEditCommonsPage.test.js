@@ -93,11 +93,10 @@ describe("AdminEditCommonsPage tests", () => {
             const cowPriceField = screen.getByLabelText(/Cow Price/);
             const milkPriceField = screen.getByLabelText(/Milk Price/);
             const startingDateField = screen.getByLabelText(/Starting Date/);
-            const degradationRateField = screen.getByLabelText(/Degradation Rate/);
             const endingDateField = screen.getByLabelText(/Ending Date/);
             const leaderboardField = screen.getByLabelText(/Show Leaderboard/);
             const maxCowsPerPlayerField = screen.getByLabelText(/Max Cows Per Player/);
-            const degradationRateField = screen.getByLabelText(/Cow Degradation Rate/);
+            const degradationRateField = screen.getByLabelText(/Degradation Rate/);
 
             expect(nameField).toHaveValue("Seths Common");
             expect(startingDateField).toHaveValue("2022-03-05");
@@ -105,7 +104,7 @@ describe("AdminEditCommonsPage tests", () => {
             expect(startingBalanceField).toHaveValue(1200);
             expect(cowPriceField).toHaveValue(15);
             expect(milkPriceField).toHaveValue(10);
-            expect(degradationRateField).toHaveValue(0.85);
+            expect(degradationRateField).toHaveValue(1);
             expect(leaderboardField).toBeChecked()
             expect(maxCowsPerPlayerField).toHaveValue(10);
         });
@@ -126,11 +125,10 @@ describe("AdminEditCommonsPage tests", () => {
             const cowPriceField = screen.getByLabelText(/Cow Price/);
             const milkPriceField = screen.getByLabelText(/Milk Price/);
             const startingDateField = screen.getByLabelText(/Starting Date/);
-            const degradationRateField = screen.getByLabelText(/Degradation Rate/);
             const endingDateField = screen.getByLabelText(/Ending Date/);
             const leaderboardField = screen.getByLabelText(/Show Leaderboard/);
             const maxCowsPerPlayerField = screen.getByLabelText(/Max Cows Per Player/);
-            const degradationRateField = screen.getByLabelText(/Cow Degradation Rate/);
+            const degradationRateField = screen.getByLabelText(/Degradation Rate/);
 
             expect(nameField).toHaveValue("Seths Common");
             expect(startingDateField).toHaveValue("2022-03-05");
@@ -138,7 +136,6 @@ describe("AdminEditCommonsPage tests", () => {
             expect(startingBalanceField).toHaveValue(1200);
             expect(cowPriceField).toHaveValue(15);
             expect(milkPriceField).toHaveValue(10);
-            expect(degradationRateField).toHaveValue(0.85);
             expect(leaderboardField).toBeChecked();
             expect(maxCowsPerPlayerField).toHaveValue(10);
             expect(degradationRateField).toHaveValue(1);
@@ -176,7 +173,6 @@ describe("AdminEditCommonsPage tests", () => {
                 "endingDate": "2022-03-08T00:00:00.000Z",
                 "leaderboard": true,
                 "maxCowsPerPlayer": 5,
-                "degradationRate": 2.0,
             })); // posted object
         });
     });
