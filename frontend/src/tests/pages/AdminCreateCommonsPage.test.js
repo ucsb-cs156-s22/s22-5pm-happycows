@@ -59,6 +59,7 @@ describe("AdminCreateCommonsPage tests", () => {
             "milkPrice": 5,
             "startingBalance": 500,
             "startingDate": "2022-03-05T00:00:00",
+            "degradationRate": 0.85,
             "endingDate": "2023-03-06T00:00:00",
             "totalPlayers": 50,
             "leaderboard": true,
@@ -85,12 +86,14 @@ describe("AdminCreateCommonsPage tests", () => {
         const leaderboardField = screen.getByLabelText("Show Leaderboard");
         const maxCowsPerPlayerField = screen.getByLabelText("Max Cows Per Player");
         const button = screen.getByTestId("CommonsForm-Submit-Button");
+        const degradationRateField = screen.getByLabelText(/Degradation Rate/);
 
         fireEvent.change(commonsNameField, { target: { value: 'My New Commons' } })
         fireEvent.change(startingBalanceField, { target: { value: '500' } })
         fireEvent.change(cowPriceField, { target: { value: '10' } })
         fireEvent.change(milkPriceField, { target: { value: '5' } })
         fireEvent.change(startDateField, { target: { value: '2022-03-05' } })
+        fireEvent.change(degradationRateField, { target: { value: 0.85 } })
         fireEvent.change(endDateField, { target: { value: '2023-03-06' } })
         fireEvent.change(leaderboardField, {target: { value: false}})
         fireEvent.change(maxCowsPerPlayerField, {target: { value: "5"}})
@@ -108,8 +111,8 @@ describe("AdminCreateCommonsPage tests", () => {
             cowPrice: 10,
             milkPrice: 5,
             maxCowsPerPlayer: 5,
-            degradationRate: 1,
-            startingDate: '2022-03-05T00:00:00.000Z', // [1]
+            degradationRate: 0.85,
+            startingDate: '2022-03-05T00:00:00.000Z',
             endingDate: '2023-03-06T00:00:00.000Z',
             leaderboard: false,
         };

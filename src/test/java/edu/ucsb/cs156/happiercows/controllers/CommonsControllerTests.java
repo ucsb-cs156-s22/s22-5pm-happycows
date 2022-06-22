@@ -72,6 +72,46 @@ public class CommonsControllerTests extends ControllerTestCase {
     LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
     LocalDateTime someTime2 = LocalDateTime.parse("2023-03-05T15:50:10");
 
+    //make sure degradation rate is 0 at minimum
+    CreateCommonsParams DegParams = CreateCommonsParams.builder()
+      .name("Degredation Test Commons")
+      .cowPrice(500.99)
+      .milkPrice(8.99)
+      .startingBalance(1020.10)
+      .startingDate(someTime)
+      .leaderboard(true)
+      .degradationRate(-3)
+      .build();
+
+    Commons DegCommons = Commons.builder()
+      .name("Degredation Test Commons")
+      .cowPrice(500.99)
+      .milkPrice(8.99)
+      .startingBalance(1020.10)
+      .startingDate(someTime)
+      .leaderboard(true)
+      .degradationRate(0)
+      .build();
+
+    String degRequestBody = objectMapper.writeValueAsString(DegParams);
+    String degExpectedResponse = objectMapper.writeValueAsString(DegCommons);
+
+    when(commonsRepository.save(DegCommons))
+      .thenReturn(DegCommons);
+
+    MvcResult degResponse = mockMvc
+      .perform(post("/api/commons/new").with(csrf())
+        .contentType(MediaType.APPLICATION_JSON)
+        .characterEncoding("utf-8")
+        .content(degRequestBody))
+      .andExpect(status().isOk())
+      .andReturn();
+
+    verify(commonsRepository, times(1)).save(DegCommons);
+
+    String degActualResponse = degResponse.getResponse().getContentAsString();
+    assertEquals(degExpectedResponse, degActualResponse);
+
     Commons commons = Commons.builder()
       .name("Jackson's Commons")
       .cowPrice(500.99)
@@ -82,6 +122,7 @@ public class CommonsControllerTests extends ControllerTestCase {
       .totalPlayers(0)
       .leaderboard(true)
       .maxCowsPerPlayer(0)
+      .degradationRate(25.00)
       .build();
 
     CreateCommonsParams parameters = CreateCommonsParams.builder()
@@ -94,6 +135,7 @@ public class CommonsControllerTests extends ControllerTestCase {
       .totalPlayers(0)
       .leaderboard(true)
       .maxCowsPerPlayer(0)
+      .degradationRate(25.00)
       .build();
 
     String requestBody = objectMapper.writeValueAsString(parameters);
@@ -282,6 +324,42 @@ public class CommonsControllerTests extends ControllerTestCase {
     LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
     LocalDateTime someTime2 = LocalDateTime.parse("2023-03-05T15:50:10");
 
+    //make sure degradation rate is 0 at minimum
+    CreateCommonsParams DegParams = CreateCommonsParams.builder()
+      .name("Degredation Test Commons")
+      .cowPrice(500.99)
+      .milkPrice(8.99)
+      .startingBalance(1020.10)
+      .startingDate(someTime)
+      .leaderboard(true)
+      .degradationRate(-3)
+      .build();
+
+    Commons DegCommons = Commons.builder()
+      .name("Degredation Test Commons")
+      .cowPrice(500.99)
+      .milkPrice(8.99)
+      .startingBalance(1020.10)
+      .startingDate(someTime)
+      .leaderboard(true)
+      .degradationRate(0)
+      .build();
+
+    String degRequestBody = objectMapper.writeValueAsString(DegParams);
+
+    when(commonsRepository.save(DegCommons))
+      .thenReturn(DegCommons);
+
+    mockMvc
+      .perform(put("/api/commons/update?id=0").with(csrf())
+        .contentType(MediaType.APPLICATION_JSON)
+        .characterEncoding("utf-8")
+        .content(degRequestBody))
+      .andExpect(status().isCreated());
+
+      verify(commonsRepository, times(1)).save(DegCommons);
+      
+
     CreateCommonsParams parameters = CreateCommonsParams.builder()
       .name("Jackson's Commons")
       .cowPrice(500.99)
@@ -292,7 +370,7 @@ public class CommonsControllerTests extends ControllerTestCase {
       .totalPlayers(0)
       .leaderboard(true)
       .maxCowsPerPlayer(10)
-      .degradationRate(1)
+      .degradationRate(25.00)
       .build();
 
     Commons commons = Commons.builder()
@@ -305,7 +383,7 @@ public class CommonsControllerTests extends ControllerTestCase {
       .totalPlayers(0)
       .leaderboard(true)
       .maxCowsPerPlayer(10)
-      .degradationRate(1)
+      .degradationRate(25.00)
       .build();
 
     String requestBody = objectMapper.writeValueAsString(parameters);
@@ -554,6 +632,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .startingDate(someTime2)
         .totalPlayers(0)
         .leaderboard(true)
+        .degradationRate(25.00)
         .build();
       
       when(commonsRepository.findById(eq(2L))).thenReturn(Optional.of(c));
@@ -800,3 +879,5 @@ public class CommonsControllerTests extends ControllerTestCase {
     assertEquals(responseMap.get("type"), "EntityNotFoundException");
   }
 }
+
+
