@@ -30,5 +30,6 @@ public class CreateCommonsParams
   @DateTimeFormat private LocalDateTime startingDate;
   @DateTimeFormat private LocalDateTime endingDate;
   @NumberFormat private int totalPlayers;
+  @NumberFormat private int maxCowsPerPlayer;
   @NumberFormat private double degradationRate;
 }

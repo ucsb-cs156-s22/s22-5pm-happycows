@@ -102,6 +102,46 @@ function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
       </Form.Group>
 
       <Form.Group className="mb-3">
+        <Form.Label htmlFor="maxCowsPerPlayer">Max Cows Per Player</Form.Label>
+        <Form.Control
+          data-testid={`${testid}-maxCowsPerPlayer`}
+          id="maxCowsPerPlayer"
+          type="number"
+          step="1"
+          isInvalid={!!errors.maxCowsPerPlayer}
+          {...register("maxCowsPerPlayer", {
+            valueAsNumber: true,
+            required: "Max Cows Per Player is required",
+            min: { value: 0, message: "Max Cows Per Player must be non-negative integer" },
+          })}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errors.maxCowsPerPlayer?.message}
+        </Form.Control.Feedback>
+      </Form.Group>
+
+      <Form.Group className="mb-3">
+        <Form.Label htmlFor="degradationRate">Degradation Rate</Form.Label>
+        <Form.Control
+          data-testid={`${testid}-degradationRate`}
+          id="degradationRate"
+          type="number"
+          step="0.01"
+          isInvalid={!!errors.maxCowsPerPlayer}
+          defaultValue="1.0"
+          placeholder="Default value: 1.0"
+          {...register("degradationRate", {
+            valueAsNumber: true,
+            required: "Degradation Rate is required",
+            min: { value: 0, message: "Degradation Rate must be non-negative integer" },
+          })}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errors.degradationRate?.message}
+        </Form.Control.Feedback>
+      </Form.Group>
+
+      <Form.Group className="mb-3">
         <Form.Label htmlFor="startingDate">Starting Date</Form.Label>
         <Form.Control
           data-testid={`${testid}-startingDate`}
@@ -117,25 +157,6 @@ function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
         />
         <Form.Control.Feedback type="invalid">
           {errors.startingDate?.message}
-        </Form.Control.Feedback>
-      </Form.Group>
-
-      <Form.Group className="mb-3">
-        <Form.Label htmlFor="degradationRate">Degradation Rate</Form.Label>
-        <Form.Control
-          data-testid={`${testid}-degradationRate`}
-          id="degradationRate"
-          type="number"
-          step="0.001"
-          isInvalid={!!errors.degradationRate}
-          {...register("degradationRate", {
-            valueAsNumber: true,
-            required: "Degradation Rate is required",
-            min: { value: 0.001, message: "Degradation Rate must be positive number" },
-          })}
-        />
-        <Form.Control.Feedback type="invalid">
-          {errors.degradationRate?.message}
         </Form.Control.Feedback>
       </Form.Group>
 

@@ -121,6 +121,7 @@ public class CommonsControllerTests extends ControllerTestCase {
       .endingDate(someTime2)
       .totalPlayers(0)
       .leaderboard(true)
+      .maxCowsPerPlayer(0)
       .degradationRate(25.00)
       .build();
 
@@ -133,6 +134,7 @@ public class CommonsControllerTests extends ControllerTestCase {
       .endingDate(someTime2)
       .totalPlayers(0)
       .leaderboard(true)
+      .maxCowsPerPlayer(0)
       .degradationRate(25.00)
       .build();
 
@@ -367,6 +369,7 @@ public class CommonsControllerTests extends ControllerTestCase {
       .endingDate(someTime2)
       .totalPlayers(0)
       .leaderboard(true)
+      .maxCowsPerPlayer(10)
       .degradationRate(25.00)
       .build();
 
@@ -379,6 +382,7 @@ public class CommonsControllerTests extends ControllerTestCase {
       .endingDate(someTime2)
       .totalPlayers(0)
       .leaderboard(true)
+      .maxCowsPerPlayer(10)
       .degradationRate(25.00)
       .build();
 
@@ -475,7 +479,8 @@ public class CommonsControllerTests extends ControllerTestCase {
         .userId(1L)
         .commonsId(2L)
         .totalWealth(0)
-        .numOfCows(1)
+        .numOfCows(0)
+        .cowHealth(100)
         .build();
 
     UserCommons ucSaved = UserCommons.builder()
@@ -483,7 +488,8 @@ public class CommonsControllerTests extends ControllerTestCase {
         .userId(1L)
         .commonsId(2L)
         .totalWealth(0)
-        .numOfCows(1)
+        .numOfCows(0)
+        .cowHealth(100)
         .build();
 
     String requestBody = mapper.writeValueAsString(uc);
@@ -522,6 +528,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .commonsId(2L)
         .totalWealth(0)
         .numOfCows(1)
+        .cowHealth(100)
         .build();
 
     String requestBody = mapper.writeValueAsString(uc);
@@ -553,6 +560,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .commonsId(2L)
         .totalWealth(0)
         .numOfCows(1)
+        .cowHealth(100)
         .build();
 
     String requestBody = mapper.writeValueAsString(uc);
@@ -581,6 +589,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .commonsId(2L)
         .totalWealth(0)
         .numOfCows(1)
+        .cowHealth(100)
         .build();
 
     UserCommons ucSaved = UserCommons.builder()
@@ -589,6 +598,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .commonsId(2L)
         .totalWealth(0)
         .numOfCows(1)
+        .cowHealth(100)
         .build();
 
     String requestBody = mapper.writeValueAsString(uc);
@@ -679,6 +689,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .commonsId(2L)
         .totalWealth(0)
         .numOfCows(1)
+        .cowHealth(100)
         .build();
 
     LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
@@ -693,8 +704,9 @@ public class CommonsControllerTests extends ControllerTestCase {
         .startingDate(someTime2)
         .totalPlayers(1)
         .leaderboard(true)
+        .maxCowsPerPlayer(100)
         .build();
-
+    
     Commons expectedC = Commons.builder()
         .name("Jackson's Commons")
         .id(2L)
@@ -705,6 +717,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .startingDate(someTime2)
         .totalPlayers(0)
         .leaderboard(true)
+        .maxCowsPerPlayer(100)
         .build();
 
     String requestBody = mapper.writeValueAsString(uc);
@@ -736,6 +749,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .commonsId(2L)
         .totalWealth(0)
         .numOfCows(1)
+        .cowHealth(100)
         .build();
 
     String requestBody = mapper.writeValueAsString(uc);
@@ -765,6 +779,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .commonsId(2L)
         .totalWealth(0)
         .numOfCows(1)
+        .cowHealth(100)
         .build();
 
     LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
@@ -779,6 +794,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .startingDate(someTime2)
         .totalPlayers(1)
         .leaderboard(true)
+        .maxCowsPerPlayer(100)
         .build();
 
     String requestBody = mapper.writeValueAsString(uc);
@@ -790,15 +806,14 @@ public class CommonsControllerTests extends ControllerTestCase {
       .perform(delete("/api/commons/2/users/1").with(csrf()).contentType(MediaType.APPLICATION_JSON)
           .characterEncoding("utf-8").content(requestBody))
       .andExpect(status().is(404)).andReturn();
-
+    
     String responseString = response.getResponse().getContentAsString();
-
+      
     String expectedString = "{\"message\":\"Commons with id 2 not found\",\"type\":\"EntityNotFoundException\"}";
-
+    
     Map<String, Object> expectedJson = mapper.readValue(expectedString, Map.class);
     Map<String, Object> jsonResponse = responseToJson(response);
     assertEquals(expectedJson, jsonResponse);
-
   }
 
   @WithMockUser(roles = {"USER"})
@@ -842,6 +857,7 @@ public class CommonsControllerTests extends ControllerTestCase {
     String responseString = response.getResponse().getContentAsString();
     assertEquals(responseString, "0");
   }
+  
   @WithMockUser(roles = {"USER"})
   @Test
   public void getTotalCowsFromCommonsIfCommonsDoesNotExist() throws Exception {
@@ -861,7 +877,6 @@ public class CommonsControllerTests extends ControllerTestCase {
 
     assertEquals(responseMap.get("message"), "Commons with id 1 not found");
     assertEquals(responseMap.get("type"), "EntityNotFoundException");
-
   }
 }
 

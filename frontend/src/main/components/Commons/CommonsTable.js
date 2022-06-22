@@ -52,6 +52,11 @@ export default function CommonsTable({ commons, currentUser }) {
             id: 'startingBalance'
         },
         {
+            Header:'Max Cows',
+            accessor: row => String(row.maxCowsPerPlayer),
+            id: 'maxCowsPerPlayer'
+        },
+        {
             Header:'Starting Date',
             accessor: row => String(row.startingDate),
             id: 'startingDate'

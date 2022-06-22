@@ -88,6 +88,7 @@ public class CommonsController extends ApiController {
     updated.setStartingDate(params.getStartingDate());
     updated.setEndingDate(params.getEndingDate());
     updated.setLeaderboard(params.getLeaderboard());
+    updated.setMaxCowsPerPlayer(params.getMaxCowsPerPlayer());
     updated.setDegradationRate(params.getDegradationRate() >= 0 ? params.getDegradationRate() : 0);
 
     commonsRepository.save(updated);
@@ -140,6 +141,7 @@ public class CommonsController extends ApiController {
       .endingDate(params.getEndingDate())
       .totalPlayers(0)
       .leaderboard(params.getLeaderboard())
+      .maxCowsPerPlayer(params.getMaxCowsPerPlayer())
       .degradationRate(params.getDegradationRate() >= 0 ? params.getDegradationRate() : 0)
       .build();
 
@@ -176,7 +178,8 @@ public class CommonsController extends ApiController {
         .commonsId(commonsId)
         .userId(userId)
         .totalWealth(joinedCommons.getStartingBalance())
-        .numOfCows(1)
+        .numOfCows(0)
+        .cowHealth(100)
         .build();
 
     userCommonsRepository.save(uc);

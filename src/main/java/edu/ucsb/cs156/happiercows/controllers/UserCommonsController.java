@@ -31,6 +31,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 
 import javax.validation.Valid;
+import java.util.Optional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,6 +51,34 @@ public class UserCommonsController extends ApiController {
 
   @Autowired
   ObjectMapper mapper;
+
+  public double calculateNewCowHealth(UserCommons uc, Commons c) {
+
+    final int MAX_COWS_PER_PERSON = c.getMaxCowsPerPlayer(); 
+    final double DEGRADATION_RATE = c.getDegradationRate(); 
+    
+    int numUsers = c.getTotalPlayers();
+
+    int numCows = 0;
+
+    Optional<Integer> totalCows = commonsRepository.sumTotalCows(c.getId());
+
+    if (totalCows.isPresent()) {
+      numCows = (int) totalCows.get();
+    }
+
+    double ratio = (double) numCows /  (double) (numUsers * MAX_COWS_PER_PERSON);
+
+    if (ratio < 1)
+      return uc.getCowHealth();
+
+    double newCowHealth = uc.getCowHealth() - (DEGRADATION_RATE/100.0) * ratio;
+
+    if (newCowHealth <= 0) 
+      return 0.0;
+    else
+      return newCowHealth;
+  }
 
   @ApiOperation(value = "Get a specific user commons (admin only)")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -131,8 +160,11 @@ public class UserCommonsController extends ApiController {
         .orElseThrow(
             () -> new EntityNotFoundException(UserCommons.class, "commonsId", commonsId, "userId", userId));
 
-        if(userCommons.getTotalWealth() >= commons.getCowPrice() ){
+        if(userCommons.getTotalWealth() >= commons.getCowPrice()){
           userCommons.setTotalWealth(userCommons.getTotalWealth() - commons.getCowPrice());
+          // NOTE: Uncomment below if newly purchased cows should have full 100 health.
+          // userCommons.setCowHealth((userCommons.getCowHealth() * userCommons.getNumOfCows() + 100)/(userCommons.getNumOfCows() + 1));
+          userCommons.setCowHealth(calculateNewCowHealth(userCommons, commons));
           userCommons.setNumOfCows(userCommons.getNumOfCows() + 1);
         }
         userCommonsRepository.save(userCommons);
@@ -156,9 +188,13 @@ public class UserCommonsController extends ApiController {
             () -> new EntityNotFoundException(UserCommons.class, "commonsId", commonsId, "userId", userId));
 
 
+        
         if(userCommons.getNumOfCows() >= 1 ){
-          userCommons.setTotalWealth(userCommons.getTotalWealth() + commons.getCowPrice());
+          userCommons.setTotalWealth(userCommons.getTotalWealth() + (commons.getCowPrice() * (userCommons.getCowHealth()/100)));
           userCommons.setNumOfCows(userCommons.getNumOfCows() - 1);
+          if (userCommons.getNumOfCows() == 0) {
+            userCommons.setCowHealth(100);
+          }
         }
         userCommonsRepository.save(userCommons);
 

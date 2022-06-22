@@ -34,9 +34,10 @@ export default function CommonsEditPage() {
         "cowPrice": commons.cowPrice,
         "milkPrice": commons.milkPrice,
         "startingDate": commons.startingDate,
-        "degradationRate": commons.degradationRate,
         "endingDate": commons.endingDate,
-        "leaderboard": commons.leaderboard
+        "leaderboard": commons.leaderboard,
+        "maxCowsPerPlayer": commons.maxCowsPerPlayer,
+        "degradationRate": commons.degradationRate
     }
   });
 
